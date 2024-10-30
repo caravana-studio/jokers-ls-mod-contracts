@@ -49,12 +49,10 @@ mod game_system {
     use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
     use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
     use jokers_of_neon::models::status::game::game::{Game, GameState};
-    use jokers_of_neon::models::status::game::player::PlayerLevelPokerHand;
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
     use jokers_of_neon::models::status::round::round::Round;
 
-    use jokers_of_neon::models::status::shop::shop::Shop;
     use jokers_of_neon::store::{Store, StoreTrait};
     use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
     use jokers_of_neon::utils::calculate_hand::calculate_hand;
@@ -64,7 +62,6 @@ mod game_system {
     };
     use jokers_of_neon::utils::rage::is_rage_card_active;
     use jokers_of_neon::utils::round::create_round;
-    use jokers_of_neon::utils::shop::update_items_shop;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
     use super::IGameSystem;
     use super::errors;
@@ -97,65 +94,8 @@ mod game_system {
             store.set_game(game);
             emit!(world, (game));
 
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::RoyalFlush, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::StraightFlush, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::FiveOfAKind, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::FourOfAKind, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::FullHouse, level: 1 }
-                );
-            store.set_player_level_poker_hand(PlayerLevelPokerHand { game_id, poker_hand: PokerHand::Flush, level: 1 });
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::Straight, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::ThreeOfAKind, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::TwoPair, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::OnePair, level: 1 }
-                );
-            store
-                .set_player_level_poker_hand(
-                    PlayerLevelPokerHand { game_id, poker_hand: PokerHand::HighCard, level: 1 }
-                );
-
             GameDeckImpl::init(world, game_id);
             create_round(world, game);
-
-            store
-                .set_shop(
-                    Shop {
-                        game_id,
-                        reroll_cost: 100,
-                        reroll_executed: false,
-                        len_item_common_cards: 5,
-                        len_item_modifier_cards: 4,
-                        len_item_special_cards: 3,
-                        len_item_poker_hands: 3,
-                        len_item_blister_pack: 2
-                    }
-                );
-            update_items_shop(world, game);
 
             let rage_config = store.get_rage_config();
             RageRoundStore::set(
@@ -418,8 +358,7 @@ mod game_system {
                 .get_cards(world, ref store, game_id, @cards_index, @modifiers_index, ref current_special_cards_index,);
             let (poker_hand, _) = calculate_hand(@cards, ref current_special_cards_index);
 
-            let player_level_poker_hand = store.get_player_level_poker_hand(game_id, poker_hand);
-            let poker_hand_details = store.get_level_poker_hand(poker_hand, player_level_poker_hand.level);
+            let poker_hand_details = store.get_level_poker_hand(poker_hand, 1);
             let poker_hand_event = PokerHandEvent {
                 player: get_caller_address(),
                 poker_hand: poker_hand.into(),
@@ -1091,14 +1030,7 @@ mod game_system {
             ref points_acum: u32,
             ref multi_acum: u32
         ) {
-            let mut player_level_poker_hand = store.get_player_level_poker_hand(game_id, poker_hand);
-            let mut level_acum = player_level_poker_hand.level;
-
-            if player_level_poker_hand.level == 10 {
-                points_acum += 10;
-                multi_acum += 1;
-            }
-
+            let mut level_acum = 1;
             if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_PAIR_ID.into()).is_null()) {
                 if poker_hand == PokerHand::OnePair {
                     level_acum += 4;

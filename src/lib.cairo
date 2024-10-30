@@ -24,7 +24,6 @@ mod models {
     mod status {
         mod game {
             mod game;
-            mod player;
             mod rage;
         }
         mod round {
@@ -42,7 +41,6 @@ mod systems {
     mod game_system;
     mod poker_hand_system;
     mod rage_system;
-    mod shop_system;
 }
 
 #[cfg(test)]
@@ -53,7 +51,6 @@ mod tests {
     mod test_game_discard_effect_card;
     mod test_game_discard_special_card;
     mod test_game_play;
-    mod test_shop;
     mod utils;
 }
 

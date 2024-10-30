@@ -20,15 +20,7 @@ mod poker_hand_system {
             loop {
                 match poker_hands_span.pop_front() {
                     Option::Some(poker_hand) => {
-                        let player_level_poker_hand = store
-                            .get_player_level_poker_hand(game_id, (*poker_hand).try_into().unwrap());
-                        result
-                            .append(
-                                store
-                                    .get_level_poker_hand(
-                                        (*poker_hand).try_into().unwrap(), player_level_poker_hand.level
-                                    )
-                            );
+                        result.append(store.get_level_poker_hand((*poker_hand).try_into().unwrap(), 1));
                     },
                     Option::None => { break; }
                 };

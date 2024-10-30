@@ -3,7 +3,7 @@ mod test_play_special_cards {
     use jokers_of_neon::constants::card::{
         SIX_CLUBS_ID, ACE_CLUBS_ID, ACE_HEARTS_ID, ACE_DIAMONDS_ID, NINE_DIAMONDS_ID, EIGHT_HEARTS_ID, QUEEN_CLUBS_ID,
         SEVEN_DIAMONDS_ID, FIVE_CLUBS_ID, KING_CLUBS_ID, SIX_HEARTS_ID, FOUR_CLUBS_ID, JACK_CLUBS_ID, JACK_HEARTS_ID,
-        KING_DIAMONDS_ID, NEON_SEVEN_CLUBS_ID, NEON_SEVEN_HEARTS_ID, SEVEN_CLUBS_ID, SEVEN_HEARTS_ID, ACE_SPADES_ID
+        KING_DIAMONDS_ID, SEVEN_CLUBS_ID, SEVEN_HEARTS_ID, ACE_SPADES_ID
     };
     use jokers_of_neon::constants::modifiers::{SUIT_CLUB_MODIFIER_ID, MULTI_MODIFIER_1_ID};
     use jokers_of_neon::constants::specials::{
@@ -22,13 +22,11 @@ mod test_play_special_cards {
     use jokers_of_neon::store::{Store, StoreTrait};
 
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::systems::shop_system::{shop_system, IShopSystemDispatcher, IShopSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
     use jokers_of_neon::tests::utils::{
         mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round, mock_special_cards,
-        init_player_level_poker_hands
     };
     use starknet::testing::set_contract_address;
 
@@ -43,9 +41,6 @@ mod test_play_special_cards {
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::Flush, 1);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_ALL_CARDS_TO_HEARTS_ID];
@@ -74,8 +69,6 @@ mod test_play_special_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::Flush, 1);
         // Mock special card
         let special_cards_ids = array![SPECIAL_POINTS_FOR_FIGURES_ID];
         mock_special_cards(ref store, ref game, special_cards_ids);
@@ -111,9 +104,6 @@ mod test_play_special_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
-
         // Mock special card
         let special_cards_ids = array![SPECIAL_MULTI_FOR_CLUB_ID];
         mock_special_cards(ref store, ref game, special_cards_ids);
@@ -139,9 +129,6 @@ mod test_play_special_cards {
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::Flush, 1);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_MULTI_FOR_CLUB_ID];
@@ -174,9 +161,6 @@ mod test_play_special_cards {
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::Straight, 1);
 
         // Mock special card
         let special_cards_ids = array![
@@ -211,9 +195,6 @@ mod test_play_special_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::ThreeOfAKind, 1);
-
         // Mock special card
         let special_cards_ids = array![SPECIAL_MULTI_ACES_ID];
         mock_special_cards(ref store, ref game, special_cards_ids);
@@ -240,9 +221,6 @@ mod test_play_special_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
-
         // Mock special card
         let special_cards_ids = array![SPECIAL_LUCKY_SEVEN_ID];
         mock_special_cards(ref store, ref game, special_cards_ids);
@@ -263,37 +241,6 @@ mod test_play_special_cards {
 
     #[test]
     #[available_gas(30000000000000000)]
-    fn test_play_special_neon_bonus() {
-        let (world, systems) = setup::spawn_game();
-        let mut store = StoreTrait::new(world);
-        let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
-
-        // Mock special card
-        let special_cards_ids = array![SPECIAL_NEON_BONUS_ID];
-        mock_special_cards(ref store, ref game, special_cards_ids);
-
-        // Mock hand
-        let hand_cards_ids = array![
-            NEON_SEVEN_CLUBS_ID, NEON_SEVEN_HEARTS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID,
-        ];
-        mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
-
-        set_contract_address(PLAYER());
-        systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
-        // Pair - points: 10, multi: 6
-        // points: 14 + 14 + 20 + 20 + 30
-        // multi add: 1 + 1
-        // player_score = 784
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 784, 'wrong round player_score');
-    }
-
-    #[test]
-    #[available_gas(30000000000000000)]
     fn test_play_special_deadline() {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
@@ -303,9 +250,6 @@ mod test_play_special_cards {
         // Set round last hand
         round.hands = 1;
         store.set_round(round);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_DEADLINE_ID, SPECIAL_INCREASE_LEVEL_PAIR_ID];
@@ -332,9 +276,6 @@ mod test_play_special_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::FourOfAKind, 1);
-
         // Mock special card
         let special_cards_ids = array![SPECIAL_INITIAL_ADVANTAGE_ID];
         mock_special_cards(ref store, ref game, special_cards_ids);
@@ -359,9 +300,6 @@ mod test_play_special_cards {
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::StraightFlush, 5);
 
         // Init modifiers cards
         let mut specials_ids = array![SPECIAL_LUCKY_HAND_ID];
@@ -395,9 +333,6 @@ mod test_play_special_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::StraightFlush, 10);
-
         // Init and mock needed cards for the test
         let TWO_OF_DIAMONDS = CardTrait::new(Value::Two, Suit::Diamonds, 2);
         let THREE_OF_DIAMONDS = CardTrait::new(Value::Three, Suit::Diamonds, 3);
@@ -423,8 +358,7 @@ mod test_play_modifier_cards {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use jokers_of_neon::constants::card::{
         JACK_CLUBS_ID, JACK_SPADES_ID, SIX_CLUBS_ID, QUEEN_CLUBS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID,
-        KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID,
-        NEON_TWO_SPADES_ID, NEON_FOUR_HEARTS_ID, NEON_TWO_CLUBS_ID, NEON_FOUR_DIAMONDS_ID
+        KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID
     };
     use jokers_of_neon::constants::modifiers::{
         SUIT_CLUB_MODIFIER_ID, MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID,
@@ -440,14 +374,11 @@ mod test_play_modifier_cards {
     use jokers_of_neon::store::{Store, StoreTrait};
 
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::systems::shop_system::{shop_system, IShopSystemDispatcher, IShopSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
 
-    use jokers_of_neon::tests::utils::{
-        mock_current_hand, init_player_level_poker_hands, mock_current_hand_cards_ids, mock_game, mock_round
-    };
+    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round};
 
     use starknet::testing::set_contract_address;
 
@@ -463,9 +394,6 @@ mod test_play_modifier_cards {
         let mut store: Store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
         let round = mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::HighCard, 1);
 
         // Init modifiers cards
         // let mut modifiers_ids = array![POINTS_MODIFIER_4, MULTI_MODIFIER_4].span();
@@ -496,9 +424,6 @@ mod test_play_modifier_cards {
         let game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
-
         // Mock hand
         let hand_cards_ids = array![TWO_SPADES_ID, TWO_DIAMONDS_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
@@ -526,9 +451,6 @@ mod test_play_modifier_cards {
         let game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::TwoPair, 1);
-
         // Mock hand
         let hand_cards_ids = array![TWO_CLUBS_ID, TWO_SPADES_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID];
         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
@@ -551,71 +473,11 @@ mod test_play_modifier_cards {
 
     #[test]
     #[available_gas(30000000000000000)]
-    fn test_play_two_pair_with_neon_cards() {
-        let (world, systems) = setup::spawn_game();
-        let mut store = StoreTrait::new(world);
-        let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::TwoPair, 1);
-
-        // Mock hand
-        let hand_cards_ids = array![NEON_TWO_CLUBS_ID, NEON_TWO_SPADES_ID, NEON_FOUR_DIAMONDS_ID, NEON_FOUR_HEARTS_ID];
-        mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
-
-        set_contract_address(PLAYER());
-        systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
-
-        let round = store.get_round(game.id);
-        assert(round.player_score == 704, 'wrong round player_score');
-
-        let game_after = store.get_game(game.id);
-        assert(game_after.player_score == 704, 'wrong game_after player_score');
-        assert(game_after.state == GameState::AT_SHOP, 'wrong game_after state');
-    }
-
-    #[test]
-    #[available_gas(30000000000000000)]
-    fn test_play_two_pair_with_neon_cards_and_with_common_cards() {
-        let (world, systems) = setup::spawn_game();
-        let mut store = StoreTrait::new(world);
-        let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::TwoPair, 1);
-
-        // Mock hand
-        let hand_cards_ids = array![TWO_CLUBS_ID, NEON_TWO_SPADES_ID, FOUR_DIAMONDS_ID, NEON_FOUR_HEARTS_ID];
-        mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
-
-        set_contract_address(PLAYER());
-        systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
-
-        // TwoPair - points: 20, multi: 3
-        // points: 2 + 4 + 4 + 8 = (18)
-        // multi add: 2
-        // player_score = 190
-        let round = store.get_round(game.id);
-        assert(round.player_score == 190, 'wrong round player_score');
-
-        let game_after = store.get_game(game.id);
-        assert(game_after.player_score == 0, 'wrong game_after player_score');
-        assert(game_after.state == GameState::IN_GAME, 'wrong game_after state');
-        assert(game_after.cash == 0, 'wrong game_after cash');
-    }
-
-    #[test]
-    #[available_gas(30000000000000000)]
     fn test_play_modifier_flush() {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::Flush, 1);
 
         // Mock hand
         let hand_cards_ids = array![
@@ -652,9 +514,6 @@ mod test_play_modifier_cards {
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
 
         // Mock hand
         let hand_cards_ids = array![
@@ -697,14 +556,12 @@ mod test_rage_cards {
     use jokers_of_neon::store::{Store, StoreTrait};
 
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::systems::shop_system::{shop_system, IShopSystemDispatcher, IShopSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
 
     use jokers_of_neon::tests::utils::{
-        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round, mock_special_cards,
-        init_player_level_poker_hands, mock_rage_round
+        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round, mock_special_cards, mock_rage_round
     };
     use jokers_of_neon::utils::constants::{
         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_ZERO_WASTE, RAGE_CARD_SILENT_JOKERS
@@ -722,9 +579,6 @@ mod test_rage_cards {
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::FourOfAKind, 1);
 
         // Mock RageRound
         mock_rage_round(world, game.id, array![RAGE_CARD_SILENT_DIAMONDS]);
@@ -748,9 +602,6 @@ mod test_rage_cards {
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
-
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::FourOfAKind, 1);
 
         // Mock RageRound
         mock_rage_round(world, game.id, array![RAGE_CARD_SILENT_DIAMONDS]);
@@ -779,9 +630,6 @@ mod test_rage_cards {
         let mut game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
-
         // Mock RageRound
         mock_rage_round(world, game.id, array![RAGE_CARD_SILENT_JOKERS]);
 
@@ -801,55 +649,50 @@ mod test_rage_cards {
         let round_after = store.get_round(game.id);
         assert(round_after.player_score == 40, 'wrong round player_score');
     }
-    #[test]
-    #[available_gas(30000000000000000)]
-    fn test_play_rage_card_diminished_hold() {
-        let (world, systems) = setup::spawn_game();
-        let mut store = StoreTrait::new(world);
-        let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+    // #[test]
+// #[available_gas(30000000000000000)]
+// fn test_play_rage_card_diminished_hold() {
+//     let (world, systems) = setup::spawn_game();
+//     let mut store = StoreTrait::new(world);
+//     let mut game = mock_game(ref store, PLAYER());
+//     mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::FourOfAKind, 1);
-        // Mock RageRound
-        let len_hand_before = game.len_hand;
-        mock_rage_round(world, game.id, array![RAGE_CARD_DIMINISHED_HOLD]);
+    //     // Mock RageRound
+//     let len_hand_before = game.len_hand;
+//     mock_rage_round(world, game.id, array![RAGE_CARD_DIMINISHED_HOLD]);
 
-        // Set game state in shop
-        game.state = GameState::AT_SHOP;
-        store.set_game(game);
+    //     // Set game state in shop
+//     game.state = GameState::AT_SHOP;
+//     store.set_game(game);
 
-        set_contract_address(PLAYER());
-        systems.shop_system.skip_shop(game.id);
+    //     set_contract_address(PLAYER());
+//     systems.shop_system.skip_shop(game.id);
 
-        let game_after = store.get_game(game.id);
-        assert(game_after.len_hand == len_hand_before - 2, 'wrong game_after len_hand');
-    }
+    //     let game_after = store.get_game(game.id);
+//     assert(game_after.len_hand == len_hand_before - 2, 'wrong game_after len_hand');
+// }
 
-    #[test]
-    #[available_gas(30000000000000000)]
-    fn test_play_rage_card_zero_waste() {
-        let (world, systems) = setup::spawn_game();
-        let mut store = StoreTrait::new(world);
-        let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+    // #[test]
+// #[available_gas(30000000000000000)]
+// fn test_play_rage_card_zero_waste() {
+//     let (world, systems) = setup::spawn_game();
+//     let mut store = StoreTrait::new(world);
+//     let mut game = mock_game(ref store, PLAYER());
+//     mock_round(ref store, @game, 300);
 
-        // Mock needed poker hands
-        init_player_level_poker_hands(ref store, game.id, PokerHand::FourOfAKind, 1);
+    //     // Mock RageRound
+//     mock_rage_round(world, game.id, array![RAGE_CARD_ZERO_WASTE]);
 
-        // Mock RageRound
-        mock_rage_round(world, game.id, array![RAGE_CARD_ZERO_WASTE]);
+    //     // Set game state in shop
+//     game.state = GameState::AT_SHOP;
+//     store.set_game(game);
 
-        // Set game state in shop
-        game.state = GameState::AT_SHOP;
-        store.set_game(game);
+    //     set_contract_address(PLAYER());
+//     systems.shop_system.skip_shop(game.id);
 
-        set_contract_address(PLAYER());
-        systems.shop_system.skip_shop(game.id);
-
-        let round = store.get_round(game.id);
-        assert(round.discard == 0, 'wrong round discard');
-    }
+    //     let round = store.get_round(game.id);
+//     assert(round.discard == 0, 'wrong round discard');
+// }
 }
 
 mod test_play_validations {
@@ -865,9 +708,7 @@ mod test_play_validations {
 
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{setup, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
-    use jokers_of_neon::tests::utils::{
-        mock_current_hand_cards_ids, mock_game, mock_round, mock_shop, init_player_level_poker_hands, mock_game_deck
-    };
+    use jokers_of_neon::tests::utils::{mock_current_hand_cards_ids, mock_game, mock_round, mock_game_deck};
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {
@@ -949,8 +790,6 @@ mod test_play_validations {
         let game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 3000);
 
-        init_player_level_poker_hands(ref store, game.id, PokerHand::OnePair, 1);
-
         let mut game_deck = mock_game_deck(world, game.id);
         game_deck.round_len = 0;
         GameDeckStore::set(@game_deck, world);
@@ -995,8 +834,6 @@ mod test_play_validations {
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
         mock_round(ref store, @game, 3000);
-
-        init_player_level_poker_hands(ref store, game.id, PokerHand::FiveOfAKind, 1);
 
         // Make sure that player doenst win with next hand
         // Set an empty current deck

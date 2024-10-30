@@ -2,41 +2,24 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::configs::{
     rage::RageRoundConfig, slot_special_cards::SlotSpecialCardsConfig, earning_cash::EarningCashConfig
 };
+
 use jokers_of_neon::constants::card::{
-    NEON_TWO_CLUBS_ID, NEON_TWO_CLUBS, TWO_CLUBS_ID, TWO_CLUBS, NEON_THREE_CLUBS_ID, NEON_THREE_CLUBS, THREE_CLUBS_ID,
-    THREE_CLUBS, NEON_FOUR_CLUBS_ID, NEON_FOUR_CLUBS, FOUR_CLUBS_ID, FOUR_CLUBS, NEON_FIVE_CLUBS_ID, NEON_FIVE_CLUBS,
-    FIVE_CLUBS_ID, FIVE_CLUBS, NEON_SIX_CLUBS_ID, NEON_SIX_CLUBS, SIX_CLUBS_ID, SIX_CLUBS, NEON_SEVEN_CLUBS_ID,
-    NEON_SEVEN_CLUBS, SEVEN_CLUBS_ID, SEVEN_CLUBS, NEON_EIGHT_CLUBS_ID, NEON_EIGHT_CLUBS, EIGHT_CLUBS_ID, EIGHT_CLUBS,
-    NEON_NINE_CLUBS_ID, NEON_NINE_CLUBS, NINE_CLUBS_ID, NINE_CLUBS, NEON_TEN_CLUBS_ID, NEON_TEN_CLUBS, TEN_CLUBS_ID,
-    TEN_CLUBS, NEON_JACK_CLUBS_ID, NEON_JACK_CLUBS, JACK_CLUBS_ID, JACK_CLUBS, NEON_QUEEN_CLUBS_ID, NEON_QUEEN_CLUBS,
-    QUEEN_CLUBS_ID, QUEEN_CLUBS, NEON_KING_CLUBS_ID, NEON_KING_CLUBS, KING_CLUBS_ID, KING_CLUBS, NEON_ACE_CLUBS_ID,
-    NEON_ACE_CLUBS, ACE_CLUBS_ID, ACE_CLUBS, NEON_TWO_DIAMONDS_ID, NEON_TWO_DIAMONDS, TWO_DIAMONDS_ID, TWO_DIAMONDS,
-    NEON_THREE_DIAMONDS_ID, NEON_THREE_DIAMONDS, THREE_DIAMONDS_ID, THREE_DIAMONDS, NEON_FOUR_DIAMONDS_ID,
-    NEON_FOUR_DIAMONDS, FOUR_DIAMONDS_ID, FOUR_DIAMONDS, NEON_FIVE_DIAMONDS_ID, NEON_FIVE_DIAMONDS, FIVE_DIAMONDS_ID,
-    FIVE_DIAMONDS, NEON_SIX_DIAMONDS_ID, NEON_SIX_DIAMONDS, SIX_DIAMONDS_ID, SIX_DIAMONDS, NEON_SEVEN_DIAMONDS_ID,
-    NEON_SEVEN_DIAMONDS, SEVEN_DIAMONDS_ID, SEVEN_DIAMONDS, NEON_EIGHT_DIAMONDS_ID, NEON_EIGHT_DIAMONDS,
-    EIGHT_DIAMONDS_ID, EIGHT_DIAMONDS, NEON_NINE_DIAMONDS_ID, NEON_NINE_DIAMONDS, NINE_DIAMONDS_ID, NINE_DIAMONDS,
-    NEON_TEN_DIAMONDS_ID, NEON_TEN_DIAMONDS, TEN_DIAMONDS_ID, TEN_DIAMONDS, NEON_JACK_DIAMONDS_ID, NEON_JACK_DIAMONDS,
-    JACK_DIAMONDS_ID, JACK_DIAMONDS, NEON_QUEEN_DIAMONDS_ID, NEON_QUEEN_DIAMONDS, QUEEN_DIAMONDS_ID, QUEEN_DIAMONDS,
-    NEON_KING_DIAMONDS_ID, NEON_KING_DIAMONDS, KING_DIAMONDS_ID, KING_DIAMONDS, NEON_ACE_DIAMONDS_ID, NEON_ACE_DIAMONDS,
-    ACE_DIAMONDS_ID, ACE_DIAMONDS, NEON_TWO_HEARTS_ID, NEON_TWO_HEARTS, TWO_HEARTS_ID, TWO_HEARTS, NEON_THREE_HEARTS_ID,
-    NEON_THREE_HEARTS, THREE_HEARTS_ID, THREE_HEARTS, NEON_FOUR_HEARTS_ID, NEON_FOUR_HEARTS, FOUR_HEARTS_ID,
-    FOUR_HEARTS, NEON_FIVE_HEARTS_ID, NEON_FIVE_HEARTS, FIVE_HEARTS_ID, FIVE_HEARTS, NEON_SIX_HEARTS_ID,
-    NEON_SIX_HEARTS, SIX_HEARTS_ID, SIX_HEARTS, NEON_SEVEN_HEARTS_ID, NEON_SEVEN_HEARTS, SEVEN_HEARTS_ID, SEVEN_HEARTS,
-    NEON_EIGHT_HEARTS_ID, NEON_EIGHT_HEARTS, EIGHT_HEARTS_ID, EIGHT_HEARTS, NEON_NINE_HEARTS_ID, NEON_NINE_HEARTS,
-    NINE_HEARTS_ID, NINE_HEARTS, NEON_TEN_HEARTS_ID, NEON_TEN_HEARTS, TEN_HEARTS_ID, TEN_HEARTS, NEON_JACK_HEARTS_ID,
-    NEON_JACK_HEARTS, JACK_HEARTS_ID, JACK_HEARTS, NEON_QUEEN_HEARTS_ID, NEON_QUEEN_HEARTS, QUEEN_HEARTS_ID,
-    QUEEN_HEARTS, NEON_KING_HEARTS_ID, NEON_KING_HEARTS, KING_HEARTS_ID, KING_HEARTS, NEON_ACE_HEARTS_ID,
-    NEON_ACE_HEARTS, ACE_HEARTS_ID, ACE_HEARTS, NEON_TWO_SPADES_ID, NEON_TWO_SPADES, TWO_SPADES_ID, TWO_SPADES,
-    NEON_THREE_SPADES_ID, NEON_THREE_SPADES, THREE_SPADES_ID, THREE_SPADES, NEON_FOUR_SPADES_ID, NEON_FOUR_SPADES,
-    FOUR_SPADES_ID, FOUR_SPADES, NEON_FIVE_SPADES_ID, NEON_FIVE_SPADES, FIVE_SPADES_ID, FIVE_SPADES, NEON_SIX_SPADES_ID,
-    NEON_SIX_SPADES, SIX_SPADES_ID, SIX_SPADES, NEON_SEVEN_SPADES_ID, NEON_SEVEN_SPADES, SEVEN_SPADES_ID, SEVEN_SPADES,
-    NEON_EIGHT_SPADES_ID, NEON_EIGHT_SPADES, EIGHT_SPADES_ID, EIGHT_SPADES, NEON_NINE_SPADES_ID, NEON_NINE_SPADES,
-    NINE_SPADES_ID, NINE_SPADES, NEON_TEN_SPADES_ID, NEON_TEN_SPADES, TEN_SPADES_ID, TEN_SPADES, NEON_JACK_SPADES_ID,
-    NEON_JACK_SPADES, JACK_SPADES_ID, JACK_SPADES, NEON_QUEEN_SPADES_ID, NEON_QUEEN_SPADES, QUEEN_SPADES_ID,
-    QUEEN_SPADES, NEON_KING_SPADES_ID, NEON_KING_SPADES, KING_SPADES_ID, KING_SPADES, NEON_ACE_SPADES_ID,
-    NEON_ACE_SPADES, ACE_SPADES_ID, ACE_SPADES, JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD,
+    TWO_CLUBS_ID, TWO_CLUBS, THREE_CLUBS_ID, THREE_CLUBS, FOUR_CLUBS_ID, FOUR_CLUBS, FIVE_CLUBS_ID, FIVE_CLUBS,
+    SIX_CLUBS_ID, SIX_CLUBS, SEVEN_CLUBS_ID, SEVEN_CLUBS, EIGHT_CLUBS_ID, EIGHT_CLUBS, NINE_CLUBS_ID, NINE_CLUBS,
+    TEN_CLUBS_ID, TEN_CLUBS, JACK_CLUBS_ID, JACK_CLUBS, QUEEN_CLUBS_ID, QUEEN_CLUBS, KING_CLUBS_ID, KING_CLUBS,
+    ACE_CLUBS_ID, ACE_CLUBS, TWO_DIAMONDS_ID, TWO_DIAMONDS, THREE_DIAMONDS_ID, THREE_DIAMONDS, FOUR_DIAMONDS_ID,
+    FOUR_DIAMONDS, FIVE_DIAMONDS_ID, FIVE_DIAMONDS, SIX_DIAMONDS_ID, SIX_DIAMONDS, SEVEN_DIAMONDS_ID, SEVEN_DIAMONDS,
+    EIGHT_DIAMONDS_ID, EIGHT_DIAMONDS, NINE_DIAMONDS_ID, NINE_DIAMONDS, TEN_DIAMONDS_ID, TEN_DIAMONDS, JACK_DIAMONDS_ID,
+    JACK_DIAMONDS, QUEEN_DIAMONDS_ID, QUEEN_DIAMONDS, KING_DIAMONDS_ID, KING_DIAMONDS, ACE_DIAMONDS_ID, ACE_DIAMONDS,
+    TWO_HEARTS_ID, TWO_HEARTS, THREE_HEARTS_ID, THREE_HEARTS, FOUR_HEARTS_ID, FOUR_HEARTS, FIVE_HEARTS_ID, FIVE_HEARTS,
+    SIX_HEARTS_ID, SIX_HEARTS, SEVEN_HEARTS_ID, SEVEN_HEARTS, EIGHT_HEARTS_ID, EIGHT_HEARTS, NINE_HEARTS_ID,
+    NINE_HEARTS, TEN_HEARTS_ID, TEN_HEARTS, JACK_HEARTS_ID, JACK_HEARTS, QUEEN_HEARTS_ID, QUEEN_HEARTS, KING_HEARTS_ID,
+    KING_HEARTS, ACE_HEARTS_ID, ACE_HEARTS, TWO_SPADES_ID, TWO_SPADES, THREE_SPADES_ID, THREE_SPADES, FOUR_SPADES_ID,
+    FOUR_SPADES, FIVE_SPADES_ID, FIVE_SPADES, SIX_SPADES_ID, SIX_SPADES, SEVEN_SPADES_ID, SEVEN_SPADES, EIGHT_SPADES_ID,
+    EIGHT_SPADES, NINE_SPADES_ID, NINE_SPADES, TEN_SPADES_ID, TEN_SPADES, JACK_SPADES_ID, JACK_SPADES, QUEEN_SPADES_ID,
+    QUEEN_SPADES, KING_SPADES_ID, KING_SPADES, ACE_SPADES_ID, ACE_SPADES, JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD,
 };
+
 use jokers_of_neon::constants::effect::{
     SPECIAL_MULTI_FOR_HEARTS_EFFECT_ID, SPECIAL_MULTI_FOR_HEARTS_EFFECT, SPECIAL_MULTI_FOR_DIAMONDS_EFFECT_ID,
     SPECIAL_MULTI_FOR_DIAMONDS_EFFECT, SPECIAL_MULTI_FOR_CLUBS_EFFECT_ID, SPECIAL_MULTI_FOR_CLUBS_EFFECT,
@@ -100,14 +83,11 @@ use jokers_of_neon::models::data::events::{PokerHandEvent, CreateGameEvent, Card
 use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
 
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
-use jokers_of_neon::models::status::game::player::PlayerLevelPokerHand;
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::models::status::round::deck_card::{DeckCardTrait};
 use jokers_of_neon::models::status::round::round::Round;
 
-use jokers_of_neon::models::status::shop::shop::{
-    Shop, CardItem, CardItemType, PokerHandItem, BlisterPackItem, BlisterPackResult, SlotSpecialCardsItem
-};
+use jokers_of_neon::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem, BlisterPackResult};
 use starknet::ContractAddress;
 
 #[derive(Drop)]
@@ -131,14 +111,12 @@ impl StoreImpl of StoreTrait {
     }
 
     fn get_card(ref self: Store, id: u32) -> Card {
-        if id <= 51 {
-            get_traditional_card(id)
-        } else if id == JOKER_CARD {
+        if id == JOKER_CARD {
             Card { id: JOKER_CARD, suit: Suit::Joker, value: Value::Joker, points: 100, multi_add: 1 }
         } else if id == NEON_JOKER_CARD {
             Card { id: NEON_JOKER_CARD, suit: Suit::Joker, value: Value::NeonJoker, points: 500, multi_add: 3 }
         } else {
-            get_neon_card(id)
+            get_traditional_card(id)
         }
     }
 
@@ -319,14 +297,6 @@ impl StoreImpl of StoreTrait {
         set!(self.world, (current_special_cards));
     }
 
-    fn get_player_level_poker_hand(ref self: Store, game_id: u32, poker_hand: PokerHand) -> PlayerLevelPokerHand {
-        get!(self.world, (game_id, poker_hand), (PlayerLevelPokerHand))
-    }
-
-    fn set_player_level_poker_hand(ref self: Store, player_level_poker_hand: PlayerLevelPokerHand) {
-        set!(self.world, (player_level_poker_hand));
-    }
-
     fn get_current_hand_card(ref self: Store, game_id: u32, idx: u32) -> CurrentHandCard {
         get!(self.world, (game_id, idx), (CurrentHandCard))
     }
@@ -343,14 +313,6 @@ impl StoreImpl of StoreTrait {
         set!(self.world, (round));
     }
 
-    fn get_shop(ref self: Store, game_id: u32) -> Shop {
-        get!(self.world, (game_id), (Shop))
-    }
-
-    fn set_shop(ref self: Store, shop: Shop) {
-        set!(self.world, (shop));
-    }
-
     fn get_card_item(ref self: Store, game_id: u32, idx: u32, item_type: CardItemType) -> CardItem {
         get!(self.world, (game_id, idx, item_type), (CardItem))
     }
@@ -361,22 +323,6 @@ impl StoreImpl of StoreTrait {
 
     fn get_config_earning_cash(ref self: Store) -> EarningCashConfig {
         Default::default()
-    }
-
-    fn get_poker_hand_item(ref self: Store, game_id: u32, idx: u32) -> PokerHandItem {
-        get!(self.world, (game_id, idx), (PokerHandItem))
-    }
-
-    fn set_poker_hand_item(ref self: Store, poker_hand_item: PokerHandItem) {
-        set!(self.world, (poker_hand_item));
-    }
-
-    fn get_slot_special_cards_item(ref self: Store, game_id: u32) -> SlotSpecialCardsItem {
-        get!(self.world, (game_id), (SlotSpecialCardsItem))
-    }
-
-    fn set_slot_special_cards_item(ref self: Store, slot_special_cards_item: SlotSpecialCardsItem) {
-        set!(self.world, (slot_special_cards_item))
     }
 
     fn get_blister_pack(ref self: Store, id: u32) -> BlisterPack {
@@ -525,116 +471,6 @@ fn get_traditional_card(id: u32) -> Card {
         KING_SPADES()
     } else if id == ACE_SPADES_ID {
         ACE_SPADES()
-    } else {
-        Card { id: INVALID_CARD, suit: Suit::None, value: Value::None, points: 0, multi_add: 0 }
-    }
-}
-
-fn get_neon_card(id: u32) -> Card {
-    if id == NEON_TWO_CLUBS_ID {
-        NEON_TWO_CLUBS()
-    } else if id == NEON_THREE_CLUBS_ID {
-        NEON_THREE_CLUBS()
-    } else if id == NEON_FOUR_CLUBS_ID {
-        NEON_FOUR_CLUBS()
-    } else if id == NEON_FIVE_CLUBS_ID {
-        NEON_FIVE_CLUBS()
-    } else if id == NEON_SIX_CLUBS_ID {
-        NEON_SIX_CLUBS()
-    } else if id == NEON_SEVEN_CLUBS_ID {
-        NEON_SEVEN_CLUBS()
-    } else if id == NEON_EIGHT_CLUBS_ID {
-        NEON_EIGHT_CLUBS()
-    } else if id == NEON_NINE_CLUBS_ID {
-        NEON_NINE_CLUBS()
-    } else if id == NEON_TEN_CLUBS_ID {
-        NEON_TEN_CLUBS()
-    } else if id == NEON_JACK_CLUBS_ID {
-        NEON_JACK_CLUBS()
-    } else if id == NEON_QUEEN_CLUBS_ID {
-        NEON_QUEEN_CLUBS()
-    } else if id == NEON_KING_CLUBS_ID {
-        NEON_KING_CLUBS()
-    } else if id == NEON_ACE_CLUBS_ID {
-        NEON_ACE_CLUBS()
-    } else if id == NEON_TWO_DIAMONDS_ID {
-        NEON_TWO_DIAMONDS()
-    } else if id == NEON_THREE_DIAMONDS_ID {
-        NEON_THREE_DIAMONDS()
-    } else if id == NEON_FOUR_DIAMONDS_ID {
-        NEON_FOUR_DIAMONDS()
-    } else if id == NEON_FIVE_DIAMONDS_ID {
-        NEON_FIVE_DIAMONDS()
-    } else if id == NEON_SIX_DIAMONDS_ID {
-        NEON_SIX_DIAMONDS()
-    } else if id == NEON_SEVEN_DIAMONDS_ID {
-        NEON_SEVEN_DIAMONDS()
-    } else if id == NEON_EIGHT_DIAMONDS_ID {
-        NEON_EIGHT_DIAMONDS()
-    } else if id == NEON_NINE_DIAMONDS_ID {
-        NEON_NINE_DIAMONDS()
-    } else if id == NEON_TEN_DIAMONDS_ID {
-        NEON_TEN_DIAMONDS()
-    } else if id == NEON_JACK_DIAMONDS_ID {
-        NEON_JACK_DIAMONDS()
-    } else if id == NEON_QUEEN_DIAMONDS_ID {
-        NEON_QUEEN_DIAMONDS()
-    } else if id == NEON_KING_DIAMONDS_ID {
-        NEON_KING_DIAMONDS()
-    } else if id == NEON_ACE_DIAMONDS_ID {
-        NEON_ACE_DIAMONDS()
-    } else if id == NEON_TWO_HEARTS_ID {
-        NEON_TWO_HEARTS()
-    } else if id == NEON_THREE_HEARTS_ID {
-        NEON_THREE_HEARTS()
-    } else if id == NEON_FOUR_HEARTS_ID {
-        NEON_FOUR_HEARTS()
-    } else if id == NEON_FIVE_HEARTS_ID {
-        NEON_FIVE_HEARTS()
-    } else if id == NEON_SIX_HEARTS_ID {
-        NEON_SIX_HEARTS()
-    } else if id == NEON_SEVEN_HEARTS_ID {
-        NEON_SEVEN_HEARTS()
-    } else if id == NEON_EIGHT_HEARTS_ID {
-        NEON_EIGHT_HEARTS()
-    } else if id == NEON_NINE_HEARTS_ID {
-        NEON_NINE_HEARTS()
-    } else if id == NEON_TEN_HEARTS_ID {
-        NEON_TEN_HEARTS()
-    } else if id == NEON_JACK_HEARTS_ID {
-        NEON_JACK_HEARTS()
-    } else if id == NEON_QUEEN_HEARTS_ID {
-        NEON_QUEEN_HEARTS()
-    } else if id == NEON_KING_HEARTS_ID {
-        NEON_KING_HEARTS()
-    } else if id == NEON_ACE_HEARTS_ID {
-        NEON_ACE_HEARTS()
-    } else if id == NEON_TWO_SPADES_ID {
-        NEON_TWO_SPADES()
-    } else if id == NEON_THREE_SPADES_ID {
-        NEON_THREE_SPADES()
-    } else if id == NEON_FOUR_SPADES_ID {
-        NEON_FOUR_SPADES()
-    } else if id == NEON_FIVE_SPADES_ID {
-        NEON_FIVE_SPADES()
-    } else if id == NEON_SIX_SPADES_ID {
-        NEON_SIX_SPADES()
-    } else if id == NEON_SEVEN_SPADES_ID {
-        NEON_SEVEN_SPADES()
-    } else if id == NEON_EIGHT_SPADES_ID {
-        NEON_EIGHT_SPADES()
-    } else if id == NEON_NINE_SPADES_ID {
-        NEON_NINE_SPADES()
-    } else if id == NEON_TEN_SPADES_ID {
-        NEON_TEN_SPADES()
-    } else if id == NEON_JACK_SPADES_ID {
-        NEON_JACK_SPADES()
-    } else if id == NEON_QUEEN_SPADES_ID {
-        NEON_QUEEN_SPADES()
-    } else if id == NEON_KING_SPADES_ID {
-        NEON_KING_SPADES()
-    } else if id == NEON_ACE_SPADES_ID {
-        NEON_ACE_SPADES()
     } else {
         Card { id: INVALID_CARD, suit: Suit::None, value: Value::None, points: 0, multi_add: 0 }
     }
