@@ -29,19 +29,30 @@ mod beast_system {
     use jokers_of_neon::utils::rage::is_rage_card_active;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
 
+    mod errors {
+        const GAME_NOT_FOUND: felt252 = 'Game: game not found';
+        const CALLER_NOT_OWNER: felt252 = 'Game: caller not owner';
+        const INVALID_CARD_INDEX_LEN: felt252 = 'Game: invalid card index len';
+        const INVALID_CARD_ELEM: felt252 = 'Game: invalid card element';
+        const ARRAY_REPEATED_ELEMENTS: felt252 = 'Game: array repeated elements';
+        const ONLY_EFFECT_CARD: felt252 = 'Game: only effect cards';
+        const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
+        const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
+    }
+
     #[abi(embed_v0)]
     impl BeastImpl of super::IBeastSystem<ContractState> {
         fn create(ref world: IWorldDispatcher, game_id: u32) {
             let mut store: Store = StoreTrait::new(world);
             let mut game = store.get_game(game_id);
 
-            // // Active `Rage Cards`
-            // let rage_round = RageRoundStore::get(world, game.id);
+            // Active `Rage Cards`
+            let rage_round = RageRoundStore::get(world, game.id);
 
-            // if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
-            //     game.len_hand -= 2;
-            //     store.set_game(game);
-            // }
+            if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
+                game.len_hand -= 2;
+                store.set_game(game);
+            }
 
             let game_mode_beast = GameModeBeast { game_id, cost_discard: 2, cost_play: 1, energy_max_player: 3 };
             GameModeBeastStore::set(@game_mode_beast, world);
@@ -97,9 +108,7 @@ mod beast_system {
                 IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
                 // TODO: Call Next Level
             } else if player_beast.energy.is_zero() {
-                // TODO: Call EndTurn
-                // Attack Beast
-                self._attack_beast(world, ref store, ref game, ref player_beast, ref beast);
+                self._attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
             } else {
                 let mut cards = array![];
                 let mut idx = 0;
@@ -136,8 +145,55 @@ mod beast_system {
             store.set_game(game);
         }
 
-        fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {}
+        fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+            let mut game = store.get_game(game_id);
 
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+
+            let mut cards = array![];
+            let mut idx = 0;
+            loop {
+                if idx == cards_index.len() {
+                    break;
+                }
+                let current_hand_card = store.get_current_hand_card(game_id, *cards_index.at(idx));
+                assert(current_hand_card.card_id != INVALID_CARD, errors::USE_INVALID_CARD);
+
+                cards.append(*cards_index.at(idx));
+                idx += 1;
+            };
+
+            idx = 0;
+            loop {
+                if idx == modifiers_index.len() {
+                    break;
+                }
+                let card_index = *modifiers_index.at(idx);
+                if card_index != 100 {
+                    cards.append(card_index);
+                }
+                idx += 1;
+            };
+
+            CurrentHandCardTrait::refresh(world, game.id, cards);
+
+            let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+
+            let mut player_beast = PlayerBeastStore::get(world, game.id);
+            player_beast.energy -= game_mode_beast.cost_discard;
+            PlayerBeastStore::set(@player_beast, world);
+
+            let game_deck = GameDeckStore::get(world, game_id);
+            if game_deck.round_len.is_zero() && self.player_has_empty_hand(ref store, @game) {
+                let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
+                emit!(world, (play_game_over_event));
+                game.state = GameState::FINISHED;
+                store.set_game(game);
+            }
+        }
         fn end_turn(ref world: IWorldDispatcher, game_id: u32) {}
     }
 
@@ -163,7 +219,8 @@ mod beast_system {
             ref store: Store,
             ref game: Game,
             ref player_beast: PlayerBeast,
-            ref beast: Beast
+            ref beast: Beast,
+            ref game_mode_beast: GameModeBeast
         ) {
             player_beast
                 .health = if beast.attack > player_beast.health {
@@ -171,14 +228,17 @@ mod beast_system {
                 } else {
                     player_beast.health - beast.attack
                 };
-            PlayerBeastStore::set(@player_beast, world);
 
             if player_beast.health.is_zero() {
                 let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                 emit!(world, (play_game_over_event));
                 game.state = GameState::FINISHED;
+                store.set_game(game);
+            } else {
+                // reset energy
+                player_beast.energy = game_mode_beast.energy_max_player;
             }
-            store.set_game(game);
+            PlayerBeastStore::set(@player_beast, world);
         }
     }
 }

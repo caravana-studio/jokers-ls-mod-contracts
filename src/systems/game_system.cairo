@@ -150,6 +150,7 @@ mod game_system {
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {
             let mut store: Store = StoreTrait::new(world);
             let game = store.get_game(game_id);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(card_index >= 0 && card_index < game.len_hand, errors::INVALID_CARD_ELEM);
@@ -162,6 +163,7 @@ mod game_system {
         fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32) {
             let mut store: Store = StoreTrait::new(world);
             let mut game = store.get_game(game_id);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(special_card_index < game.len_current_special_cards, errors::INVALID_CARD_ELEM);
