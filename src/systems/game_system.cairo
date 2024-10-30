@@ -7,6 +7,7 @@ trait IGameSystem {
     fn create_game(ref world: IWorldDispatcher, player_name: felt252) -> u32;
     fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
     fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
+    fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32);
     fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32);
 }
@@ -19,6 +20,7 @@ mod errors {
     const ONLY_EFFECT_CARD: felt252 = 'Game: only effect cards';
     const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
     const GAME_NOT_SELECT_SPECIAL_CARDS: felt252 = 'Game:is not SELECT_SPECIAL_CARD';
+    const GAME_NOT_SELECT_MODIFIER_CARDS: felt252 = 'Game:is not SELCT_MODIFIER_CARD';
     const GAME_NOT_SELECT_DECK: felt252 = 'Game:is not SELECT_DECK';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
     const INVALID_DECK_ID: felt252 = 'Game: use an invalid deck';
@@ -144,6 +146,31 @@ mod game_system {
             store.set_blister_pack_result(blister_pack_result);
 
             game.state = GameState::SELECT_MODIFIER_CARDS;
+            store.set_game(game);
+        }
+
+        fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.state == GameState::SELECT_MODIFIER_CARDS, errors::GAME_NOT_SELECT_MODIFIER_CARDS);
+
+            let mut blister_pack_result = store.get_blister_pack_result(game.id);
+            assert(cards_index.len() <= 5, errors::INVALID_CARD_INDEX_LEN);
+
+            select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
+
+            blister_pack_result.cards_picked = true;
+            store.set_blister_pack_result(blister_pack_result);
+
+            game.state = GameState::IN_GAME;
             store.set_game(game);
         }
 
