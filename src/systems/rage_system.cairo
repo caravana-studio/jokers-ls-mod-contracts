@@ -26,7 +26,7 @@ trait IRageSystem {
 
 #[dojo::contract]
 mod rage_system {
-    use jokers_of_neon::models::status::{game::{game::GameStore, rage::RageRoundStore}, round::round::RoundStore};
+    use jokers_of_neon::models::status::{game::{game::GameStore, rage::RageRoundStore}};
     use jokers_of_neon::store::StoreTrait;
     use jokers_of_neon::utils::constants::rage_cards_all;
     use jokers_of_neon::utils::random::RandomImpl;

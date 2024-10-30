@@ -1,6 +1,13 @@
 use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
+enum GameSubState {
+    NONE,
+    OBSTACLE,
+    BEAST
+}
+
+#[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
 enum GameState {
     SELECT_DECK,
     SELECT_SPECIAL_CARDS,
@@ -30,6 +37,7 @@ struct Game {
     len_current_special_cards: u32,
     current_jokers: u8,
     state: GameState,
+    substate: GameSubState,
     cash: u32
 }
 
@@ -62,6 +70,7 @@ impl DefaultGame of Default<Game> {
             len_current_special_cards: 0,
             current_jokers: 0,
             state: GameState::IN_GAME,
+            substate: GameSubState::NONE,
             cash: 0
         }
     }

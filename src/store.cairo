@@ -56,8 +56,7 @@ use jokers_of_neon::constants::packs::{
     FIGURES_BLISTER_PACK, DECEITFUL_JOKER_BLISTER_PACK, LOVERS_BLISTER_PACK, SPECIAL_BET_BLISTER_PACK,
     EMPTY_BLISTER_PACK, BASIC_BLISTER_PACK_ID, ADVANCED_BLISTER_PACK_ID, JOKER_BLISTER_PACK_ID,
     SPECIALS_BLISTER_PACK_ID, MODIFIER_BLISTER_PACK_ID, FIGURES_BLISTER_PACK_ID, DECEITFUL_JOKER_BLISTER_PACK_ID,
-    LOVERS_BLISTER_PACK_ID, SPECIAL_BET_BLISTER_PACK_ID, SPECIAL_CARDS_PACK_ID, SPECIAL_CARDS_PACK,
-    MODIFIER_CARDS_PACK_ID, MODIFIER_CARDS_PACK
+    LOVERS_BLISTER_PACK_ID, SPECIAL_BET_BLISTER_PACK_ID, SPECIAL_CARDS_PACK_ID, SPECIAL_CARDS_PACK
 };
 use jokers_of_neon::constants::playhand::{
     ROYAL_FLUSH, STRAIGHT_FLUSH, FIVE_OF_A_KIND, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR,
@@ -87,7 +86,6 @@ use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::models::status::round::deck_card::{DeckCardTrait};
-use jokers_of_neon::models::status::round::round::Round;
 
 use jokers_of_neon::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem, BlisterPackResult};
 use starknet::ContractAddress;
@@ -307,14 +305,6 @@ impl StoreImpl of StoreTrait {
         set!(self.world, (current_hand_card));
     }
 
-    fn get_round(ref self: Store, game_id: u32) -> Round {
-        get!(self.world, (game_id), (Round))
-    }
-
-    fn set_round(ref self: Store, round: Round) {
-        set!(self.world, (round));
-    }
-
     fn get_card_item(ref self: Store, game_id: u32, idx: u32, item_type: CardItemType) -> CardItem {
         get!(self.world, (game_id, idx, item_type), (CardItem))
     }
@@ -348,8 +338,6 @@ impl StoreImpl of StoreTrait {
             SPECIAL_BET_BLISTER_PACK()
         } else if id == SPECIAL_CARDS_PACK_ID {
             SPECIAL_CARDS_PACK()
-        } else if id == MODIFIER_CARDS_PACK_ID {
-            MODIFIER_CARDS_PACK()
         } else {
             EMPTY_BLISTER_PACK()
         }
