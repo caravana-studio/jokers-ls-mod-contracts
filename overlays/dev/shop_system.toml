@@ -1,0 +1,4 @@
+tag = "jokers_of_neon-shop_system"
+writes = [
+    "ns:jokers_of_neon"
+]

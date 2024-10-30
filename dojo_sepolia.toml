@@ -1,0 +1,19 @@
+[world]
+description = "jokers of neon"
+name = "jokers_of_neon"
+seed = "jokers_of_neon"
+
+[namespace]
+default = "jokers_of_neon"
+mappings = { }
+
+[env]
+rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"
+# Replace with your account details
+account_address = "0x4053da4d8736dedbf87890818f1efd7c9477d0df08faa65df0c8d50cbf13478"
+private_key = "0x026e3a08622f55d090292086c234f1029a75e8ba7acab4c8f8eeaba719c77834"
+# Replace with the address of the world once you deploy it
+#world_address = ""
+
+[migration]
+skip_contracts = []

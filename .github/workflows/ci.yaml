@@ -1,0 +1,87 @@
+name: JON
+
+on:
+    push:
+        branches:
+        - main
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+    workflow_dispatch:
+
+env:
+  DOJO_VERSION: v1.0.0-alpha.19
+  SCARB_VERSION: v2.7.0
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    name: Format
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: ${{ env.SCARB_VERSION }}
+      - name: Format
+        run: scarb fmt --check
+        shell: bash
+
+  test_calculate_hand:
+    runs-on: ubuntu-latest
+    name: Test - calculate_hand
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      
+      - name: Test calculate_hand.cairo
+        run: sozo test -f test_calculate_hand
+        shell: bash
+
+  test_game_play:
+    runs-on: ubuntu-latest
+    name: Test - game_play
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      
+      - name: Test game_play.cairo
+        run: sozo test -f test_game_play
+        shell: bash
+
+  test_game_discard_effect_card:
+    runs-on: ubuntu-latest
+    name: Test - game_discard_effect_card
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      
+      - name: Test game_discard_effect_card.cairo
+        run: sozo test -f test_game_discard_effect_card
+        shell: bash
+
+  test_game_discard_special_card:
+    runs-on: ubuntu-latest
+    name: Test - game_discard_special_card
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      
+      - name: Test game_discard_special_card.cairo
+        run: sozo test -f test_game_discard_special_card
+        shell: bash
+
+  test_shop:
+    runs-on: ubuntu-latest
+    name: Test - shop
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      
+      - name: Test test_shop.cairo
+        run: sozo test -f test_shop
+        shell: bash

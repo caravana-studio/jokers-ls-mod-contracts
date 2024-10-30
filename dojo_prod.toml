@@ -1,0 +1,18 @@
+[world]
+description = "jokers of neon"
+name = "jokers_of_neon"
+seed = "jokers_of_neon"
+
+[namespace]
+default = "jokers_of_neon"
+mappings = { }
+
+[env]
+rpc_url = "https://api.cartridge.gg/x/jon-prod/katana"
+# Default account for katana with seed = 0
+account_address = "0x7f43a30ba57d75c02bbbbcd2400f4482537a9b4e19d4d64c9c051d39a8a7497"
+private_key = "0x63c758f1cd37cb012c70e788cf3a3a8d38943744d0989bfd99b48c2075e0f2e"
+# world_address = "0x7d1b0c56b70f543f40cffb9e120316fc764fcc452e7c1636fee3330d564aa7f"
+
+[migration]
+skip_contracts = []

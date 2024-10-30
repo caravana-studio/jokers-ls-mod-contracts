@@ -1,0 +1,27 @@
+[package]
+cairo-version = "=2.7.0"
+name = "jokers_of_neon"
+version = "0.0.1"
+
+[cairo]
+sierra-replace-ids = true
+
+[[target.dojo]]
+
+[tool.fmt]
+sort-module-level-items = true
+max-line-length = 120
+
+[scripts]
+migrate = "sozo build && sozo migrate apply && ./scripts/default_auth.sh"
+spawn = "./scripts/spawn.sh"
+move = "./scripts/move.sh"
+deploy-sepolia = "rm -rf ./manifest/sepolia && sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate plan && sozo --profile sepolia migrate apply"
+
+[dependencies]
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.19" }
+alexandria_sorting = { git = "https://github.com/dubzn/quaireaux.git", branch = "main" }
+
+[profile.prod]
+[profile.testing]
+[profile.sepolia]
