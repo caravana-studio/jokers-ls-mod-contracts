@@ -1,20 +1,18 @@
 mod test_select_deck {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::models::status::game::game::{Game, GameState};
-    use jokers_of_neon::models::data::game_deck::{GameDeck, GameDeckStore, DeckCard, DeckCardStore};
     use jokers_of_neon::constants::card::{
-        ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, SCRIBE_DECK, WARRIOR_DECK, WIZARD_DECK,
-        traditional_cards_all
+        ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, SCRIBE_DECK,
+        WARRIOR_DECK, WIZARD_DECK, traditional_cards_all
     };
     use jokers_of_neon::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
+    use jokers_of_neon::models::data::game_deck::{GameDeck, GameDeckStore, DeckCard, DeckCardStore};
+    use jokers_of_neon::models::status::game::game::{Game, GameState};
     use jokers_of_neon::store::{Store, StoreTrait};
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
-    use jokers_of_neon::tests::utils::{
-        mock_game
-    };
+    use jokers_of_neon::tests::utils::{mock_game};
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {

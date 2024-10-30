@@ -1,6 +1,9 @@
 use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
 use jokers_of_neon::constants::modifiers::{modifiers_ids_all, SUIT_HEARTS_MODIFIER_ID};
-use jokers_of_neon::constants::specials::{specials_ids_all, SPECIAL_ALL_CARDS_TO_HEARTS_ID};
+use jokers_of_neon::constants::specials::{
+    specials_ids_all, SPECIAL_ALL_CARDS_TO_HEARTS_ID, common_specials_ids, uncommon_specials_ids, rare_specials_ids,
+    epic_specials_ids, legendary_specials_ids
+};
 use jokers_of_neon::models::data::blister_pack::BlisterPack;
 use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, ValueEnumerableImpl};
 use jokers_of_neon::utils::constants::{jokers_all, common_cards_all};
@@ -14,7 +17,11 @@ const FIGURES_BLISTER_PACK_ID: u32 = 6;
 const DECEITFUL_JOKER_BLISTER_PACK_ID: u32 = 7;
 const LOVERS_BLISTER_PACK_ID: u32 = 8;
 const SPECIAL_BET_BLISTER_PACK_ID: u32 = 9;
+
 const EMPTY_PACK_ID: u32 = 999;
+
+const SPECIAL_CARDS_PACK_ID: u32 = 20;
+const MODIFIER_CARDS_PACK_ID: u32 = 21;
 
 fn blister_packs_ids_all() -> Array<u32> {
     array![
@@ -205,5 +212,37 @@ fn SPECIAL_BET_BLISTER_PACK() -> BlisterPack {
 fn EMPTY_BLISTER_PACK() -> BlisterPack {
     BlisterPack {
         id: EMPTY_PACK_ID, cost: 0, name: '', probability: 0, size: 0, cards: array![].span(), probs: array![].span(),
+    }
+}
+
+fn SPECIAL_CARDS_PACK() -> BlisterPack {
+    BlisterPack {
+        id: SPECIAL_CARDS_PACK_ID,
+        cost: 0,
+        name: 'special_cards_pack',
+        probability: 100,
+        size: 5,
+        cards: array![
+            array![].span(),
+            legendary_specials_ids().span(),
+            epic_specials_ids().span(),
+            rare_specials_ids().span(),
+            uncommon_specials_ids().span(),
+            common_specials_ids().span()
+        ]
+            .span(),
+        probs: array![100, 5, 10, 15, 25, 45].span(),
+    }
+}
+
+fn MODIFIER_CARDS_PACK() -> BlisterPack {
+    BlisterPack {
+        id: MODIFIER_CARDS_PACK_ID,
+        cost: 0,
+        name: 'modifier_cards_pack',
+        probability: 100,
+        size: 5,
+        cards: array![array![].span(), modifiers_ids_all().span()].span(),
+        probs: array![100, 100].span(),
     }
 }

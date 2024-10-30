@@ -28,12 +28,11 @@ struct DeckCard {
 #[generate_trait]
 impl GameDeckImpl of IGameDeck {
     fn init(ref store: Store, game_id: u32, deck_id: u8) {
-        
         // Traditional Deck
         let mut cards = traditional_cards_all();
         cards.append(JOKER_CARD);
         cards.append(JOKER_CARD);
-        
+
         if deck_id == SCRIBE_DECK {
             cards.append(JOKER_CARD);
             cards.append(JOKER_CARD);

@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394"
-class_hash = "0x58feb428c2692bda09414a95336a6f566852ff95338fe1760f21f53e520eba0"
-original_class_hash = "0x58feb428c2692bda09414a95336a6f566852ff95338fe1760f21f53e520eba0"
+class_hash = "0x5f74e789806e15032b0e17a3d05f4f70f03b1bba1f6522bdf755235ac6286af"
+original_class_hash = "0x5f74e789806e15032b0e17a3d05f4f70f03b1bba1f6522bdf755235ac6286af"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-game_system-7a205bbc.json"
 reads = []
@@ -34,6 +34,8 @@ init_calldata = []
 tag = "jokers_of_neon-game_system"
 systems = [
     "select_deck",
+    "select_special_cards",
+    "select_modifier_cards",
     "play",
     "discard",
     "discard_effect_card",

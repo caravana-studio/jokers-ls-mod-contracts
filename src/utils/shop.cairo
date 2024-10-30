@@ -1,6 +1,7 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::models::status::game::game::Game;
 use jokers_of_neon::store::{Store, StoreTrait};
+use jokers_of_neon::utils::constants::is_special_card;
 use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
 
 fn item_in_array<

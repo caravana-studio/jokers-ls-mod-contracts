@@ -6,6 +6,8 @@ use jokers_of_neon::models::data::poker_hand::PokerHand;
 trait IGameSystem {
     fn create_game(ref world: IWorldDispatcher, player_name: felt252) -> u32;
     fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
+    fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
+    fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
     fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
     fn check_hand(
@@ -25,6 +27,7 @@ mod errors {
     const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
     const GAME_NOT_SELECT_SPECIAL_CARDS: felt252 = 'Game:is not SELECT_SPECIAL_CARD';
     const GAME_NOT_SELECT_DECK: felt252 = 'Game:is not SELECT_DECK';
+    const GAME_NOT_SELECT_MODIFIER_CARDS: felt252 = 'Game:is not SELCT_MODIFIER_CARD';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
     const INVALID_DECK_ID: felt252 = 'Game: use an invalid deck';
 }
@@ -34,6 +37,7 @@ mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
     use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
+    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID};
     use jokers_of_neon::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID,
         SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID, SPECIAL_INCREASE_LEVEL_STRAIGHT_ID,
@@ -56,6 +60,7 @@ mod game_system {
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
     use jokers_of_neon::models::status::round::round::Round;
+    use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
 
     use jokers_of_neon::store::{Store, StoreTrait};
     use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
@@ -64,6 +69,7 @@ mod game_system {
         RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
     };
+    use jokers_of_neon::utils::packs::{open_blister_pack, select_cards_from_blister};
     use jokers_of_neon::utils::rage::is_rage_card_active;
     use jokers_of_neon::utils::round::create_round;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
@@ -89,7 +95,7 @@ mod game_system {
                 player_score: 0,
                 level: 1,
                 len_hand: 8,
-                len_max_current_special_cards: 1,
+                len_max_current_special_cards: 5,
                 len_current_special_cards: 0,
                 current_jokers: 0,
                 state: GameState::SELECT_DECK,
@@ -118,7 +124,63 @@ mod game_system {
             assert(deck_id < 3, errors::INVALID_DECK_ID);
 
             GameDeckImpl::init(ref store, game_id, deck_id);
+            game.state = GameState::SELECT_SPECIAL_CARDS;
+            store.set_game(game);
+
+            let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
+            store.set_blister_pack_result(BlisterPackResult { game_id, cards_picked: false, cards });
+        }
+
+        fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.state == GameState::SELECT_SPECIAL_CARDS, errors::GAME_NOT_SELECT_SPECIAL_CARDS);
+
+            let mut blister_pack_result = store.get_blister_pack_result(game.id);
+            assert(cards_index.len() <= 2, errors::INVALID_CARD_INDEX_LEN);
+
+            select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
+
+            blister_pack_result.cards_picked = true;
+            store.set_blister_pack_result(blister_pack_result);
+
+            let cards = open_blister_pack(world, ref store, game, MODIFIER_CARDS_PACK_ID);
+            store.set_blister_pack_result(BlisterPackResult { game_id, cards_picked: false, cards });
+
             game.state = GameState::SELECT_MODIFIER_CARDS;
+            store.set_game(game);
+        }
+
+        fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.state == GameState::SELECT_MODIFIER_CARDS, errors::GAME_NOT_SELECT_MODIFIER_CARDS);
+
+            let mut blister_pack_result = store.get_blister_pack_result(game.id);
+            assert(cards_index.len() <= 5, errors::INVALID_CARD_INDEX_LEN);
+
+            select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
+
+            blister_pack_result.cards_picked = true;
+            store.set_blister_pack_result(blister_pack_result);
+
+            // game.state = GameState::; / TODO:
             store.set_game(game);
         }
 

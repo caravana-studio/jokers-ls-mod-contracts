@@ -52,12 +52,15 @@ mod tests {
     mod test_game_discard_special_card;
     mod test_game_play;
     mod test_game_select_deck;
+    mod test_game_select_modifier_cards;
+    mod test_game_select_special_cards;
     mod utils;
 }
 
 mod utils {
     mod calculate_hand;
     mod constants;
+    mod packs;
     mod rage;
     mod random;
     mod round;

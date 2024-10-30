@@ -58,7 +58,7 @@ impl DefaultGame of Default<Game> {
             player_score: 0,
             level: 1,
             len_hand: 8,
-            len_max_current_special_cards: 1,
+            len_max_current_special_cards: 5,
             len_current_special_cards: 0,
             current_jokers: 0,
             state: GameState::IN_GAME,
