@@ -165,7 +165,12 @@ mod beast_system {
             ref player_beast: PlayerBeast,
             ref beast: Beast
         ) {
-            player_beast.health -= beast.attack;
+            player_beast
+                .health = if beast.attack > player_beast.health {
+                    0
+                } else {
+                    player_beast.health - beast.attack
+                };
             PlayerBeastStore::set(@player_beast, world);
 
             if player_beast.health.is_zero() {
