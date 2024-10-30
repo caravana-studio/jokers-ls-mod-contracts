@@ -1256,8 +1256,8 @@
     {
       "kind": "DojoContract",
       "address": "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394",
-      "class_hash": "0x6ad9936a7fc685dfcae8a15c782d32db93b55c2296c8406652e982418f7caed",
-      "original_class_hash": "0x6ad9936a7fc685dfcae8a15c782d32db93b55c2296c8406652e982418f7caed",
+      "class_hash": "0x58feb428c2692bda09414a95336a6f566852ff95338fe1760f21f53e520eba0",
+      "original_class_hash": "0x58feb428c2692bda09414a95336a6f566852ff95338fe1760f21f53e520eba0",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -1468,6 +1468,22 @@
             },
             {
               "type": "function",
+              "name": "select_deck",
+              "inputs": [
+                {
+                  "name": "game_id",
+                  "type": "core::integer::u32"
+                },
+                {
+                  "name": "deck_id",
+                  "type": "core::integer::u8"
+                }
+              ],
+              "outputs": [],
+              "state_mutability": "external"
+            },
+            {
+              "type": "function",
               "name": "play",
               "inputs": [
                 {
@@ -1649,6 +1665,7 @@
       "init_calldata": [],
       "tag": "jokers_of_neon-game_system",
       "systems": [
+        "select_deck",
         "play",
         "discard",
         "discard_effect_card",
@@ -1983,8 +2000,8 @@
     {
       "kind": "DojoContract",
       "address": "0x75602558fd679c49be1a6ccb73e3d6d842f0558e1f41c4013ce109d05a5790f",
-      "class_hash": "0x3dd4a1244136cde97126bb75b820cc0f134fb8af5f4916c030f12bac06e3dec",
-      "original_class_hash": "0x3dd4a1244136cde97126bb75b820cc0f134fb8af5f4916c030f12bac06e3dec",
+      "class_hash": "0xe1327a50fe39d93f025e0a84e7ce9ccd46c1acd1f575c50acd881e3d4e23b7",
+      "original_class_hash": "0xe1327a50fe39d93f025e0a84e7ce9ccd46c1acd1f575c50acd881e3d4e23b7",
       "base_class_hash": "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2",
       "abi": [
         {
@@ -8374,8 +8391,8 @@
           "key": false
         }
       ],
-      "class_hash": "0x62a66a5fb4ec621dba3f4179c6e338a380a8a95797ac4e4e3c8060f5e8c94f4",
-      "original_class_hash": "0x62a66a5fb4ec621dba3f4179c6e338a380a8a95797ac4e4e3c8060f5e8c94f4",
+      "class_hash": "0xd231a89d484f9ce343542808702a69ff45ecd316470ea746e8de8e889d6f8",
+      "original_class_hash": "0xd231a89d484f9ce343542808702a69ff45ecd316470ea746e8de8e889d6f8",
       "abi": [
         {
           "type": "impl",
@@ -8749,11 +8766,23 @@
           "name": "jokers_of_neon::models::status::game::game::GameState",
           "variants": [
             {
-              "name": "IN_GAME",
+              "name": "SELECT_DECK",
+              "type": "()"
+            },
+            {
+              "name": "SELECT_SPECIAL_CARDS",
+              "type": "()"
+            },
+            {
+              "name": "SELECT_MODIFIER_CARDS",
               "type": "()"
             },
             {
               "name": "AT_SHOP",
+              "type": "()"
+            },
+            {
+              "name": "IN_GAME",
               "type": "()"
             },
             {

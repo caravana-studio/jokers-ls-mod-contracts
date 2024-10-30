@@ -2,8 +2,11 @@ use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
 enum GameState {
-    IN_GAME,
+    SELECT_DECK,
+    SELECT_SPECIAL_CARDS,
+    SELECT_MODIFIER_CARDS,
     AT_SHOP,
+    IN_GAME,
     FINISHED,
     OPEN_BLISTER_PACK
 }

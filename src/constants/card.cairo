@@ -58,6 +58,10 @@ const JOKER_CARD: u32 = 52;
 const NEON_JOKER_CARD: u32 = 53;
 const INVALID_CARD: u32 = 9999;
 
+const SCRIBE_DECK: u8 = 0;
+const WARRIOR_DECK: u8 = 1;
+const WIZARD_DECK: u8 = 2;
+
 // TRADITIONALS
 fn TWO_CLUBS() -> Card {
     Card { id: TWO_CLUBS_ID, suit: Suit::Clubs, value: Value::Two, points: 2, multi_add: 0 }
@@ -217,4 +221,61 @@ fn KING_SPADES() -> Card {
 }
 fn ACE_SPADES() -> Card {
     Card { id: ACE_SPADES_ID, suit: Suit::Spades, value: Value::Ace, points: 11, multi_add: 0 }
+}
+
+fn traditional_cards_all() -> Array<u32> {
+    array![
+        TWO_CLUBS_ID,
+        THREE_CLUBS_ID,
+        FOUR_CLUBS_ID,
+        FIVE_CLUBS_ID,
+        SIX_CLUBS_ID,
+        SEVEN_CLUBS_ID,
+        EIGHT_CLUBS_ID,
+        NINE_CLUBS_ID,
+        TEN_CLUBS_ID,
+        JACK_CLUBS_ID,
+        QUEEN_CLUBS_ID,
+        KING_CLUBS_ID,
+        ACE_CLUBS_ID,
+        TWO_DIAMONDS_ID,
+        THREE_DIAMONDS_ID,
+        FOUR_DIAMONDS_ID,
+        FIVE_DIAMONDS_ID,
+        SIX_DIAMONDS_ID,
+        SEVEN_DIAMONDS_ID,
+        EIGHT_DIAMONDS_ID,
+        NINE_DIAMONDS_ID,
+        TEN_DIAMONDS_ID,
+        JACK_DIAMONDS_ID,
+        QUEEN_DIAMONDS_ID,
+        KING_DIAMONDS_ID,
+        ACE_DIAMONDS_ID,
+        TWO_HEARTS_ID,
+        THREE_HEARTS_ID,
+        FOUR_HEARTS_ID,
+        FIVE_HEARTS_ID,
+        SIX_HEARTS_ID,
+        SEVEN_HEARTS_ID,
+        EIGHT_HEARTS_ID,
+        NINE_HEARTS_ID,
+        TEN_HEARTS_ID,
+        JACK_HEARTS_ID,
+        QUEEN_HEARTS_ID,
+        KING_HEARTS_ID,
+        ACE_HEARTS_ID,
+        TWO_SPADES_ID,
+        THREE_SPADES_ID,
+        FOUR_SPADES_ID,
+        FIVE_SPADES_ID,
+        SIX_SPADES_ID,
+        SEVEN_SPADES_ID,
+        EIGHT_SPADES_ID,
+        NINE_SPADES_ID,
+        TEN_SPADES_ID,
+        JACK_SPADES_ID,
+        QUEEN_SPADES_ID,
+        KING_SPADES_ID,
+        ACE_SPADES_ID
+    ]
 }

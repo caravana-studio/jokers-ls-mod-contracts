@@ -1,5 +1,10 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::card::INVALID_CARD;
+use jokers_of_neon::constants::card::{
+    ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, SCRIBE_DECK, WARRIOR_DECK,
+    traditional_cards_all
+};
+use jokers_of_neon::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
+use jokers_of_neon::store::{Store, StoreTrait};
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::model]
@@ -22,67 +27,33 @@ struct DeckCard {
 
 #[generate_trait]
 impl GameDeckImpl of IGameDeck {
-    fn init(world: IWorldDispatcher, game_id: u32) {
-        set!(
-            world,
-            (
-                GameDeck { game_id, len: 54, round_len: 54 },
-                DeckCard { game_id, index: 0, card_id: 0 },
-                DeckCard { game_id, index: 1, card_id: 1 },
-                DeckCard { game_id, index: 2, card_id: 2 },
-                DeckCard { game_id, index: 3, card_id: 3 },
-                DeckCard { game_id, index: 4, card_id: 4 },
-                DeckCard { game_id, index: 5, card_id: 5 },
-                DeckCard { game_id, index: 6, card_id: 6 },
-                DeckCard { game_id, index: 7, card_id: 7 },
-                DeckCard { game_id, index: 8, card_id: 8 },
-                DeckCard { game_id, index: 9, card_id: 9 },
-                DeckCard { game_id, index: 10, card_id: 10 },
-                DeckCard { game_id, index: 11, card_id: 11 },
-                DeckCard { game_id, index: 12, card_id: 12 },
-                DeckCard { game_id, index: 13, card_id: 13 },
-                DeckCard { game_id, index: 14, card_id: 14 },
-                DeckCard { game_id, index: 15, card_id: 15 },
-                DeckCard { game_id, index: 16, card_id: 16 },
-                DeckCard { game_id, index: 17, card_id: 17 },
-                DeckCard { game_id, index: 18, card_id: 18 },
-                DeckCard { game_id, index: 19, card_id: 19 },
-                DeckCard { game_id, index: 20, card_id: 20 },
-                DeckCard { game_id, index: 21, card_id: 21 },
-                DeckCard { game_id, index: 22, card_id: 22 },
-                DeckCard { game_id, index: 23, card_id: 23 },
-                DeckCard { game_id, index: 24, card_id: 24 },
-                DeckCard { game_id, index: 25, card_id: 25 },
-                DeckCard { game_id, index: 26, card_id: 26 },
-                DeckCard { game_id, index: 27, card_id: 27 },
-                DeckCard { game_id, index: 28, card_id: 28 },
-                DeckCard { game_id, index: 29, card_id: 29 },
-                DeckCard { game_id, index: 30, card_id: 30 },
-                DeckCard { game_id, index: 31, card_id: 31 },
-                DeckCard { game_id, index: 32, card_id: 32 },
-                DeckCard { game_id, index: 33, card_id: 33 },
-                DeckCard { game_id, index: 34, card_id: 34 },
-                DeckCard { game_id, index: 35, card_id: 35 },
-                DeckCard { game_id, index: 36, card_id: 36 },
-                DeckCard { game_id, index: 37, card_id: 37 },
-                DeckCard { game_id, index: 38, card_id: 38 },
-                DeckCard { game_id, index: 39, card_id: 39 },
-                DeckCard { game_id, index: 40, card_id: 40 },
-                DeckCard { game_id, index: 41, card_id: 41 },
-                DeckCard { game_id, index: 42, card_id: 42 },
-                DeckCard { game_id, index: 43, card_id: 43 },
-                DeckCard { game_id, index: 44, card_id: 44 },
-                DeckCard { game_id, index: 45, card_id: 45 },
-                DeckCard { game_id, index: 46, card_id: 46 },
-                DeckCard { game_id, index: 47, card_id: 47 },
-                DeckCard { game_id, index: 48, card_id: 48 },
-                DeckCard { game_id, index: 49, card_id: 49 },
-                DeckCard { game_id, index: 50, card_id: 50 },
-                DeckCard { game_id, index: 51, card_id: 51 },
-                DeckCard { game_id, index: 52, card_id: 52 },
-                DeckCard { game_id, index: 53, card_id: 52 },
-            )
-        );
+    fn init(ref store: Store, game_id: u32, deck_id: u8) {
+        
+        // Traditional Deck
+        let mut cards = traditional_cards_all();
+        cards.append(JOKER_CARD);
+        cards.append(JOKER_CARD);
+        
+        if deck_id == SCRIBE_DECK {
+            cards.append(JOKER_CARD);
+            cards.append(JOKER_CARD);
+            cards.append(JOKER_CARD);
+            cards.append(JOKER_CARD);
+        } else if deck_id == WARRIOR_DECK {
+            cards.append(JOKER_CARD);
+            cards.append(POINTS_MODIFIER_4_ID);
+            cards.append(POINTS_MODIFIER_4_ID);
+            cards.append(MULTI_MODIFIER_4_ID);
+            cards.append(MULTI_MODIFIER_4_ID);
+        } else { // WIZARD_DECK
+            cards.append(JOKER_CARD);
+            cards.append(JOKER_CARD);
+            cards.append(ACE_CLUBS_ID);
+            cards.append(ACE_DIAMONDS_ID);
+            cards.append(ACE_HEARTS_ID);
+            cards.append(ACE_SPADES_ID);
+        }
+        store.create_deck(game_id, cards);
     }
 
     fn add(ref self: GameDeck, world: IWorldDispatcher, card_id: u32) {

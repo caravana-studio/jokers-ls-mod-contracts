@@ -51,6 +51,7 @@ mod tests {
     mod test_game_discard_effect_card;
     mod test_game_discard_special_card;
     mod test_game_play;
+    mod test_game_select_deck;
     mod utils;
 }
 

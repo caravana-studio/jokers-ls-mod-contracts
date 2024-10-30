@@ -80,6 +80,7 @@ use jokers_of_neon::models::data::blister_pack::BlisterPack;
 use jokers_of_neon::models::data::card::{Card, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
 use jokers_of_neon::models::data::effect_card::{EffectCard, Effect};
 use jokers_of_neon::models::data::events::{PokerHandEvent, CreateGameEvent, CardScoreEvent};
+use jokers_of_neon::models::data::game_deck::{DeckCard, GameDeck};
 use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
 
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
@@ -363,6 +364,19 @@ impl StoreImpl of StoreTrait {
 
     fn set_blister_pack_result(ref self: Store, blister_pack_result: BlisterPackResult) {
         set!(self.world, (blister_pack_result));
+    }
+
+    fn create_deck(ref self: Store, game_id: u32, cards: Array<u32>) {
+        set!(self.world, (GameDeck { game_id, len: cards.len(), round_len: cards.len() }));
+
+        let mut idx = 0;
+        loop {
+            if idx == cards.len() {
+                break;
+            }
+            set!(self.world, (DeckCard { game_id, index: idx, card_id: *cards[idx] }));
+            idx += 1;
+        }
     }
 }
 

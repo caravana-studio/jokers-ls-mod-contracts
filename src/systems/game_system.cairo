@@ -5,6 +5,7 @@ use jokers_of_neon::models::data::poker_hand::PokerHand;
 #[dojo::interface]
 trait IGameSystem {
     fn create_game(ref world: IWorldDispatcher, player_name: felt252) -> u32;
+    fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
     fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
     fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
     fn check_hand(
@@ -22,7 +23,10 @@ mod errors {
     const ARRAY_REPEATED_ELEMENTS: felt252 = 'Game: array repeated elements';
     const ONLY_EFFECT_CARD: felt252 = 'Game: only effect cards';
     const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
+    const GAME_NOT_SELECT_SPECIAL_CARDS: felt252 = 'Game:is not SELECT_SPECIAL_CARD';
+    const GAME_NOT_SELECT_DECK: felt252 = 'Game:is not SELECT_DECK';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
+    const INVALID_DECK_ID: felt252 = 'Game: use an invalid deck';
 }
 
 #[dojo::contract]
@@ -88,30 +92,34 @@ mod game_system {
                 len_max_current_special_cards: 1,
                 len_current_special_cards: 0,
                 current_jokers: 0,
-                state: GameState::IN_GAME,
+                state: GameState::SELECT_DECK,
                 cash: 0
             };
             store.set_game(game);
             emit!(world, (game));
 
-            GameDeckImpl::init(world, game_id);
-            create_round(world, game);
-
-            let rage_config = store.get_rage_config();
-            RageRoundStore::set(
-                @RageRound {
-                    game_id,
-                    is_active: false,
-                    current_probability: rage_config.initial_probability,
-                    active_rage_ids: array![].span(),
-                    last_active_level: 0
-                },
-                world
-            );
-
             let create_game_event = CreateGameEvent { player: get_caller_address(), game_id };
             emit!(world, (create_game_event));
             game_id
+        }
+
+        fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8) {
+            let mut store: Store = StoreTrait::new(world);
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.state == GameState::SELECT_DECK, errors::GAME_NOT_SELECT_DECK);
+
+            assert(deck_id < 3, errors::INVALID_DECK_ID);
+
+            GameDeckImpl::init(ref store, game_id, deck_id);
+            game.state = GameState::SELECT_MODIFIER_CARDS;
+            store.set_game(game);
         }
 
         fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
