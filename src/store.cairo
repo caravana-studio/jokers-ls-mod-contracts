@@ -337,10 +337,10 @@ impl StoreImpl of StoreTrait {
             LOVERS_BLISTER_PACK()
         } else if id == SPECIAL_BET_BLISTER_PACK_ID {
             SPECIAL_BET_BLISTER_PACK()
-        } else if id == MODIFIER_CARDS_PACK_ID {
-            MODIFIER_CARDS_PACK()
         } else if id == SPECIAL_CARDS_PACK_ID {
             SPECIAL_CARDS_PACK()
+        } else if id == MODIFIER_CARDS_PACK_ID {
+            MODIFIER_CARDS_PACK()
         } else {
             EMPTY_BLISTER_PACK()
         }
