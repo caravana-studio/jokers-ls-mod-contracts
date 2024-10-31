@@ -8,14 +8,16 @@ use jokers_of_neon::constants::{
         CHALLENGE_ONE, CHALLENGE_TWO, CHALLENGE_THREE, CHALLENGE_FOUR, CHALLENGE_FIVE, CHALLENGE_SIX, CHALLENGE_SEVEN,
         CHALLENGE_EIGHT, CHALLENGE_NINE, CHALLENGE_TEN, CHALLENGE_JACK, CHALLENGE_QUEEN, CHALLENGE_KING, CHALLENGE_ACE,
         CHALLENGE_JOKER, challenges_all
-    }
+    },
+    specials::SPECIAL_ALL_CARDS_TO_HEARTS_ID,
 };
 
 use jokers_of_neon::{
     models::{
         data::{
             challenge::{Challenge, ChallengeStore, ChallengePlayerStore}, card::{Card, Suit, Value},
-            game_deck::{GameDeckStore, GameDeckImpl}, events::{ChallengeCompleted, PlayGameOverEvent},
+            game_deck::{GameDeckStore, GameDeckImpl},
+            events::{ChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent, SpecialModifierSuitEvent},
             poker_hand::PokerHand
         },
         status::{
@@ -28,9 +30,10 @@ use jokers_of_neon::{
 use starknet::get_caller_address;
 
 mod errors {
-    const STATE_NOT_IN_GAME: felt252 = 'State not in progress';
-    const SUBSTATE_NOT_OBSTACLE: felt252 = 'Substate not in obstacle';
-    const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
+    const STATE_NOT_IN_GAME: felt252 = 'State not IN_GAME';
+    const SUBSTATE_NOT_OBSTACLE: felt252 = 'Substate not OBSTACLE';
+    const USE_INVALID_CARD: felt252 = 'Use an invalid card';
+    const ARRAY_REPEATED_ELEMENTS: felt252 = 'Array has repeated elements';
 }
 
 #[generate_trait]
@@ -41,20 +44,26 @@ impl ChallengeImpl of ChallengeTrait {
         ChallengeStore::set(@challenge, world);
     }
 
-    fn play(
-        world: IWorldDispatcher,
-        game_id: u32,
-        cards: @Array<Card>,
-        ref current_special_cards_index: Felt252Dict<Nullable<u32>>
-    ) {
+    fn play(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
         let mut game = GameStore::get(world, game_id);
         assert(game.state == GameState::IN_GAME, errors::STATE_NOT_IN_GAME);
         assert(game.substate == GameSubState::OBSTACLE, errors::SUBSTATE_NOT_OBSTACLE);
 
+        let mut store = StoreTrait::new(world);
+        let mut current_special_cards_index = _current_special_cards(ref store, @game);
+        println!("af current_special_cards_index");
+        // TODO: Modifiers
+        let (mut cards, _, _) = _get_cards(
+            world, ref store, game.id, @cards_index, @modifiers_index, ref current_special_cards_index
+        );
+        let (result_hand, mut hit_cards) = calculate_hand(@cards, ref current_special_cards_index);
+        println!("af calculate_hand");
+
         let mut challenge = ChallengeStore::get(world, game_id);
-        let (result_hand, mut hit_cards) = calculate_hand(cards, ref current_special_cards_index);
-        Self::_resolve_challenges(ref challenge, result_hand, ref hit_cards, cards);
+        _resolve_challenges(ref challenge, result_hand, ref hit_cards, @cards);
+        println!("af _resolve_challenges");
         ChallengeStore::set(@challenge, world);
+        println!("af ChallengeStore::set(");
 
         if Self::is_completed(@world, game_id) {
             emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id })
@@ -63,11 +72,14 @@ impl ChallengeImpl of ChallengeTrait {
             challenge_player.plays -= 1;
             ChallengePlayerStore::set(@challenge_player, world);
         }
+        println!("af is_completed");
 
-        // CurrentHandCardTrait::refresh(world, game_id, *cards);
+        CurrentHandCardTrait::refresh(world, game_id, cards_index);
+        println!("af refresh");
 
         let game_deck = GameDeckStore::get(world, game_id);
-        let mut store = StoreTrait::new(world);
+        println!("af GameDeckStore::get");
+
         if game_deck.round_len.is_zero() && _player_has_empty_hand(ref store, @game) {
             let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
             emit!(world, (play_game_over_event));
@@ -124,80 +136,79 @@ impl ChallengeImpl of ChallengeTrait {
     fn is_completed(world: @IWorldDispatcher, game_id: u32) -> bool {
         ChallengeStore::get(*world, game_id).active_ids.is_empty()
     }
+}
 
-    fn _resolve_challenges(
-        ref challenge: Challenge, result_hand: PokerHand, ref hit_cards: Felt252Dict<bool>, cards: @Array<Card>
-    ) {
-        match result_hand {
-            PokerHand::RoyalFlush => Self::_complete(ref challenge, CHALLENGE_ROYAL_FLUSH),
-            PokerHand::StraightFlush => Self::_complete(ref challenge, CHALLENGE_STRAIGHT_FLUSH),
-            PokerHand::FiveOfAKind => Self::_complete(ref challenge, CHALLENGE_FIVE_OF_A_KIND),
-            PokerHand::FourOfAKind => Self::_complete(ref challenge, CHALLENGE_FOUR_OF_A_KIND),
-            PokerHand::FullHouse => Self::_complete(ref challenge, CHALLENGE_FULL_HOUSE),
-            PokerHand::Straight => Self::_complete(ref challenge, CHALLENGE_STRAIGHT),
-            PokerHand::Flush => Self::_complete(ref challenge, CHALLENGE_FLUSH),
-            PokerHand::ThreeOfAKind => Self::_complete(ref challenge, CHALLENGE_THREE_OF_A_KIND),
-            PokerHand::TwoPair => Self::_complete(ref challenge, CHALLENGE_DOUBLE_PAIR),
-            PokerHand::OnePair => Self::_complete(ref challenge, CHALLENGE_PAIR),
-            PokerHand::HighCard => Self::_complete(ref challenge, CHALLENGE_HIGH_CARD),
-            PokerHand::None => (),
-        };
 
-        let mut idx = 0;
-        loop {
-            if idx == cards.len() {
-                break;
-            }
+fn _resolve_challenges(
+    ref challenge: Challenge, result_hand: PokerHand, ref hit_cards: Felt252Dict<bool>, cards: @Array<Card>
+) {
+    match result_hand {
+        PokerHand::RoyalFlush => _complete(ref challenge, CHALLENGE_ROYAL_FLUSH),
+        PokerHand::StraightFlush => _complete(ref challenge, CHALLENGE_STRAIGHT_FLUSH),
+        PokerHand::FiveOfAKind => _complete(ref challenge, CHALLENGE_FIVE_OF_A_KIND),
+        PokerHand::FourOfAKind => _complete(ref challenge, CHALLENGE_FOUR_OF_A_KIND),
+        PokerHand::FullHouse => _complete(ref challenge, CHALLENGE_FULL_HOUSE),
+        PokerHand::Straight => _complete(ref challenge, CHALLENGE_STRAIGHT),
+        PokerHand::Flush => _complete(ref challenge, CHALLENGE_FLUSH),
+        PokerHand::ThreeOfAKind => _complete(ref challenge, CHALLENGE_THREE_OF_A_KIND),
+        PokerHand::TwoPair => _complete(ref challenge, CHALLENGE_DOUBLE_PAIR),
+        PokerHand::OnePair => _complete(ref challenge, CHALLENGE_PAIR),
+        PokerHand::HighCard => _complete(ref challenge, CHALLENGE_HIGH_CARD),
+        PokerHand::None => (),
+    };
 
-            let hit = hit_cards.get(idx.into());
-            if hit {
-                let card = *cards.at(idx);
-                match card.value {
-                    Value::Two => { Self::_complete(ref challenge, CHALLENGE_TWO); },
-                    Value::Three => { Self::_complete(ref challenge, CHALLENGE_THREE); },
-                    Value::Four => { Self::_complete(ref challenge, CHALLENGE_FOUR); },
-                    Value::Five => { Self::_complete(ref challenge, CHALLENGE_FIVE); },
-                    Value::Six => { Self::_complete(ref challenge, CHALLENGE_SIX); },
-                    Value::Seven => { Self::_complete(ref challenge, CHALLENGE_SEVEN); },
-                    Value::Eight => { Self::_complete(ref challenge, CHALLENGE_EIGHT); },
-                    Value::Nine => { Self::_complete(ref challenge, CHALLENGE_NINE); },
-                    Value::Ten => { Self::_complete(ref challenge, CHALLENGE_TEN); },
-                    Value::Jack => { Self::_complete(ref challenge, CHALLENGE_JACK); },
-                    Value::Queen => { Self::_complete(ref challenge, CHALLENGE_QUEEN); },
-                    Value::King => { Self::_complete(ref challenge, CHALLENGE_KING); },
-                    Value::Ace => { Self::_complete(ref challenge, CHALLENGE_ACE); },
-                    Value::Joker => { Self::_complete(ref challenge, CHALLENGE_JOKER); },
-                    Value::NeonJoker => { Self::_complete(ref challenge, CHALLENGE_JOKER); },
-                    Value::None => {},
-                };
+    let mut idx = 0;
+    loop {
+        if idx == cards.len() {
+            break;
+        }
 
-                match card.suit {
-                    Suit::Clubs => { Self::_complete(ref challenge, CHALLENGE_CLUBS); },
-                    Suit::Hearts => { Self::_complete(ref challenge, CHALLENGE_HEARTS); },
-                    Suit::Spades => { Self::_complete(ref challenge, CHALLENGE_SPADES); },
-                    Suit::Diamonds => { Self::_complete(ref challenge, CHALLENGE_DIAMONDS); },
-                    Suit::Joker => {},
-                    Suit::None => {},
-                };
-            }
-            idx += 1;
-        };
-    }
+        let hit = hit_cards.get(idx.into());
+        if hit {
+            let card = *cards.at(idx);
+            match card.value {
+                Value::Two => { _complete(ref challenge, CHALLENGE_TWO); },
+                Value::Three => { _complete(ref challenge, CHALLENGE_THREE); },
+                Value::Four => { _complete(ref challenge, CHALLENGE_FOUR); },
+                Value::Five => { _complete(ref challenge, CHALLENGE_FIVE); },
+                Value::Six => { _complete(ref challenge, CHALLENGE_SIX); },
+                Value::Seven => { _complete(ref challenge, CHALLENGE_SEVEN); },
+                Value::Eight => { _complete(ref challenge, CHALLENGE_EIGHT); },
+                Value::Nine => { _complete(ref challenge, CHALLENGE_NINE); },
+                Value::Ten => { _complete(ref challenge, CHALLENGE_TEN); },
+                Value::Jack => { _complete(ref challenge, CHALLENGE_JACK); },
+                Value::Queen => { _complete(ref challenge, CHALLENGE_QUEEN); },
+                Value::King => { _complete(ref challenge, CHALLENGE_KING); },
+                Value::Ace => { _complete(ref challenge, CHALLENGE_ACE); },
+                Value::Joker => { _complete(ref challenge, CHALLENGE_JOKER); },
+                Value::NeonJoker => { _complete(ref challenge, CHALLENGE_JOKER); },
+                Value::None => {},
+            };
 
-    fn _complete(ref challenge: Challenge, challenge_id: u32) {
-        let mut remaining_challenges = array![];
-        loop {
-            match challenge.active_ids.pop_front() {
-                Option::Some(challenge) => {
-                    if *challenge != challenge_id {
-                        remaining_challenges.append(*challenge);
-                    }
-                },
-                Option::None => { break; },
-            }
-        };
-        challenge.active_ids = remaining_challenges.span();
-    }
+            match card.suit {
+                Suit::Clubs => { _complete(ref challenge, CHALLENGE_CLUBS); },
+                Suit::Hearts => { _complete(ref challenge, CHALLENGE_HEARTS); },
+                Suit::Spades => { _complete(ref challenge, CHALLENGE_SPADES); },
+                Suit::Diamonds => { _complete(ref challenge, CHALLENGE_DIAMONDS); },
+                Suit::Joker => {},
+                Suit::None => {},
+            };
+        }
+        idx += 1;
+    };
+}
+
+fn _complete(ref challenge: Challenge, challenge_id: u32) {
+    let mut remaining_challenges = array![];
+    loop {
+        match challenge.active_ids.pop_front() {
+            Option::Some(challenge) => { if *challenge != challenge_id {
+                remaining_challenges.append(*challenge);
+            } },
+            Option::None => { break; },
+        }
+    };
+    challenge.active_ids = remaining_challenges.span();
 }
 
 fn _player_has_empty_hand(ref store: Store, game: @Game) -> bool {
@@ -211,5 +222,106 @@ fn _player_has_empty_hand(ref store: Store, game: @Game) -> bool {
             break false;
         }
         i += 1;
+    }
+}
+
+fn _current_special_cards(ref store: Store, game: @Game) -> Felt252Dict<Nullable<u32>> {
+    let mut current_special_cards_index: Felt252Dict<Nullable<u32>> = Default::default();
+    let mut idx = 0;
+    loop {
+        if idx == *game.len_current_special_cards {
+            break;
+        }
+        let current_special_card = store.get_current_special_cards(*game.id, idx);
+        current_special_cards_index.insert(current_special_card.effect_card_id.into(), NullableTrait::new(idx));
+        idx += 1;
+    };
+    current_special_cards_index
+}
+
+fn _get_cards(
+    world: IWorldDispatcher,
+    ref store: Store,
+    game_id: u32,
+    cards_index: @Array<u32>,
+    modifiers_index: @Array<u32>,
+    ref current_special_cards_index: Felt252Dict<Nullable<u32>>
+) -> (Array<Card>, Array<u32>, Array<u32>) {
+    assert(!_has_repeated(cards_index), errors::ARRAY_REPEATED_ELEMENTS);
+    let mut cards = array![];
+    let mut effect_id_cards_1 = array![];
+    let mut effect_id_cards_2 = array![];
+    let mut idx = 0;
+    loop {
+        if idx == cards_index.len() {
+            break;
+        }
+
+        let current_hand_card = store.get_current_hand_card(game_id, *cards_index.at(idx));
+        assert(current_hand_card.card_id != INVALID_CARD, errors::USE_INVALID_CARD);
+
+        let mut card = store.get_card(current_hand_card.card_id);
+
+        let modifier_1_index = *modifiers_index.at(idx);
+        if modifier_1_index != 100 { // TODO: Invalid
+            let current_hand_modifier_card = store.get_current_hand_card(game_id, modifier_1_index);
+            let effect_card = store.get_effect_card(current_hand_modifier_card.card_id);
+            effect_id_cards_1.append(effect_card.effect_id);
+            let effect = store.get_effect(effect_card.effect_id);
+            if effect.suit != Suit::None && card.suit != Suit::Joker {
+                card.suit = effect.suit;
+                emit!(
+                    world,
+                    ModifierCardSuitEvent {
+                        player: get_caller_address(),
+                        game_id,
+                        modifier_card_idx: *modifiers_index.at(idx),
+                        current_hand_card_idx: *cards_index.at(idx),
+                        suit: card.suit
+                    }
+                );
+            }
+        } else {
+            effect_id_cards_1.append(100);
+        }
+
+        if !(current_special_cards_index.get(SPECIAL_ALL_CARDS_TO_HEARTS_ID.into()).is_null()) {
+            if card.suit != Suit::Joker {
+                card.suit = Suit::Hearts;
+                emit!(
+                    world,
+                    SpecialModifierSuitEvent {
+                        player: get_caller_address(),
+                        game_id,
+                        current_special_card_idx: current_special_cards_index
+                            .get(SPECIAL_ALL_CARDS_TO_HEARTS_ID.into())
+                            .deref(),
+                        current_hand_card_idx: *cards_index.at(idx),
+                        suit: card.suit
+                    }
+                );
+            }
+        }
+
+        cards.append(card);
+        idx += 1;
+    };
+    (cards, effect_id_cards_1, effect_id_cards_2)
+}
+
+fn _has_repeated(array: @Array<u32>) -> bool {
+    let mut founded: Felt252Dict<bool> = Default::default();
+    let mut span = array.span();
+    loop {
+        match span.pop_front() {
+            Option::Some(e) => {
+                let repeated = founded.get((*e).into());
+                if repeated {
+                    break true;
+                }
+                founded.insert((*e).into(), true);
+            },
+            Option::None => { break false; }
+        };
     }
 }
