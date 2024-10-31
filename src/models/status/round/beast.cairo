@@ -91,13 +91,12 @@ impl BeastImpl of BeastTrait {
         PlayerBeastStore::set(@player_beast, world);
 
         if beast.health.is_zero() {
-            println!("gane");
             let play_win_game_event = PlayWinGameEvent {
                 player: get_caller_address(), game_id, level: game.level, player_score: 0
             };
             emit!(world, (play_win_game_event));
             game.state = GameState::IN_GAME;
-            game.substate = GameSubState::NONE;
+            game.substate = GameSubState::CREATE_LEVEL;
             game.player_score += 1;
 
             if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
@@ -109,12 +108,10 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-            // create_level(world, ref store, game); TODO:
+        // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
-            println!("energia en zero - me ataca la bestia");
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
-            println!("repartiendo cartas");
             let mut cards = array![];
             let mut idx = 0;
             loop {
@@ -202,7 +199,6 @@ impl BeastImpl of BeastTrait {
 
         if player_beast.energy.is_zero() {
             let mut beast = BeastStore::get(world, game.id);
-            println!("energia en zero - me ataca la bestia");
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         }
     }
@@ -219,7 +215,6 @@ impl BeastImpl of BeastTrait {
         let mut beast = BeastStore::get(world, game.id);
         let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
         let mut player_beast = PlayerBeastStore::get(world, game.id);
-        println!("me ataca la bestia");
         _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
     }
 }

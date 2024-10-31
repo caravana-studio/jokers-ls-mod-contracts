@@ -1,6 +1,7 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::configs::{
-    rage::RageRoundConfig, slot_special_cards::SlotSpecialCardsConfig, earning_cash::EarningCashConfig
+    rage::RageRoundConfig, slot_special_cards::SlotSpecialCardsConfig, earning_cash::EarningCashConfig,
+    level::LevelConfig
 };
 
 use jokers_of_neon::constants::card::{
@@ -263,6 +264,10 @@ impl StoreImpl of StoreTrait {
         } else {
             EMPTY_EFFECT()
         }
+    }
+
+    fn get_level_config(ref self: Store) -> LevelConfig {
+        Default::default()
     }
 
     fn get_level_poker_hand(ref self: Store, poker_hand: PokerHand, level: u8) -> LevelPokerHand {

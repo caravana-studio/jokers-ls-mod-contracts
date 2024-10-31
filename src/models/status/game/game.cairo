@@ -2,9 +2,9 @@ use starknet::ContractAddress;
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
 enum GameSubState {
-    NONE,
-    OBSTACLE,
-    BEAST
+    BEAST,
+    CREATE_LEVEL,
+    OBSTACLE
 }
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
@@ -68,7 +68,7 @@ impl DefaultGame of Default<Game> {
             len_current_special_cards: 0,
             current_jokers: 0,
             state: GameState::IN_GAME,
-            substate: GameSubState::NONE,
+            substate: GameSubState::CREATE_LEVEL,
             cash: 0
         }
     }

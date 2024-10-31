@@ -38,7 +38,7 @@ mod errors {
 
 #[generate_trait]
 impl ChallengeImpl of ChallengeTrait {
-    fn calculate(ref world: IWorldDispatcher, game_id: u32) {
+    fn create(world: IWorldDispatcher, game_id: u32) {
         let mut challenge = ChallengeStore::get(world, game_id);
         challenge.active_ids = generate_unique_random_values(world, 3, challenges_all(), array![]).span();
         ChallengeStore::set(@challenge, world);
@@ -51,19 +51,15 @@ impl ChallengeImpl of ChallengeTrait {
 
         let mut store = StoreTrait::new(world);
         let mut current_special_cards_index = _current_special_cards(ref store, @game);
-        println!("af current_special_cards_index");
         // TODO: Modifiers
         let (mut cards, _, _) = _get_cards(
             world, ref store, game.id, @cards_index, @modifiers_index, ref current_special_cards_index
         );
         let (result_hand, mut hit_cards) = calculate_hand(@cards, ref current_special_cards_index);
-        println!("af calculate_hand");
 
         let mut challenge = ChallengeStore::get(world, game_id);
         _resolve_challenges(ref challenge, result_hand, ref hit_cards, @cards);
-        println!("af _resolve_challenges");
         ChallengeStore::set(@challenge, world);
-        println!("af ChallengeStore::set(");
 
         if Self::is_completed(@world, game_id) {
             emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id })
@@ -72,14 +68,10 @@ impl ChallengeImpl of ChallengeTrait {
             challenge_player.plays -= 1;
             ChallengePlayerStore::set(@challenge_player, world);
         }
-        println!("af is_completed");
 
         CurrentHandCardTrait::refresh(world, game_id, cards_index);
-        println!("af refresh");
 
         let game_deck = GameDeckStore::get(world, game_id);
-        println!("af GameDeckStore::get");
-
         if game_deck.round_len.is_zero() && _player_has_empty_hand(ref store, @game) {
             let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
             emit!(world, (play_game_over_event));

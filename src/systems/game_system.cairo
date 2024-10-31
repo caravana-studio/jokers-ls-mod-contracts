@@ -5,6 +5,7 @@ use jokers_of_neon::models::data::poker_hand::PokerHand;
 #[dojo::interface]
 trait IGameSystem {
     fn create_game(ref world: IWorldDispatcher, player_name: felt252) -> u32;
+    fn create_level(ref world: IWorldDispatcher, game_id: u32);
     fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
     fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
@@ -27,6 +28,8 @@ mod errors {
     const GAME_NOT_SELECT_DECK: felt252 = 'Game:is not SELECT_DECK';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
     const INVALID_DECK_ID: felt252 = 'Game: use an invalid deck';
+    const WRONG_SUBSTATE_BEAST: felt252 = 'Game: wrong substate BEAST';
+    const WRONG_SUBSTATE_CREATE_LEVEL: felt252 = 'Wrong substate CREATE_LEVEL';
 }
 
 #[dojo::contract]
@@ -58,6 +61,7 @@ mod game_system {
     use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
+    use jokers_of_neon::models::status::round::level::LevelTrait;
     use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
 
     use jokers_of_neon::store::{Store, StoreTrait};
@@ -96,7 +100,7 @@ mod game_system {
                 len_current_special_cards: 0,
                 current_jokers: 0,
                 state: GameState::SELECT_DECK,
-                substate: GameSubState::NONE,
+                substate: GameSubState::CREATE_LEVEL,
                 cash: 0
             };
             store.set_game(game);
@@ -105,6 +109,61 @@ mod game_system {
             let create_game_event = CreateGameEvent { player: get_caller_address(), game_id };
             emit!(world, (create_game_event));
             game_id
+        }
+
+        fn create_level(ref world: IWorldDispatcher, game_id: u32) {
+            let mut store = StoreTrait::new(world);
+            let mut game = store.get_game(game_id);
+
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+            assert(game.substate == GameSubState::CREATE_LEVEL, errors::WRONG_SUBSTATE_CREATE_LEVEL);
+
+            game.substate = LevelTrait::calculate(world, game_id);
+            match game.substate {
+                GameSubState::BEAST => { BeastTrait::create(world, ref store, game_id); },
+                GameSubState::OBSTACLE => { ChallengeTrait::create(world, game_id); },
+                GameSubState::CREATE_LEVEL => {},
+            }
+            store.set_game(game);
+        }
+
+        fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let game = store.get_game(game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+
+            match game.substate {
+                GameSubState::BEAST => { BeastTrait::play(world, game_id, cards_index, modifiers_index); },
+                GameSubState::OBSTACLE => { ChallengeTrait::play(world, game_id, cards_index, modifiers_index); },
+                GameSubState::CREATE_LEVEL => {},
+            }
+        }
+
+        fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let game = store.get_game(game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+
+            match game.substate {
+                GameSubState::BEAST => { BeastTrait::discard(world, game_id, cards_index, modifiers_index); },
+                GameSubState::OBSTACLE => { ChallengeTrait::discard(world, game_id, cards_index, modifiers_index); },
+                GameSubState::CREATE_LEVEL => {},
+            }
+        }
+
+        fn end_turn(ref world: IWorldDispatcher, game_id: u32) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let game = store.get_game(game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.substate == GameSubState::BEAST, errors::WRONG_SUBSTATE_BEAST);
+
+            BeastTrait::end_turn(world, game_id);
         }
 
         fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8) {
@@ -182,41 +241,6 @@ mod game_system {
             store.set_game(game);
 
             create_level(world, ref store, game);
-        }
-
-        fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
-            let mut store: Store = StoreTrait::new(world);
-
-            let game = store.get_game(game_id);
-            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
-
-            if game.substate == GameSubState::BEAST {
-                BeastTrait::play(world, game_id, cards_index, modifiers_index);
-            } else {
-                ChallengeTrait::play(world, game_id, cards_index, modifiers_index);
-            }
-        }
-
-        fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
-            let mut store: Store = StoreTrait::new(world);
-
-            let game = store.get_game(game_id);
-            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
-
-            if game.substate == GameSubState::BEAST {
-                BeastTrait::discard(world, game_id, cards_index, modifiers_index);
-            }
-        }
-
-        fn end_turn(ref world: IWorldDispatcher, game_id: u32) {
-            let mut store: Store = StoreTrait::new(world);
-
-            let game = store.get_game(game_id);
-            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
-
-            if game.substate == GameSubState::BEAST {
-                BeastTrait::end_turn(world, game_id);
-            }
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {

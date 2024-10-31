@@ -649,7 +649,7 @@ mod test_rage_cards {
         let round_after = store.get_round(game.id);
         assert(round_after.player_score == 40, 'wrong round player_score');
     }
-    // #[test]
+// #[test]
 // #[available_gas(30000000000000000)]
 // fn test_play_rage_card_diminished_hold() {
 //     let (world, systems) = setup::spawn_game();
@@ -657,22 +657,22 @@ mod test_rage_cards {
 //     let mut game = mock_game(ref store, PLAYER());
 //     mock_round(ref store, @game, 300);
 
-    //     // Mock RageRound
+//     // Mock RageRound
 //     let len_hand_before = game.len_hand;
 //     mock_rage_round(world, game.id, array![RAGE_CARD_DIMINISHED_HOLD]);
 
-    //     // Set game state in shop
+//     // Set game state in shop
 //     game.state = GameState::AT_SHOP;
 //     store.set_game(game);
 
-    //     set_contract_address(PLAYER());
+//     set_contract_address(PLAYER());
 //     systems.shop_system.skip_shop(game.id);
 
-    //     let game_after = store.get_game(game.id);
+//     let game_after = store.get_game(game.id);
 //     assert(game_after.len_hand == len_hand_before - 2, 'wrong game_after len_hand');
 // }
 
-    // #[test]
+// #[test]
 // #[available_gas(30000000000000000)]
 // fn test_play_rage_card_zero_waste() {
 //     let (world, systems) = setup::spawn_game();
@@ -680,17 +680,17 @@ mod test_rage_cards {
 //     let mut game = mock_game(ref store, PLAYER());
 //     mock_round(ref store, @game, 300);
 
-    //     // Mock RageRound
+//     // Mock RageRound
 //     mock_rage_round(world, game.id, array![RAGE_CARD_ZERO_WASTE]);
 
-    //     // Set game state in shop
+//     // Set game state in shop
 //     game.state = GameState::AT_SHOP;
 //     store.set_game(game);
 
-    //     set_contract_address(PLAYER());
+//     set_contract_address(PLAYER());
 //     systems.shop_system.skip_shop(game.id);
 
-    //     let round = store.get_round(game.id);
+//     let round = store.get_round(game.id);
 //     assert(round.discard == 0, 'wrong round discard');
 // }
 }

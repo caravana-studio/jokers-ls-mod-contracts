@@ -22,6 +22,7 @@ mod models {
         mod effect_card;
         mod events;
         mod game_deck;
+        mod last_beast_level;
         mod poker_hand;
     }
     mod status {
@@ -34,6 +35,7 @@ mod models {
             mod challenge;
             mod current_hand_card;
             mod deck_card;
+            mod level;
         }
         mod shop {
             mod shop;
@@ -73,6 +75,7 @@ mod utils {
 
 mod configs {
     mod earning_cash;
+    mod level;
     mod rage;
     mod slot_special_cards;
 }
