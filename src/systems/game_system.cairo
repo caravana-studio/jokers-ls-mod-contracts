@@ -56,6 +56,7 @@ mod game_system {
     use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::beast::BeastTrait;
+    use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
     use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
 
@@ -191,6 +192,8 @@ mod game_system {
 
             if game.substate == GameSubState::BEAST {
                 BeastTrait::play(world, game_id, cards_index, modifiers_index);
+            } else {
+                ChallengeTrait::play(world, game_id, cards_index, modifiers_index);
             }
         }
 

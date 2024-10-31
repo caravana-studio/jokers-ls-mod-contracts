@@ -9,6 +9,7 @@ mod test_challenge {
     use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState, GameStore};
     use jokers_of_neon::models::status::round::challenge::ChallengeImpl;
     use jokers_of_neon::store::{Store, StoreTrait};
+    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
@@ -23,9 +24,10 @@ mod test_challenge {
     #[test]
     #[available_gas(30000000000000000)]
     fn test_complete_all_challenges() {
-        let (world, _) = setup::spawn_game();
+        let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
+        game.state = GameState::IN_GAME;
         game.substate = GameSubState::OBSTACLE;
         store.set_game(game);
 
@@ -44,6 +46,6 @@ mod test_challenge {
         ChallengePlayerStore::set(@ChallengePlayer { game_id: game.id, discards: 5, plays: 5 }, world);
 
         set_contract_address(PLAYER());
-        ChallengeImpl::play(world, game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
+        systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
     }
 }
