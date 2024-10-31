@@ -36,7 +36,7 @@ use jokers_of_neon::utils::packs::{open_blister_pack, select_cards_from_blister}
 use jokers_of_neon::utils::rage::is_rage_card_active;
 use starknet::{ContractAddress, get_caller_address, ClassHash};
 
-fn play(world: IWorldDispatcher, ref game: Game, cards_index: @Array<u32>, modifiers_index: @Array<u32>) {
+fn play(world: IWorldDispatcher, ref game: Game, cards_index: @Array<u32>, modifiers_index: @Array<u32>) -> u32 {
     let mut store: Store = StoreTrait::new(world);
 
     let rage_round = RageRoundStore::get(world, game.id);
@@ -107,7 +107,7 @@ fn play(world: IWorldDispatcher, ref game: Game, cards_index: @Array<u32>, modif
         ref points_acum,
         ref multi_acum
     );
-    points_acum * multi_acum;
+    points_acum * multi_acum
 }
 
 fn player_has_empty_hand(ref store: Store, game: @Game) -> bool {

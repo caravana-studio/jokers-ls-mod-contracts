@@ -8,6 +8,9 @@ trait IGameSystem {
     fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
     fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
+    fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
+    fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
+    fn end_turn(ref world: IWorldDispatcher, game_id: u32);
     fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32);
     fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32);
 }
@@ -57,11 +60,13 @@ mod game_system {
 
     use jokers_of_neon::store::{Store, StoreTrait};
     use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
+    use jokers_of_neon::systems::beast_system::{IBeastSystemDispatcher, IBeastSystemDispatcherTrait};
     use jokers_of_neon::utils::calculate_hand::calculate_hand;
     use jokers_of_neon::utils::constants::{
         RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
     };
+    use jokers_of_neon::utils::level::create_level;
     use jokers_of_neon::utils::packs::{open_blister_pack, select_cards_from_blister};
     use jokers_of_neon::utils::rage::is_rage_card_active;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
@@ -87,7 +92,7 @@ mod game_system {
                 player_score: 0,
                 level: 1,
                 len_hand: 8,
-                len_max_current_special_cards: 1,
+                len_max_current_special_cards: 5,
                 len_current_special_cards: 0,
                 current_jokers: 0,
                 state: GameState::SELECT_DECK,
@@ -172,6 +177,50 @@ mod game_system {
 
             game.state = GameState::IN_GAME;
             store.set_game(game);
+
+            create_level(world, ref store, game);
+        }
+
+        fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let game = store.get_game(game_id);
+
+            if game.substate == GameSubState::BEAST {
+                let (_, beast_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
+                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
+                    _ => Option::None
+                }.unwrap();
+                IBeastSystemDispatcher { contract_address: beast_system_address.try_into().unwrap() }.play(game_id, cards_index, modifiers_index);    
+            }
+        }
+
+        fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let game = store.get_game(game_id);
+
+            if game.substate == GameSubState::BEAST {
+                let (_, beast_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
+                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
+                    _ => Option::None
+                }.unwrap();
+                IBeastSystemDispatcher { contract_address: beast_system_address.try_into().unwrap() }.discard(game_id, cards_index, modifiers_index);
+            }
+        }
+
+        fn end_turn(ref world: IWorldDispatcher, game_id: u32) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let game = store.get_game(game_id);
+            
+            if game.substate == GameSubState::BEAST {
+                let (_, beast_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
+                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
+                    _ => Option::None
+                }.unwrap();
+                IBeastSystemDispatcher { contract_address: beast_system_address.try_into().unwrap() }.end_turn(game_id);
+            }
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {

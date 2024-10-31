@@ -1,6 +1,5 @@
 #[dojo::interface]
 trait IBeastSystem {
-    fn create(ref world: IWorldDispatcher, game_id: u32);
     fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
     fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>);
     fn end_turn(ref world: IWorldDispatcher, game_id: u32);
@@ -26,6 +25,7 @@ mod beast_system {
         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
     };
     use jokers_of_neon::utils::game::play;
+    use jokers_of_neon::utils::level::create_level;
     use jokers_of_neon::utils::rage::is_rage_card_active;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
 
@@ -42,32 +42,6 @@ mod beast_system {
 
     #[abi(embed_v0)]
     impl BeastImpl of super::IBeastSystem<ContractState> {
-        fn create(ref world: IWorldDispatcher, game_id: u32) {
-            let mut store: Store = StoreTrait::new(world);
-            let mut game = store.get_game(game_id);
-
-            // Active `Rage Cards`
-            let rage_round = RageRoundStore::get(world, game.id);
-
-            if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
-                game.len_hand -= 2;
-                store.set_game(game);
-            }
-
-            let game_mode_beast = GameModeBeast { game_id, cost_discard: 2, cost_play: 1, energy_max_player: 3 };
-            GameModeBeastStore::set(@game_mode_beast, world);
-
-            let beast = Beast { game_id, tier: 5, level: 5, health: 100, attack: 15 };
-            BeastStore::set(@beast, world);
-
-            let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
-            PlayerBeastStore::set(@player_beast, world);
-
-            let mut game_deck = GameDeckStore::get(world, game.id);
-            game_deck.restore(world);
-            CurrentHandCardTrait::create(world, game);
-        }
-
         fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
             let mut store: Store = StoreTrait::new(world);
             let mut game = store.get_game(game_id);
@@ -76,10 +50,14 @@ mod beast_system {
 
             let score = play(world, ref game, @cards_index, @modifiers_index);
 
-            let player_attack = 10; // TODO: convert score to attack
+            let player_attack = score / 2; // TODO:
 
             let mut beast = BeastStore::get(world, game.id);
-            beast.health -= player_attack;
+            beast.health = if player_attack < beast.health {
+                beast.health - player_attack
+            } else {
+                0
+            };
             BeastStore::set(@beast, world);
 
             let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
@@ -89,6 +67,7 @@ mod beast_system {
             PlayerBeastStore::set(@player_beast, world);
 
             if beast.health.is_zero() {
+                println!("gane");
                 let play_win_game_event = PlayWinGameEvent {
                     player: get_caller_address(), game_id, level: game.level, player_score: 0
                 };
@@ -106,10 +85,13 @@ mod beast_system {
                     _ => Option::None
                 }.unwrap();
                 IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-                // TODO: Call Next Level
+
+                create_level(world, ref store, game);
             } else if player_beast.energy.is_zero() {
+                println!("energia en zero - me ataca la bestia");
                 self._attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
             } else {
+                println!("repartiendo cartas");
                 let mut cards = array![];
                 let mut idx = 0;
                 loop {
@@ -194,7 +176,15 @@ mod beast_system {
                 store.set_game(game);
             }
         }
-        fn end_turn(ref world: IWorldDispatcher, game_id: u32) {}
+        fn end_turn(ref world: IWorldDispatcher, game_id: u32) {
+            let mut store: Store = StoreTrait::new(world);
+            let mut game = store.get_game(game_id);
+            let mut beast = BeastStore::get(world, game.id);
+            let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+            let mut player_beast = PlayerBeastStore::get(world, game.id);
+            println!("me ataca la bestia");
+            self._attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
+        }
     }
 
     #[generate_trait]

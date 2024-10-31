@@ -13,8 +13,11 @@ deploy-sepolia:
 generate-event-keys:
 	@./scripts/generateEventKeys.sh
 
+enviroment:
+	@./scripts/enviroment.sh
+
 # Define tasks that are not real files
-.PHONY: deploy-slot deploy-sepolia katana setup torii generate-event-keys
+.PHONY: deploy-slot deploy-sepolia katana setup torii generate-event-keys enviroment
 
 # Catch-all rule for undefined commands
 %:

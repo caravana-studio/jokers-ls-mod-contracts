@@ -63,6 +63,7 @@ mod utils {
     mod calculate_hand;
     mod constants;
     mod game;
+    mod level;
     mod packs;
     mod rage;
     mod random;
