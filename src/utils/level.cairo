@@ -37,7 +37,7 @@ fn create_beast_level(world: IWorldDispatcher, ref store: Store, game: Game) {
     let game_mode_beast = GameModeBeast { game_id: game.id, cost_discard: 2, cost_play: 1, energy_max_player: 3 };
     GameModeBeastStore::set(@game_mode_beast, world);
 
-    let beast = Beast { game_id: game.id, tier: 5, level: 5, health: 100, attack: 15 };
+    let beast = Beast { game_id: game.id, tier: 5, level: 5, health: 1000, attack: 15 };
     BeastStore::set(@beast, world);
 
     let player_beast = PlayerBeast { game_id: game.id, health: 100, energy: game_mode_beast.energy_max_player };
