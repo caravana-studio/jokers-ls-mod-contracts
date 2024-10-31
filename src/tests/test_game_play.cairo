@@ -24,9 +24,7 @@ mod test_play_special_cards {
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
-    use jokers_of_neon::tests::utils::{
-        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_special_cards,
-    };
+    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_special_cards,};
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {
@@ -51,13 +49,12 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
-
-        // Flush - points: 35, multi: 4
-        // points: 6 + 10 + 4 + 10 + 10
-        // multi add: 0
-        // player_score = 300
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 300, 'wrong round player_score');
+    // Flush - points: 35, multi: 4
+    // points: 6 + 10 + 4 + 10 + 10
+    // multi add: 0
+    // player_score = 300
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 300, 'wrong round player_score');
     }
 
     #[test]
@@ -87,12 +84,12 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 7, 100, 5, 6]);
-        // Flush - points: 35, multi: 4
-        // points: 6 + 10 + 4 + 10 + 10 + 50 * 3
-        // multi add: 1
-        // player_score = 1125
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 1125, 'wrong round player_score');
+    // Flush - points: 35, multi: 4
+    // points: 6 + 10 + 4 + 10 + 10 + 50 * 3
+    // multi add: 1
+    // player_score = 1125
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 1125, 'wrong round player_score');
     }
 
     #[test]
@@ -113,12 +110,12 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
-        // Pair - points: 10, multi: 2
-        // points: 6 + 6
-        // multi add: 2
-        // player_score = 88
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 88, 'wrong round player_score');
+    // Pair - points: 10, multi: 2
+    // points: 6 + 6
+    // multi add: 2
+    // player_score = 88
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 88, 'wrong round player_score');
     }
 
     #[test]
@@ -148,9 +145,8 @@ mod test_play_special_cards {
 
         let game_after = store.get_game(game.id);
         assert(game_after.len_current_special_cards.is_zero(), 'wrong len_current_special_cards');
-
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 994, 'wrong round player_score');
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 994, 'wrong round player_score');
     }
 
     #[test]
@@ -178,12 +174,12 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
-        // Straight - points: 40, multi: 4
-        // points: 5 + 6 + 7 + 8 + 9
-        // multi add: 2 + 2 + 2 + 2 + 2
-        // player_score = 1050
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 1050, 'wrong round player_score');
+    // Straight - points: 40, multi: 4
+    // points: 5 + 6 + 7 + 8 + 9
+    // multi add: 2 + 2 + 2 + 2 + 2
+    // player_score = 1050
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 1050, 'wrong round player_score');
     }
 
     #[test]
@@ -204,12 +200,12 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2], array![100, 100, 100,]);
-        // Three of a Kind - points: 30, multi: 5
-        // points: 11 + 11 + 11
-        // multi add: 3 + 3 + 3
-        // player_score = 1134
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 1134, 'wrong round player_score');
+    // Three of a Kind - points: 30, multi: 5
+    // points: 11 + 11 + 11
+    // multi add: 3 + 3 + 3
+    // player_score = 1134
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 1134, 'wrong round player_score');
     }
 
     #[test]
@@ -230,12 +226,12 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
-        // Pair - points: 10, multi: 2
-        // points: 7 + 7 + 77 + 77
-        // multi add: 0
-        // player_score = 356
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 356, 'wrong round player_score');
+    // Pair - points: 10, multi: 2
+    // points: 7 + 7 + 77 + 77
+    // multi add: 0
+    // player_score = 356
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 356, 'wrong round player_score');
     }
 
     #[test]
@@ -260,11 +256,11 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1], array![100, 100]);
-        // Pair - level 15 - points: 80, multi: 16
-        // points: 11 + 11 + 10
-        // multi add: 1
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 1632, 'wrong round player_score');
+    // Pair - level 15 - points: 80, multi: 16
+    // points: 11 + 11 + 10
+    // multi add: 1
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 1632, 'wrong round player_score');
     }
 
     #[test]
@@ -285,11 +281,11 @@ mod test_play_special_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
-        // Four of a Kind - points: 60, multi: 7
-        // points: 11 + 11 + 11 + 11 + 100
-        // multi add: 10
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 3468, 'wrong round player_score');
+    // Four of a Kind - points: 60, multi: 7
+    // points: 11 + 11 + 11 + 11 + 100
+    // multi add: 10
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 3468, 'wrong round player_score');
     }
 
     #[test]
@@ -409,9 +405,8 @@ mod test_play_modifier_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0], array![1]);
-
-        // let round = store.get_round(game.id);
-        // assert(round.player_score == 115, 'wrong round player_score');
+    // let round = store.get_round(game.id);
+    // assert(round.player_score == 115, 'wrong round player_score');
     }
 
     #[test]
@@ -586,10 +581,10 @@ mod test_rage_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
-        // Four of a Kind - points: 60, multi: 7
-        // points: 11 + 11 + 0 + 11
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 651, 'wrong round player_score');
+    // Four of a Kind - points: 60, multi: 7
+    // points: 11 + 11 + 0 + 11
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 651, 'wrong round player_score');
     }
 
     #[test]
@@ -613,10 +608,10 @@ mod test_rage_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
-        // Four of a Kind - points: 60, multi: 7
-        // points: 11 + 11 + 0 + 11
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 651, 'wrong round player_score');
+    // Four of a Kind - points: 60, multi: 7
+    // points: 11 + 11 + 0 + 11
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 651, 'wrong round player_score');
     }
 
     #[test]
@@ -640,11 +635,11 @@ mod test_rage_cards {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
-        // Pair - points: 10, multi: 2
-        // points: 10
-        // player_score = 40
-        // let round_after = store.get_round(game.id);
-        // assert(round_after.player_score == 40, 'wrong round player_score');
+    // Pair - points: 10, multi: 2
+    // points: 10
+    // player_score = 40
+    // let round_after = store.get_round(game.id);
+    // assert(round_after.player_score == 40, 'wrong round player_score');
     }
 // #[test]
 // #[available_gas(30000000000000000)]

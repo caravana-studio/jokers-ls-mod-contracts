@@ -37,9 +37,8 @@ mod test_discard_effect_card {
 
         set_contract_address(PLAYER());
         systems.game_system.discard_effect_card(game.id, index);
-
-        // let round_after = store.get_round(game.id);
-        // assert(round.discard == round_after.discard, 'wrong round discard');
+    // let round_after = store.get_round(game.id);
+    // assert(round.discard == round_after.discard, 'wrong round discard');
     }
 }
 

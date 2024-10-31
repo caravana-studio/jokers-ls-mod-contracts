@@ -2,13 +2,14 @@ use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::{
     card::INVALID_CARD,
     challenge::{
-    CHALLENGE_ROYAL_FLUSH, CHALLENGE_STRAIGHT_FLUSH, CHALLENGE_FIVE_OF_A_KIND, CHALLENGE_FOUR_OF_A_KIND,
-    CHALLENGE_FULL_HOUSE, CHALLENGE_FLUSH, CHALLENGE_STRAIGHT, CHALLENGE_THREE_OF_A_KIND, CHALLENGE_DOUBLE_PAIR,
-    CHALLENGE_PAIR, CHALLENGE_HIGH_CARD, CHALLENGE_HEARTS, CHALLENGE_CLUBS, CHALLENGE_DIAMONDS, CHALLENGE_SPADES,
-    CHALLENGE_ONE, CHALLENGE_TWO, CHALLENGE_THREE, CHALLENGE_FOUR, CHALLENGE_FIVE, CHALLENGE_SIX, CHALLENGE_SEVEN,
-    CHALLENGE_EIGHT, CHALLENGE_NINE, CHALLENGE_TEN, CHALLENGE_JACK, CHALLENGE_QUEEN, CHALLENGE_KING, CHALLENGE_ACE,
-    CHALLENGE_JOKER, challenges_all
-}};
+        CHALLENGE_ROYAL_FLUSH, CHALLENGE_STRAIGHT_FLUSH, CHALLENGE_FIVE_OF_A_KIND, CHALLENGE_FOUR_OF_A_KIND,
+        CHALLENGE_FULL_HOUSE, CHALLENGE_FLUSH, CHALLENGE_STRAIGHT, CHALLENGE_THREE_OF_A_KIND, CHALLENGE_DOUBLE_PAIR,
+        CHALLENGE_PAIR, CHALLENGE_HIGH_CARD, CHALLENGE_HEARTS, CHALLENGE_CLUBS, CHALLENGE_DIAMONDS, CHALLENGE_SPADES,
+        CHALLENGE_ONE, CHALLENGE_TWO, CHALLENGE_THREE, CHALLENGE_FOUR, CHALLENGE_FIVE, CHALLENGE_SIX, CHALLENGE_SEVEN,
+        CHALLENGE_EIGHT, CHALLENGE_NINE, CHALLENGE_TEN, CHALLENGE_JACK, CHALLENGE_QUEEN, CHALLENGE_KING, CHALLENGE_ACE,
+        CHALLENGE_JOKER, challenges_all
+    }
+};
 
 use jokers_of_neon::{
     models::{
@@ -17,8 +18,10 @@ use jokers_of_neon::{
             game_deck::{GameDeckStore, GameDeckImpl}, events::{ChallengeCompleted, PlayGameOverEvent},
             poker_hand::PokerHand
         },
-        status::{game::game::{Game, GameState, GameSubState, GameStore}, 
-        round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait}},
+        status::{
+            game::game::{Game, GameState, GameSubState, GameStore},
+            round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait}
+        },
     },
     store::{Store, StoreTrait}, utils::{shop::generate_unique_random_values, calculate_hand::calculate_hand}
 };

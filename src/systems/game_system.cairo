@@ -266,9 +266,8 @@ mod game_system {
             assert(card_index >= 0 && card_index < game.len_hand, errors::INVALID_CARD_ELEM);
             let current_hand_card = store.get_current_hand_card(game_id, card_index);
             assert(is_modifier_card(current_hand_card.card_id), errors::ONLY_EFFECT_CARD);
-
-            // let mut round = store.get_round(game.id);
-            // CurrentHandCardTrait::refresh(world, ref round, array![card_index]);
+        // let mut round = store.get_round(game.id);
+        // CurrentHandCardTrait::refresh(world, ref round, array![card_index]);
         }
 
         fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32) {
