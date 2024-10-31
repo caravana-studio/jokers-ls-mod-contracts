@@ -2,7 +2,6 @@ use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardStore};
-use jokers_of_neon::models::status::round::round::Round;
 use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
 
 const TWO_POW_160: u256 = 0x10000000000000000000000000000000000000000;
@@ -10,12 +9,12 @@ const TWO_POW_255: u256 = 0x8000000000000000000000000000000000000000000000000000
 
 #[generate_trait]
 impl DeckCardImpl of DeckCardTrait {
-    fn dealing(world: IWorldDispatcher, ref round: Round, cards_ids: Array<u32>) {
+    fn dealing(world: IWorldDispatcher, game_id: u32, cards_ids: Array<u32>) {
         let mut randomizer = RandomImpl::new(world);
-        let mut game_deck = GameDeckStore::get(world, round.game_id);
+        let mut game_deck = GameDeckStore::get(world, game_id);
         let mut random = randomizer.between_u256(TWO_POW_160, TWO_POW_255);
 
-        _dealing(world, ref game_deck, cards_ids.len(), random, round.game_id, cards_ids);
+        _dealing(world, ref game_deck, cards_ids.len(), random, game_id, cards_ids);
         GameDeckStore::set(@game_deck, world);
     }
 }

@@ -244,3 +244,13 @@ struct SpecialCashEvent {
     card_idx: u32,
     special_idx: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct ChallengeCompleted {
+    #[key]
+    player: ContractAddress,
+    player_name: felt252,
+    game_id: u32
+}

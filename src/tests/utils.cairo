@@ -1,5 +1,8 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::configs::rage::RageRoundConfig;
+use jokers_of_neon::models::data::beast::{
+    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
+};
 use jokers_of_neon::models::data::blister_pack::BlisterPack;
 use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, ValueEnumerableImpl};
 use jokers_of_neon::models::data::effect_card::{Effect, EffectCard, TypeEffectCard};
@@ -8,7 +11,6 @@ use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::CurrentHandCard;
-use jokers_of_neon::models::status::round::round::Round;
 use jokers_of_neon::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem};
 use jokers_of_neon::store::{Store, StoreTrait};
 use starknet::ContractAddress;
@@ -87,12 +89,15 @@ fn mock_game(ref store: Store, owner: ContractAddress) -> Game {
     game
 }
 
-fn mock_round(ref store: Store, game: @Game, level_score: u32) -> Round {
-    let round = Round {
-        game_id: *game.id, player_score: 0, level_score: level_score, hands: *game.max_hands, discard: *game.max_discard
-    };
-    store.set_round(round);
-    round
+fn mock_level_best(world: IWorldDispatcher, game_id: u32) {
+    let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
+    GameModeBeastStore::set(@game_mode_beast, world);
+
+    let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
+    BeastStore::set(@beast, world);
+
+    let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
+    PlayerBeastStore::set(@player_beast, world);
 }
 
 fn mock_game_deck(world: IWorldDispatcher, game_id: u32) -> GameDeck {

@@ -1,6 +1,7 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::configs::{
-    rage::RageRoundConfig, slot_special_cards::SlotSpecialCardsConfig, earning_cash::EarningCashConfig
+    rage::RageRoundConfig, slot_special_cards::SlotSpecialCardsConfig, earning_cash::EarningCashConfig,
+    level::LevelConfig
 };
 
 use jokers_of_neon::constants::card::{
@@ -87,7 +88,6 @@ use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::models::status::round::deck_card::{DeckCardTrait};
-use jokers_of_neon::models::status::round::round::Round;
 
 use jokers_of_neon::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem, BlisterPackResult};
 use starknet::ContractAddress;
@@ -266,6 +266,10 @@ impl StoreImpl of StoreTrait {
         }
     }
 
+    fn get_level_config(ref self: Store) -> LevelConfig {
+        Default::default()
+    }
+
     fn get_level_poker_hand(ref self: Store, poker_hand: PokerHand, level: u8) -> LevelPokerHand {
         match poker_hand {
             PokerHand::RoyalFlush => ROYAL_FLUSH(level),
@@ -305,14 +309,6 @@ impl StoreImpl of StoreTrait {
 
     fn set_current_hand_card(ref self: Store, current_hand_card: CurrentHandCard) {
         set!(self.world, (current_hand_card));
-    }
-
-    fn get_round(ref self: Store, game_id: u32) -> Round {
-        get!(self.world, (game_id), (Round))
-    }
-
-    fn set_round(ref self: Store, round: Round) {
-        set!(self.world, (round));
     }
 
     fn get_card_item(ref self: Store, game_id: u32, idx: u32, item_type: CardItemType) -> CardItem {
