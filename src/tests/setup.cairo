@@ -2,6 +2,7 @@ mod setup {
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use jokers_of_neon::models::data::beast::{game_mode_beast, beast, player_beast};
     use jokers_of_neon::models::data::game_deck::{game_deck, deck_card};
 
     use jokers_of_neon::models::status::game::game::{game, current_special_cards};
@@ -9,7 +10,6 @@ mod setup {
     use jokers_of_neon::models::status::round::current_hand_card::current_hand_card;
 
     use jokers_of_neon::models::status::shop::shop::{card_item, blister_pack_item, blister_pack_result};
-
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
     use jokers_of_neon::systems::rage_system::{rage_system, IRageSystemDispatcher, IRageSystemDispatcherTrait};
     use starknet::ContractAddress;
@@ -41,6 +41,9 @@ mod setup {
             blister_pack_item::TEST_CLASS_HASH,
             blister_pack_result::TEST_CLASS_HASH,
             rage_round::TEST_CLASS_HASH,
+            game_mode_beast::TEST_CLASS_HASH,
+            beast::TEST_CLASS_HASH,
+            player_beast::TEST_CLASS_HASH,
         ];
         let world = spawn_test_world(array!["jokers_of_neon"].span(), models.span());
         let systems = Systems {

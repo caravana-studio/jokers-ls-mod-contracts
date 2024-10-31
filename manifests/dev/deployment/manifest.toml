@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394"
-class_hash = "0x573952cbd37d0c358a762dbd16165c311fd817488bc5a2878d1a1d922db61fb"
-original_class_hash = "0x573952cbd37d0c358a762dbd16165c311fd817488bc5a2878d1a1d922db61fb"
+class_hash = "0x42e0a9b814ff24e92f45d9dd6e764ec9fc948c70b49242249b2cb7d97d62071"
+original_class_hash = "0x42e0a9b814ff24e92f45d9dd6e764ec9fc948c70b49242249b2cb7d97d62071"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-game_system-7a205bbc.json"
 reads = []

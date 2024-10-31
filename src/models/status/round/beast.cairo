@@ -40,21 +40,21 @@ impl BeastImpl of BeastTrait {
         game.substate = GameSubState::BEAST;
         // Active `Rage Cards`
         let rage_round = RageRoundStore::get(world, game_id);
-    
+
         if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
             game.len_hand -= 2;
         }
         store.set_game(game);
-    
+
         let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
         GameModeBeastStore::set(@game_mode_beast, world);
-    
+
         let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
         BeastStore::set(@beast, world);
-    
+
         let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);
-    
+
         let mut game_deck = GameDeckStore::get(world, game_id);
         game_deck.restore(world);
         CurrentHandCardTrait::create(world, game);
@@ -109,8 +109,7 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-
-            create_level(world, ref store, game);
+            // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
             println!("energia en zero - me ataca la bestia");
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
