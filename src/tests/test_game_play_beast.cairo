@@ -312,191 +312,146 @@ mod test_play_beast_special_cards {
 //     assert(round_after.player_score == 3468, 'wrong round player_score');
 // }
 }
-// mod test_play_modifier_cards {
-//     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-//     use jokers_of_neon::constants::card::{
-//         JACK_CLUBS_ID, JACK_SPADES_ID, SIX_CLUBS_ID, QUEEN_CLUBS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID,
-//         KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID
-//     };
-//     use jokers_of_neon::constants::modifiers::{
-//         SUIT_CLUB_MODIFIER_ID, MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID,
-//         MULTI_MODIFIER_3_ID,
-//     };
-//     use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
-//     use jokers_of_neon::models::data::game_deck::{GameDeck};
-//     use jokers_of_neon::models::data::poker_hand::{PokerHand, LevelPokerHand};
-//     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState};
-//     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-//     use jokers_of_neon::models::status::round::round::{Round};
 
-//     use jokers_of_neon::store::{Store, StoreTrait};
+mod test_play_beast_modifier_cards {
+    use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+    use jokers_of_neon::constants::card::{
+        JACK_CLUBS_ID, JACK_SPADES_ID, SIX_CLUBS_ID, QUEEN_CLUBS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID,
+        KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID
+    };
+    use jokers_of_neon::constants::modifiers::{
+        SUIT_CLUB_MODIFIER_ID, MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID,
+        MULTI_MODIFIER_3_ID,
+    };
+    use jokers_of_neon::models::data::beast::{
+        GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
+    };
+    use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
+    use jokers_of_neon::models::data::game_deck::{GameDeck};
+    use jokers_of_neon::models::data::poker_hand::{PokerHand, LevelPokerHand};
+    use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState, GameSubState};
+    use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
+    use jokers_of_neon::store::{Store, StoreTrait};
 
-//     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-//     use jokers_of_neon::tests::setup::{
-//         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
-//     };
+    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_of_neon::tests::setup::{
+        setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
+    };
 
-//     use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round};
+    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_level_best};
 
-//     use starknet::testing::set_contract_address;
+    use starknet::testing::set_contract_address;
 
-//     fn PLAYER() -> starknet::ContractAddress {
-//         starknet::contract_address_const::<'PLAYER'>()
-//     }
+    fn PLAYER() -> starknet::ContractAddress {
+        starknet::contract_address_const::<'PLAYER'>()
+    }
 
-//     #[test]
-//     #[available_gas(30000000000000000)]
-//     fn test_play_modifier_high_card() {
-//         let (world, systems) = setup::spawn_game();
+    #[test]
+    #[available_gas(30000000000000000)]
+    fn test_play_modifier_high_card() {
+        let (world, systems) = setup::spawn_game();
 
-//         let mut store: Store = StoreTrait::new(world);
-//         let game = mock_game(ref store, PLAYER());
-//         let round = mock_round(ref store, @game, 300);
+        let mut store: Store = StoreTrait::new(world);
+        let mut game = mock_game(ref store, PLAYER());
+        game.state = GameState::IN_GAME;
+        game.substate = GameSubState::BEAST;
+        store.set_game(game);
 
-//         // Init modifiers cards
-//         // let mut modifiers_ids = array![POINTS_MODIFIER_4, MULTI_MODIFIER_4].span();
-//         // init_modifiers_cards(ref store, game.id, ref modifiers_ids);
+        mock_level_best(world, game.id);
 
-//         // Mock hand
-//         let hand_cards_ids = array![KING_SPADES_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
-//         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
+        // Mock hand
+        let hand_cards_ids = array![KING_SPADES_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
+        mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
-//         assert(round.player_score.is_zero(), 'wrong round_before player_score');
-//         assert(game.level == 1, 'wrong game_before level');
-//         assert(game.cash.is_zero(), 'wrong game_before cash');
-//         assert(game.state == GameState::IN_GAME, 'wrong game_before state');
-//         assert(game.player_score.is_zero(), 'wrong game_before player_score');
+        let game_mode_beast = GameModeBeastStore::get(world, game.id);
+        let beast_before = BeastStore::get(world, game.id);
+        let player_beast_before = PlayerBeastStore::get(world, game.id);
 
-//         set_contract_address(PLAYER());
-//         systems.game_system.play(game.id, array![0], array![1]);
+        set_contract_address(PLAYER());
+        systems.game_system.play(game.id, array![0], array![1]);
 
-//         let round = store.get_round(game.id);
-//         assert(round.player_score == 115, 'wrong round player_score');
-//     }
+        let beast_after = BeastStore::get(world, game.id);
+        assert(beast_after.health == beast_before.health - 115, 'wrong beast health');
 
-//     #[test]
-//     #[available_gas(30000000000000000)]
-//     fn test_play_modifier_one_pair() {
-//         let (world, systems) = setup::spawn_game();
-//         let mut store = StoreTrait::new(world);
-//         let game = mock_game(ref store, PLAYER());
-//         mock_round(ref store, @game, 300);
+        let player_beast_after = PlayerBeastStore::get(world, game.id);
+        assert(
+            player_beast_after.energy == player_beast_before.energy - game_mode_beast.cost_play, 'wrong player energy'
+        );
+    }
 
-//         // Mock hand
-//         let hand_cards_ids = array![TWO_SPADES_ID, TWO_DIAMONDS_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
-//         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
+    #[test]
+    #[available_gas(30000000000000000)]
+    fn test_play_modifier_one_pair() {
+        let (world, systems) = setup::spawn_game();
+        let mut store = StoreTrait::new(world);
+        let mut game = mock_game(ref store, PLAYER());
 
-//         set_contract_address(PLAYER());
-//         systems.game_system.play(game.id, array![0, 1], array![2, 3]);
+        game.state = GameState::IN_GAME;
+        game.substate = GameSubState::BEAST;
+        store.set_game(game);
 
-//         // Pair - points: 10, multi: 2
-//         // points: 2 + 2 + 100
-//         // multi add: 10
-//         // player_score = 1368
-//         let round = store.get_round(game.id);
-//         assert(round.player_score == 1368, 'wrong round player_score');
+        mock_level_best(world, game.id);
 
-//         let game_after = store.get_game(game.id);
-//         assert(game_after.player_score == 1368, 'wrong game player_score');
-//         assert(game_after.cash == 2350, 'wrong game cash');
-//     }
+        // Mock hand
+        let hand_cards_ids = array![TWO_SPADES_ID, TWO_DIAMONDS_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
+        mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
-//     #[test]
-//     #[available_gas(30000000000000000)]
-//     fn test_play_two_pair() {
-//         let (world, systems) = setup::spawn_game();
-//         let mut store = StoreTrait::new(world);
-//         let game = mock_game(ref store, PLAYER());
-//         mock_round(ref store, @game, 300);
+        let game_mode_beast = GameModeBeastStore::get(world, game.id);
+        let player_beast_before = PlayerBeastStore::get(world, game.id);
 
-//         // Mock hand
-//         let hand_cards_ids = array![TWO_CLUBS_ID, TWO_SPADES_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID];
-//         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
+        set_contract_address(PLAYER());
+        systems.game_system.play(game.id, array![0, 1], array![2, 3]);
+        // Pair - points: 10, multi: 2
+        // points: 2 + 2 + 100
+        // multi add: 10
+        // player_score = 1368
 
-//         set_contract_address(PLAYER());
-//         systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
+        let beast_after = BeastStore::get(world, game.id);
+        assert(beast_after.health.is_zero(), 'wrong beast health');
 
-//         // TwoPair - points: 20, multi: 3
-//         // points: 2 + 2 + 4 + 4 = 12
-//         // multi add: 0
-//         // player_score = 96
-//         let round = store.get_round(game.id);
-//         assert(round.player_score == 96, 'wrong round player_score');
+        let player_beast_after = PlayerBeastStore::get(world, game.id);
+        assert(
+            player_beast_after.energy == player_beast_before.energy - game_mode_beast.cost_play, 'wrong player energy'
+        );
+    }
 
-//         let game_after = store.get_game(game.id);
-//         assert(game_after.player_score == 0, 'wrong game_after player_score');
-//         assert(game_after.state == GameState::IN_GAME, 'wrong game_after state');
-//         assert(game_after.cash == 0, 'wrong game_after cash');
-//     }
+    #[test]
+    #[available_gas(30000000000000000)]
+    fn test_play_two_pair() {
+        let (world, systems) = setup::spawn_game();
+        let mut store = StoreTrait::new(world);
+        let mut game = mock_game(ref store, PLAYER());
 
-//     #[test]
-//     #[available_gas(30000000000000000)]
-//     fn test_play_modifier_flush() {
-//         let (world, systems) = setup::spawn_game();
-//         let mut store = StoreTrait::new(world);
-//         let game = mock_game(ref store, PLAYER());
-//         mock_round(ref store, @game, 300);
+        game.state = GameState::IN_GAME;
+        game.substate = GameSubState::BEAST;
+        store.set_game(game);
 
-//         // Mock hand
-//         let hand_cards_ids = array![
-//             SIX_CLUBS_ID,
-//             QUEEN_CLUBS_ID,
-//             FOUR_CLUBS_ID,
-//             JACK_HEARTS_ID,
-//             KING_DIAMONDS_ID,
-//             SUIT_CLUB_MODIFIER_ID,
-//             SUIT_CLUB_MODIFIER_ID,
-//             MULTI_MODIFIER_1_ID
-//         ];
-//         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
+        mock_level_best(world, game.id);
 
-//         set_contract_address(PLAYER());
-//         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 7, 100, 5, 6]);
-//         // Flush - points: 35, multi: 4
-//         // points: 6 + 10 + 4 + 10 + 10
-//         // multi add: 1
-//         // player_score = 375
-//         let round = store.get_round(game.id);
-//         assert(round.player_score == 375, 'wrong round player_score');
+        // Mock hand
+        let hand_cards_ids = array![TWO_CLUBS_ID, TWO_SPADES_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID];
+        mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
-//         let game_after = store.get_game(game.id);
-//         assert(game_after.player_score == 375, 'wrong game_after player_score');
-//         assert(game_after.state == GameState::AT_SHOP, 'wrong game_after state');
-//         assert(game_after.cash == 2350, 'wrong game_after cash');
-//     }
+        let game_mode_beast = GameModeBeastStore::get(world, game.id);
+        let beast_before = BeastStore::get(world, game.id);
+        let player_beast_before = PlayerBeastStore::get(world, game.id);
 
-//     #[test]
-//     #[available_gas(30000000000000000)]
-//     fn test_play_two_modifiers() {
-//         let (world, systems) = setup::spawn_game();
-//         let mut store = StoreTrait::new(world);
-//         let game = mock_game(ref store, PLAYER());
-//         mock_round(ref store, @game, 300);
+        set_contract_address(PLAYER());
+        systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
+        // TwoPair - points: 20, multi: 3
+        // points: 2 + 2 + 4 + 4 = 12
+        // multi add: 0
+        // player_score = 96
 
-//         // Mock hand
-//         let hand_cards_ids = array![
-//             JACK_CLUBS_ID,
-//             JACK_SPADES_ID,
-//             POINTS_MODIFIER_4_ID,
-//             POINTS_MODIFIER_2_ID,
-//             MULTI_MODIFIER_3_ID,
-//             MULTI_MODIFIER_4_ID
-//         ];
-//         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
+        let beast_after = BeastStore::get(world, game.id);
+        assert(beast_after.health == beast_before.health - 96, 'wrong beast health');
 
-//         set_contract_address(PLAYER());
-//         systems.game_system.play(game.id, array![0, 1], array![5, 4]);
-
-//         let round = store.get_round(game.id);
-//         assert(round.player_score == 510, 'wrong round player_score');
-
-//         let game_after = store.get_game(game.id);
-//         assert(game_after.player_score == 510, 'wrong game_after player_score');
-//         assert(game_after.state == GameState::AT_SHOP, 'wrong game_after state');
-//         assert(game_after.cash == 2350, 'wrong game_after cash');
-//     }
-// }
-
+        let player_beast_after = PlayerBeastStore::get(world, game.id);
+        assert(
+            player_beast_after.energy == player_beast_before.energy - game_mode_beast.cost_play, 'wrong player energy'
+        );
+    }
+}
 // mod test_rage_cards {
 //     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 //     use jokers_of_neon::constants::card::{
@@ -934,4 +889,5 @@ mod test_play_beast_special_cards {
 //         assert(game.state == GameState::FINISHED, 'game should be finished');
 //     }
 // }
+
 
