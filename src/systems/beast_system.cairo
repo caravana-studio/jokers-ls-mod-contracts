@@ -37,6 +37,7 @@ mod beast_system {
         const ARRAY_REPEATED_ELEMENTS: felt252 = 'Game: array repeated elements';
         const ONLY_EFFECT_CARD: felt252 = 'Game: only effect cards';
         const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
+        const GAME_NOT_IN_BEAST: felt252 = 'Game: is not BEAST';
         const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
     }
 
@@ -46,11 +47,17 @@ mod beast_system {
             let mut store: Store = StoreTrait::new(world);
             let mut game = store.get_game(game_id);
 
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+            assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
+            assert(cards_index.len() > 0 && cards_index.len() <= game.len_hand, errors::INVALID_CARD_INDEX_LEN);
+
             let rage_round = RageRoundStore::get(world, game_id);
 
             let score = play(world, ref game, @cards_index, @modifiers_index);
 
-            let player_attack = score / 2; // TODO:
+            let player_attack = score; // TODO:
 
             let mut beast = BeastStore::get(world, game.id);
             beast.health = if player_attack < beast.health {
