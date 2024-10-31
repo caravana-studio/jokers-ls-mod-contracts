@@ -35,6 +35,31 @@ mod errors {
 
 #[generate_trait]
 impl BeastImpl of BeastTrait {
+    fn create(world: IWorldDispatcher, ref store: Store, game_id: u32) {
+        let mut game = store.get_game(game_id);
+        game.substate = GameSubState::BEAST;
+        // Active `Rage Cards`
+        let rage_round = RageRoundStore::get(world, game_id);
+    
+        if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
+            game.len_hand -= 2;
+        }
+        store.set_game(game);
+    
+        let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
+        GameModeBeastStore::set(@game_mode_beast, world);
+    
+        let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
+        BeastStore::set(@beast, world);
+    
+        let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
+        PlayerBeastStore::set(@player_beast, world);
+    
+        let mut game_deck = GameDeckStore::get(world, game_id);
+        game_deck.restore(world);
+        CurrentHandCardTrait::create(world, game);
+    }
+
     fn play(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
         let mut store: Store = StoreTrait::new(world);
         let mut game = store.get_game(game_id);
