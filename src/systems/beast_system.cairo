@@ -141,6 +141,7 @@ mod beast_system {
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+            assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
 
             let mut cards = array![];
             let mut idx = 0;
@@ -182,10 +183,23 @@ mod beast_system {
                 game.state = GameState::FINISHED;
                 store.set_game(game);
             }
+
+            if player_beast.energy.is_zero() {
+                let mut beast = BeastStore::get(world, game.id);
+                println!("energia en zero - me ataca la bestia");
+                self._attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
+            }
         }
+
         fn end_turn(ref world: IWorldDispatcher, game_id: u32) {
             let mut store: Store = StoreTrait::new(world);
             let mut game = store.get_game(game_id);
+
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
+            assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
+
             let mut beast = BeastStore::get(world, game.id);
             let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
             let mut player_beast = PlayerBeastStore::get(world, game.id);
