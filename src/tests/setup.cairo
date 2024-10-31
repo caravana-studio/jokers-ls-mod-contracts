@@ -3,8 +3,8 @@ mod setup {
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use jokers_of_neon::models::data::beast::{game_mode_beast, beast, player_beast};
+    use jokers_of_neon::models::data::challenge::{challenge, challenge_player};
     use jokers_of_neon::models::data::game_deck::{game_deck, deck_card};
-
     use jokers_of_neon::models::status::game::game::{game, current_special_cards};
     use jokers_of_neon::models::status::game::rage::rage_round;
     use jokers_of_neon::models::status::round::current_hand_card::current_hand_card;
@@ -32,6 +32,8 @@ mod setup {
 
     fn spawn_game() -> (IWorldDispatcher, Systems) {
         let mut models = array![
+            challenge::TEST_CLASS_HASH,
+            challenge_player::TEST_CLASS_HASH,
             game::TEST_CLASS_HASH,
             current_special_cards::TEST_CLASS_HASH,
             current_hand_card::TEST_CLASS_HASH,
