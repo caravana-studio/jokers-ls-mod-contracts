@@ -8,7 +8,6 @@ mod setup {
     use jokers_of_neon::models::status::game::rage::rage_round;
     use jokers_of_neon::models::status::round::current_hand_card::current_hand_card;
 
-    use jokers_of_neon::models::status::round::round::round;
     use jokers_of_neon::models::status::shop::shop::{card_item, blister_pack_item, blister_pack_result};
 
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
@@ -35,7 +34,6 @@ mod setup {
         let mut models = array![
             game::TEST_CLASS_HASH,
             current_special_cards::TEST_CLASS_HASH,
-            round::TEST_CLASS_HASH,
             current_hand_card::TEST_CLASS_HASH,
             game_deck::TEST_CLASS_HASH,
             deck_card::TEST_CLASS_HASH,

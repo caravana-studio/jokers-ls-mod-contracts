@@ -23,27 +23,9 @@ manifest_name = "dojo-base"
 
 [[contracts]]
 kind = "DojoContract"
-address = "0x52d9d7a6844e8e8be61ab43b0304f684c626fc0cb08ad51a7e5190b2589fc9f"
-class_hash = "0xb9fa525f48082be6f8eacef1d240e0226b80e3f44f4634d136257884752374"
-original_class_hash = "0xb9fa525f48082be6f8eacef1d240e0226b80e3f44f4634d136257884752374"
-base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-beast_system-3d072c39.json"
-reads = []
-writes = ["ns:jokers_of_neon"]
-init_calldata = []
-tag = "jokers_of_neon-beast_system"
-systems = [
-    "play",
-    "discard",
-    "end_turn",
-]
-manifest_name = "jokers_of_neon-beast_system-3d072c39"
-
-[[contracts]]
-kind = "DojoContract"
 address = "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394"
-class_hash = "0x4d7e1413944d74be7c0827fb8974c1e63012b0ef98b4320ffc73d8eab710090"
-original_class_hash = "0x4d7e1413944d74be7c0827fb8974c1e63012b0ef98b4320ffc73d8eab710090"
+class_hash = "0x573952cbd37d0c358a762dbd16165c311fd817488bc5a2878d1a1d922db61fb"
+original_class_hash = "0x573952cbd37d0c358a762dbd16165c311fd817488bc5a2878d1a1d922db61fb"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-game_system-7a205bbc.json"
 reads = []
@@ -79,8 +61,8 @@ manifest_name = "jokers_of_neon-poker_hand_system-25bae3ed"
 [[contracts]]
 kind = "DojoContract"
 address = "0x75602558fd679c49be1a6ccb73e3d6d842f0558e1f41c4013ce109d05a5790f"
-class_hash = "0x17875678e6e59d3f70c9bed51a22d992d911c515ec6eb29bbb38aad3affe5f6"
-original_class_hash = "0x17875678e6e59d3f70c9bed51a22d992d911c515ec6eb29bbb38aad3affe5f6"
+class_hash = "0x4d335ac492b01d48fc5431dc87810c59111033fb62eaefd438ab41b6cdb3c06"
+original_class_hash = "0x4d335ac492b01d48fc5431dc87810c59111033fb62eaefd438ab41b6cdb3c06"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-rage_system-601fc835.json"
 reads = []
@@ -92,11 +74,11 @@ manifest_name = "jokers_of_neon-rage_system-601fc835"
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x5b441c2cc29acb5cc58ee0cd89f51a1c919a317ef49fa4c6c0f019515785d00"
-original_class_hash = "0x5b441c2cc29acb5cc58ee0cd89f51a1c919a317ef49fa4c6c0f019515785d00"
+class_hash = "0x5a1c6141a6afc7ffaff55d76c948b77992e8cd89ca6c50b21ac617a9889dcd0"
+original_class_hash = "0x5a1c6141a6afc7ffaff55d76c948b77992e8cd89ca6c50b21ac617a9889dcd0"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Beast-35a29cda.json"
 tag = "jokers_of_neon-Beast"
-qualified_path = "jokers_of_neon::models::game_mode::beast::beast"
+qualified_path = "jokers_of_neon::models::data::beast::beast"
 manifest_name = "jokers_of_neon-Beast-35a29cda"
 
 [[models.members]]
@@ -553,8 +535,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x3751f3a33c2f49851d3ce5f3a4a9fbc8940104a360f9cd7b391c7d0bff95138"
-original_class_hash = "0x3751f3a33c2f49851d3ce5f3a4a9fbc8940104a360f9cd7b391c7d0bff95138"
+class_hash = "0x55a1aee842d76a253cb36c4989bc5ef74d3cd7d2d8dd4c464c64295986afa10"
+original_class_hash = "0x55a1aee842d76a253cb36c4989bc5ef74d3cd7d2d8dd4c464c64295986afa10"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Game-162de85b.json"
 tag = "jokers_of_neon-Game"
 qualified_path = "jokers_of_neon::models::status::game::game::game"
@@ -587,11 +569,6 @@ key = false
 
 [[models.members]]
 name = "max_jokers"
-type = "u8"
-key = false
-
-[[models.members]]
-name = "round"
 type = "u8"
 key = false
 
@@ -666,11 +643,11 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x4ca9c16787d609bf77d6e2ed9f59b65606aadcf6ddf28997757a33bcede7e55"
-original_class_hash = "0x4ca9c16787d609bf77d6e2ed9f59b65606aadcf6ddf28997757a33bcede7e55"
+class_hash = "0x4c5166033b50fa2dcbe8dca20d4c219aaf3b4944657affccd16cb08405bf8b5"
+original_class_hash = "0x4c5166033b50fa2dcbe8dca20d4c219aaf3b4944657affccd16cb08405bf8b5"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-GameModeBeast-2eece866.json"
 tag = "jokers_of_neon-GameModeBeast"
-qualified_path = "jokers_of_neon::models::game_mode::beast::game_mode_beast"
+qualified_path = "jokers_of_neon::models::data::beast::game_mode_beast"
 manifest_name = "jokers_of_neon-GameModeBeast-2eece866"
 
 [[models.members]]
@@ -840,11 +817,11 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x2c227594cd8dbe0238c3b7113d188296d3cb06c5d2fdd5575d54616be383663"
-original_class_hash = "0x2c227594cd8dbe0238c3b7113d188296d3cb06c5d2fdd5575d54616be383663"
+class_hash = "0x72bab25593e59ba01387711eaa353d06fd59c06a93e1b5dcff3c30245d6c640"
+original_class_hash = "0x72bab25593e59ba01387711eaa353d06fd59c06a93e1b5dcff3c30245d6c640"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayerBeast-22d6f7af.json"
 tag = "jokers_of_neon-PlayerBeast"
-qualified_path = "jokers_of_neon::models::game_mode::beast::player_beast"
+qualified_path = "jokers_of_neon::models::data::beast::player_beast"
 manifest_name = "jokers_of_neon-PlayerBeast-22d6f7af"
 
 [[models.members]]

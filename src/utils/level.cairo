@@ -1,8 +1,8 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::game_mode::beast::{
+use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
 };
+use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
 use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};

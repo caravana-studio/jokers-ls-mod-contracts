@@ -55,11 +55,11 @@ mod game_system {
     use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
     use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
+    use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
     use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
 
     use jokers_of_neon::store::{Store, StoreTrait};
-    use jokers_of_neon::systems::beast_system::{IBeastSystemDispatcher, IBeastSystemDispatcherTrait};
     use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
     use jokers_of_neon::utils::calculate_hand::calculate_hand;
     use jokers_of_neon::utils::constants::{
@@ -190,13 +190,7 @@ mod game_system {
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
 
             if game.substate == GameSubState::BEAST {
-                let (_, beast_system_address) =
-                    match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
-                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
-                    _ => Option::None
-                }.unwrap();
-                IBeastSystemDispatcher { contract_address: beast_system_address.try_into().unwrap() }
-                    .play(game_id, cards_index, modifiers_index);
+                BeastTrait::play(world, game_id, cards_index, modifiers_index);
             }
         }
 
@@ -207,13 +201,7 @@ mod game_system {
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
 
             if game.substate == GameSubState::BEAST {
-                let (_, beast_system_address) =
-                    match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
-                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
-                    _ => Option::None
-                }.unwrap();
-                IBeastSystemDispatcher { contract_address: beast_system_address.try_into().unwrap() }
-                    .discard(game_id, cards_index, modifiers_index);
+                BeastTrait::discard(world, game_id, cards_index, modifiers_index);
             }
         }
 
@@ -224,12 +212,7 @@ mod game_system {
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
 
             if game.substate == GameSubState::BEAST {
-                let (_, beast_system_address) =
-                    match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
-                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
-                    _ => Option::None
-                }.unwrap();
-                IBeastSystemDispatcher { contract_address: beast_system_address.try_into().unwrap() }.end_turn(game_id);
+                BeastTrait::end_turn(world, game_id);
             }
         }
 

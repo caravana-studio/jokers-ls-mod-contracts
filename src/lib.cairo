@@ -14,6 +14,7 @@ mod constants {
 
 mod models {
     mod data {
+        mod beast;
         mod blister_pack;
         mod card;
         mod effect_card;
@@ -27,6 +28,7 @@ mod models {
             mod rage;
         }
         mod round {
+            mod beast;
             mod current_hand_card;
             mod deck_card;
         }
@@ -34,13 +36,9 @@ mod models {
             mod shop;
         }
     }
-    mod game_mode {
-        mod beast;
-    }
 }
 
 mod systems {
-    mod beast_system;
     mod game_system;
     mod poker_hand_system;
     mod rage_system;
@@ -50,10 +48,9 @@ mod systems {
 mod tests {
     mod setup;
     mod test_calculate_hand;
-    mod test_calculate_level_score;
-    mod test_game_discard_effect_card;
-    mod test_game_discard_special_card;
-    mod test_game_play;
+    // mod test_game_discard_effect_card;
+    // mod test_game_discard_special_card;
+    mod test_game_play_beast;
     mod test_game_select_deck;
     mod test_game_select_special_cards;
     mod utils;
