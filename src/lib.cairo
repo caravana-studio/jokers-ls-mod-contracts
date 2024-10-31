@@ -4,6 +4,7 @@ mod traits;
 
 mod constants {
     mod card;
+    mod challenge;
     mod effect;
     mod modifiers;
     mod packs;
@@ -16,6 +17,7 @@ mod models {
     mod data {
         mod blister_pack;
         mod card;
+        mod challenge;
         mod effect_card;
         mod events;
         mod game_deck;
@@ -27,6 +29,7 @@ mod models {
             mod rage;
         }
         mod round {
+            mod challenge;
             mod current_hand_card;
             mod deck_card;
             mod round;

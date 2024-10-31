@@ -11,6 +11,13 @@ enum GameState {
     OPEN_BLISTER_PACK
 }
 
+#[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
+enum GameSubState {
+    NONE,
+    OBSTACLE,
+    BEAST
+}
+
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::model]
 #[dojo::event]
@@ -30,6 +37,7 @@ struct Game {
     len_current_special_cards: u32,
     current_jokers: u8,
     state: GameState,
+    substate: GameSubState,
     cash: u32
 }
 
@@ -62,6 +70,7 @@ impl DefaultGame of Default<Game> {
             len_current_special_cards: 0,
             current_jokers: 0,
             state: GameState::IN_GAME,
+            substate: GameSubState::NONE,
             cash: 0
         }
     }

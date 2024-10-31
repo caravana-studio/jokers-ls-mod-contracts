@@ -99,6 +99,7 @@ mod game_system {
                 len_current_special_cards: 0,
                 current_jokers: 0,
                 state: GameState::SELECT_DECK,
+                substate: GameSubState::NONE,
                 cash: 0
             };
             store.set_game(game);
