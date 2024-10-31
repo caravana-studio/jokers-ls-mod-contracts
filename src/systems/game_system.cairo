@@ -34,7 +34,7 @@ mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
     use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
-    use jokers_of_neon::constants::packs::SPECIAL_CARDS_PACK_ID;
+    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID};
     use jokers_of_neon::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID,
         SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID, SPECIAL_INCREASE_LEVEL_STRAIGHT_ID,
