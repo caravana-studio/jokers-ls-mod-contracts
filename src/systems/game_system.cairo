@@ -88,7 +88,6 @@ mod game_system {
                 max_hands: 5,
                 max_discard: 5,
                 max_jokers: 5,
-                round: 1,
                 player_score: 0,
                 level: 1,
                 len_hand: 8,
