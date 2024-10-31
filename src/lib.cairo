@@ -32,7 +32,6 @@ mod models {
             mod challenge;
             mod current_hand_card;
             mod deck_card;
-            mod round;
         }
         mod shop {
             mod shop;
@@ -51,6 +50,7 @@ mod tests {
     mod setup;
     mod test_calculate_hand;
     mod test_calculate_level_score;
+    mod test_challenge;
     mod test_game_discard_effect_card;
     mod test_game_discard_special_card;
     mod test_game_play;

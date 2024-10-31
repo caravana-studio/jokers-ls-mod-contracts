@@ -4,7 +4,6 @@ use jokers_of_neon::models::status::game::game::Game;
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::CurrentHandCardTrait;
 use jokers_of_neon::models::status::round::deck_card::DeckCardTrait;
-use jokers_of_neon::models::status::round::round::Round;
 use jokers_of_neon::store::{Store, StoreTrait};
 use jokers_of_neon::utils::constants::{RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_ZERO_WASTE};
 use jokers_of_neon::utils::rage::is_rage_card_active;
@@ -29,14 +28,14 @@ fn create_round(world: IWorldDispatcher, game: Game) {
 
     let level_score = calculate_level_score(game.level);
 
-    let mut round = Round {
-        game_id: game.id, player_score: 0, level_score, hands: game.max_hands, discard: round_discards,
-    };
-    store.set_round(round);
+    // let mut round = Round {
+    //     game_id: game.id, player_score: 0, level_score, hands: game.max_hands, discard: round_discards,
+    // };
+    // store.set_round(round);
 
     let mut game_deck = GameDeckStore::get(world, game.id);
     game_deck.restore(world);
-    CurrentHandCardTrait::create(world, ref round, game);
+    CurrentHandCardTrait::create(world, game.id);
 }
 
 fn calculate_level_score(level: u32) -> u32 {

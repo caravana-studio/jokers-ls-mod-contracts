@@ -17,7 +17,6 @@ mod test_play_special_cards {
     use jokers_of_neon::models::data::poker_hand::PokerHand;
     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::models::status::round::round::{Round};
 
     use jokers_of_neon::store::{Store, StoreTrait};
 
@@ -26,7 +25,7 @@ mod test_play_special_cards {
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
     use jokers_of_neon::tests::utils::{
-        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round, mock_special_cards,
+        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_special_cards,
     };
     use starknet::testing::set_contract_address;
 
@@ -40,7 +39,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_ALL_CARDS_TO_HEARTS_ID];
@@ -57,8 +56,8 @@ mod test_play_special_cards {
         // points: 6 + 10 + 4 + 10 + 10
         // multi add: 0
         // player_score = 300
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 300, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 300, 'wrong round player_score');
     }
 
     #[test]
@@ -67,7 +66,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_POINTS_FOR_FIGURES_ID];
@@ -92,8 +91,8 @@ mod test_play_special_cards {
         // points: 6 + 10 + 4 + 10 + 10 + 50 * 3
         // multi add: 1
         // player_score = 1125
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 1125, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 1125, 'wrong round player_score');
     }
 
     #[test]
@@ -102,7 +101,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_MULTI_FOR_CLUB_ID];
@@ -118,8 +117,8 @@ mod test_play_special_cards {
         // points: 6 + 6
         // multi add: 2
         // player_score = 88
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 88, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 88, 'wrong round player_score');
     }
 
     #[test]
@@ -128,7 +127,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_MULTI_FOR_CLUB_ID];
@@ -150,8 +149,8 @@ mod test_play_special_cards {
         let game_after = store.get_game(game.id);
         assert(game_after.len_current_special_cards.is_zero(), 'wrong len_current_special_cards');
 
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 994, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 994, 'wrong round player_score');
     }
 
     #[test]
@@ -160,7 +159,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![
@@ -183,8 +182,8 @@ mod test_play_special_cards {
         // points: 5 + 6 + 7 + 8 + 9
         // multi add: 2 + 2 + 2 + 2 + 2
         // player_score = 1050
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 1050, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 1050, 'wrong round player_score');
     }
 
     #[test]
@@ -193,7 +192,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_MULTI_ACES_ID];
@@ -209,8 +208,8 @@ mod test_play_special_cards {
         // points: 11 + 11 + 11
         // multi add: 3 + 3 + 3
         // player_score = 1134
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 1134, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 1134, 'wrong round player_score');
     }
 
     #[test]
@@ -219,7 +218,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_LUCKY_SEVEN_ID];
@@ -235,8 +234,8 @@ mod test_play_special_cards {
         // points: 7 + 7 + 77 + 77
         // multi add: 0
         // player_score = 356
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 356, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 356, 'wrong round player_score');
     }
 
     #[test]
@@ -245,11 +244,11 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        let mut round = mock_round(ref store, @game, 300);
+        // let mut round = mock_round(ref store, @game, 300);
 
         // Set round last hand
-        round.hands = 1;
-        store.set_round(round);
+        // round.hands = 1;
+        // store.set_round(round);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_DEADLINE_ID, SPECIAL_INCREASE_LEVEL_PAIR_ID];
@@ -264,8 +263,8 @@ mod test_play_special_cards {
         // Pair - level 15 - points: 80, multi: 16
         // points: 11 + 11 + 10
         // multi add: 1
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 1632, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 1632, 'wrong round player_score');
     }
 
     #[test]
@@ -274,7 +273,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock special card
         let special_cards_ids = array![SPECIAL_INITIAL_ADVANTAGE_ID];
@@ -289,8 +288,8 @@ mod test_play_special_cards {
         // Four of a Kind - points: 60, multi: 7
         // points: 11 + 11 + 11 + 11 + 100
         // multi add: 10
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 3468, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 3468, 'wrong round player_score');
     }
 
     #[test]
@@ -299,7 +298,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Init modifiers cards
         let mut specials_ids = array![SPECIAL_LUCKY_HAND_ID];
@@ -331,7 +330,7 @@ mod test_play_special_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Init and mock needed cards for the test
         let TWO_OF_DIAMONDS = CardTrait::new(Value::Two, Suit::Diamonds, 2);
@@ -369,7 +368,6 @@ mod test_play_modifier_cards {
     use jokers_of_neon::models::data::poker_hand::{PokerHand, LevelPokerHand};
     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::models::status::round::round::{Round};
 
     use jokers_of_neon::store::{Store, StoreTrait};
 
@@ -378,7 +376,7 @@ mod test_play_modifier_cards {
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
 
-    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round};
+    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game};
 
     use starknet::testing::set_contract_address;
 
@@ -393,7 +391,7 @@ mod test_play_modifier_cards {
 
         let mut store: Store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        let round = mock_round(ref store, @game, 300);
+        // let round = mock_round(ref store, @game, 300);
 
         // Init modifiers cards
         // let mut modifiers_ids = array![POINTS_MODIFIER_4, MULTI_MODIFIER_4].span();
@@ -403,7 +401,7 @@ mod test_play_modifier_cards {
         let hand_cards_ids = array![KING_SPADES_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
-        assert(round.player_score.is_zero(), 'wrong round_before player_score');
+        // assert(round.player_score.is_zero(), 'wrong round_before player_score');
         assert(game.level == 1, 'wrong game_before level');
         assert(game.cash.is_zero(), 'wrong game_before cash');
         assert(game.state == GameState::IN_GAME, 'wrong game_before state');
@@ -412,8 +410,8 @@ mod test_play_modifier_cards {
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0], array![1]);
 
-        let round = store.get_round(game.id);
-        assert(round.player_score == 115, 'wrong round player_score');
+        // let round = store.get_round(game.id);
+        // assert(round.player_score == 115, 'wrong round player_score');
     }
 
     #[test]
@@ -422,7 +420,7 @@ mod test_play_modifier_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock hand
         let hand_cards_ids = array![TWO_SPADES_ID, TWO_DIAMONDS_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
@@ -435,8 +433,8 @@ mod test_play_modifier_cards {
         // points: 2 + 2 + 100
         // multi add: 10
         // player_score = 1368
-        let round = store.get_round(game.id);
-        assert(round.player_score == 1368, 'wrong round player_score');
+        // let round = store.get_round(game.id);
+        // assert(round.player_score == 1368, 'wrong round player_score');
 
         let game_after = store.get_game(game.id);
         assert(game_after.player_score == 1368, 'wrong game player_score');
@@ -449,7 +447,7 @@ mod test_play_modifier_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock hand
         let hand_cards_ids = array![TWO_CLUBS_ID, TWO_SPADES_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID];
@@ -462,8 +460,8 @@ mod test_play_modifier_cards {
         // points: 2 + 2 + 4 + 4 = 12
         // multi add: 0
         // player_score = 96
-        let round = store.get_round(game.id);
-        assert(round.player_score == 96, 'wrong round player_score');
+        // let round = store.get_round(game.id);
+        // assert(round.player_score == 96, 'wrong round player_score');
 
         let game_after = store.get_game(game.id);
         assert(game_after.player_score == 0, 'wrong game_after player_score');
@@ -477,7 +475,7 @@ mod test_play_modifier_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock hand
         let hand_cards_ids = array![
@@ -498,8 +496,8 @@ mod test_play_modifier_cards {
         // points: 6 + 10 + 4 + 10 + 10
         // multi add: 1
         // player_score = 375
-        let round = store.get_round(game.id);
-        assert(round.player_score == 375, 'wrong round player_score');
+        // let round = store.get_round(game.id);
+        // assert(round.player_score == 375, 'wrong round player_score');
 
         let game_after = store.get_game(game.id);
         assert(game_after.player_score == 375, 'wrong game_after player_score');
@@ -513,7 +511,7 @@ mod test_play_modifier_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock hand
         let hand_cards_ids = array![
@@ -529,8 +527,8 @@ mod test_play_modifier_cards {
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1], array![5, 4]);
 
-        let round = store.get_round(game.id);
-        assert(round.player_score == 510, 'wrong round player_score');
+        // let round = store.get_round(game.id);
+        // assert(round.player_score == 510, 'wrong round player_score');
 
         let game_after = store.get_game(game.id);
         assert(game_after.player_score == 510, 'wrong game_after player_score');
@@ -551,7 +549,6 @@ mod test_rage_cards {
     use jokers_of_neon::models::data::poker_hand::PokerHand;
     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::models::status::round::round::{Round};
 
     use jokers_of_neon::store::{Store, StoreTrait};
 
@@ -561,7 +558,7 @@ mod test_rage_cards {
     };
 
     use jokers_of_neon::tests::utils::{
-        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round, mock_special_cards, mock_rage_round
+        mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_special_cards, mock_rage_round
     };
     use jokers_of_neon::utils::constants::{
         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_ZERO_WASTE, RAGE_CARD_SILENT_JOKERS
@@ -578,7 +575,7 @@ mod test_rage_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock RageRound
         mock_rage_round(world, game.id, array![RAGE_CARD_SILENT_DIAMONDS]);
@@ -591,8 +588,8 @@ mod test_rage_cards {
         systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
         // Four of a Kind - points: 60, multi: 7
         // points: 11 + 11 + 0 + 11
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 651, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 651, 'wrong round player_score');
     }
 
     #[test]
@@ -601,7 +598,7 @@ mod test_rage_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock RageRound
         mock_rage_round(world, game.id, array![RAGE_CARD_SILENT_DIAMONDS]);
@@ -618,8 +615,8 @@ mod test_rage_cards {
         systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
         // Four of a Kind - points: 60, multi: 7
         // points: 11 + 11 + 0 + 11
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 651, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 651, 'wrong round player_score');
     }
 
     #[test]
@@ -628,7 +625,7 @@ mod test_rage_cards {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         // Mock RageRound
         mock_rage_round(world, game.id, array![RAGE_CARD_SILENT_JOKERS]);
@@ -646,8 +643,8 @@ mod test_rage_cards {
         // Pair - points: 10, multi: 2
         // points: 10
         // player_score = 40
-        let round_after = store.get_round(game.id);
-        assert(round_after.player_score == 40, 'wrong round player_score');
+        // let round_after = store.get_round(game.id);
+        // assert(round_after.player_score == 40, 'wrong round player_score');
     }
 // #[test]
 // #[available_gas(30000000000000000)]
@@ -702,13 +699,12 @@ mod test_play_validations {
     use jokers_of_neon::models::data::poker_hand::PokerHand;
 
     use jokers_of_neon::models::status::game::game::{Game, GameState, DefaultGame};
-    use jokers_of_neon::models::status::round::round::Round;
 
     use jokers_of_neon::store::{Store, StoreTrait};
 
     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
     use jokers_of_neon::tests::setup::{setup, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
-    use jokers_of_neon::tests::utils::{mock_current_hand_cards_ids, mock_game, mock_round, mock_game_deck};
+    use jokers_of_neon::tests::utils::{mock_current_hand_cards_ids, mock_game, mock_game_deck};
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {
@@ -757,7 +753,7 @@ mod test_play_validations {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         let cards_ids = array![INVALID_CARD];
         mock_current_hand_cards_ids(ref store, game.id, cards_ids);
@@ -773,7 +769,7 @@ mod test_play_validations {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 300);
+        // mock_round(ref store, @game, 300);
 
         let cards_ids = array![INVALID_CARD];
         mock_current_hand_cards_ids(ref store, game.id, cards_ids);
@@ -788,7 +784,7 @@ mod test_play_validations {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 3000);
+        // mock_round(ref store, @game, 3000);
 
         let mut game_deck = mock_game_deck(world, game.id);
         game_deck.round_len = 0;
@@ -833,7 +829,7 @@ mod test_play_validations {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 3000);
+        // mock_round(ref store, @game, 3000);
 
         // Make sure that player doenst win with next hand
         // Set an empty current deck
@@ -904,7 +900,7 @@ mod test_play_validations {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 3000);
+        // mock_round(ref store, @game, 3000);
 
         let mut game_deck = mock_game_deck(world, game.id);
         game_deck.round_len = 0;
@@ -950,7 +946,7 @@ mod test_play_validations {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        mock_round(ref store, @game, 3000);
+        // mock_round(ref store, @game, 3000);
 
         let mut game_deck = mock_game_deck(world, game.id);
         game_deck.round_len = 0;

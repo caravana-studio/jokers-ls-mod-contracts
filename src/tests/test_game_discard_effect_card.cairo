@@ -7,7 +7,6 @@ mod test_discard_effect_card {
     use jokers_of_neon::models::data::poker_hand::PokerHand;
     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::models::status::round::round::{Round};
 
     use jokers_of_neon::store::{Store, StoreTrait};
 
@@ -15,7 +14,7 @@ mod test_discard_effect_card {
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
-    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round};
+    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game};
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {
@@ -28,7 +27,7 @@ mod test_discard_effect_card {
         let (world, systems) = setup::spawn_game();
         let mut store: Store = StoreTrait::new(world);
         let game = mock_game(ref store, PLAYER());
-        let round = mock_round(ref store, @game, 300);
+        // let round = mock_round(ref store, @game, 300);
 
         // Mock hand
         let hand_cards_ids = array![KING_SPADES_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID];
@@ -39,8 +38,8 @@ mod test_discard_effect_card {
         set_contract_address(PLAYER());
         systems.game_system.discard_effect_card(game.id, index);
 
-        let round_after = store.get_round(game.id);
-        assert(round.discard == round_after.discard, 'wrong round discard');
+        // let round_after = store.get_round(game.id);
+        // assert(round.discard == round_after.discard, 'wrong round discard');
     }
 }
 
@@ -52,7 +51,6 @@ mod test_discard_effect_card_validations {
     use jokers_of_neon::models::data::poker_hand::PokerHand;
     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::models::status::round::round::{Round};
 
     use jokers_of_neon::store::{Store, StoreTrait};
 
@@ -60,7 +58,7 @@ mod test_discard_effect_card_validations {
     use jokers_of_neon::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
-    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round};
+    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game};
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {

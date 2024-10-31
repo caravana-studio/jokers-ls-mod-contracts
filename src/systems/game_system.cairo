@@ -59,7 +59,6 @@ mod game_system {
     use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
-    use jokers_of_neon::models::status::round::round::Round;
     use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
 
     use jokers_of_neon::store::{Store, StoreTrait};
@@ -185,188 +184,7 @@ mod game_system {
             store.set_game(game);
         }
 
-        fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
-            let mut store: Store = StoreTrait::new(world);
-
-            let mut game = store.get_game(game_id);
-            // Check that the game exists (if the game has no owner means it does not exists)
-            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
-
-            // Check that the owner of the game is the caller
-            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
-
-            // Check that the status of the game
-            assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
-
-            // Check that the length of card_index is between 1 and game.len_hand
-            assert(cards_index.len() > 0 && cards_index.len() <= game.len_hand, errors::INVALID_CARD_INDEX_LEN);
-            let rage_round = RageRoundStore::get(world, game_id);
-
-            let mut current_special_cards_index = self.get_current_special_cards(ref store, @game);
-
-            let (mut cards, effect_id_cards_1, effect_id_cards_2) = self
-                .get_cards(world, ref store, game.id, @cards_index, @modifiers_index, ref current_special_cards_index);
-
-            let (result_hand, mut hit_cards) = calculate_hand(@cards, ref current_special_cards_index);
-
-            let mut points_acum = 0;
-            let mut multi_acum = 0;
-            let mut cash_acum = 0;
-
-            self
-                .apply_joker(
-                    world,
-                    game_id,
-                    @cards_index,
-                    ref current_special_cards_index,
-                    @cards,
-                    ref hit_cards,
-                    ref points_acum,
-                    ref multi_acum,
-                    @rage_round
-                );
-
-            let silent_suits = self.get_silent_suits(@rage_round);
-
-            self
-                .calculate_score(
-                    world, @cards, ref hit_cards, @cards_index, ref points_acum, ref multi_acum, @silent_suits
-                );
-
-            self
-                .apply_modifiers(
-                    world,
-                    ref store,
-                    ref hit_cards,
-                    @cards_index,
-                    ref current_special_cards_index,
-                    @modifiers_index,
-                    effect_id_cards_1,
-                    effect_id_cards_2,
-                    ref points_acum,
-                    ref multi_acum
-                );
-
-            let mut round = store.get_round(game.id);
-            self
-                .apply_special_global(
-                    world, @game, @round, ref current_special_cards_index, ref points_acum, ref multi_acum
-                );
-
-            self
-                .apply_special_every_card(
-                    world,
-                    game_id,
-                    @cards_index,
-                    ref current_special_cards_index,
-                    @cards,
-                    ref hit_cards,
-                    ref points_acum,
-                    ref multi_acum,
-                    @silent_suits
-                );
-
-            self
-                .apply_special_level_hand(
-                    world,
-                    ref store,
-                    game_id,
-                    @round,
-                    ref current_special_cards_index,
-                    result_hand,
-                    ref hit_cards,
-                    @cards_index,
-                    @cards,
-                    ref points_acum,
-                    ref multi_acum
-                );
-
-            self
-                .apply_cash_special(
-                    world, ref current_special_cards_index, @cards, @cards_index, ref hit_cards, ref cash_acum
-                );
-
-            let mut round = store.get_round(game.id);
-            round.hands -= 1;
-            round.player_score += points_acum * multi_acum;
-            game.cash += cash_acum;
-
-            store.set_round(round);
-            let round_score_event = RoundScoreEvent {
-                player: get_caller_address(), game_id, player_score: round.player_score
-            };
-            emit!(world, (round_score_event));
-            if round.player_score >= round.level_score {
-                let play_win_game_event = PlayWinGameEvent {
-                    player: get_caller_address(), game_id, level: game.level, player_score: round.player_score
-                };
-                emit!(world, (play_win_game_event));
-                game.cash += self.calculate_earning_cash(world, ref store, round, game);
-                game.state = GameState::AT_SHOP;
-                game.player_score += round.player_score;
-                self.sync_current_special_cards(ref store, ref game);
-
-                if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
-                    // return the cards to the deck
-                    game.len_hand += 2;
-                }
-                let (_, rage_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-rage_system")) {
-                    Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
-                    _ => Option::None
-                }.unwrap();
-                IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game_id);
-            } else {
-                // The player ran out of hands
-                if round.hands == 0 {
-                    let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id };
-                    emit!(world, (play_game_over_event));
-                    game.state = GameState::FINISHED;
-                    game.player_score += round.player_score;
-                } else {
-                    let mut cards = array![];
-                    let mut idx = 0;
-                    loop {
-                        if idx == cards_index.len() {
-                            break;
-                        }
-                        cards.append(*cards_index.at(idx));
-                        idx += 1;
-                    };
-
-                    idx = 0;
-                    loop {
-                        if idx == modifiers_index.len() {
-                            break;
-                        }
-                        let card_index = *modifiers_index.at(idx);
-                        if card_index != 100 {
-                            cards.append(card_index);
-                        }
-                        idx += 1;
-                    };
-
-                    CurrentHandCardTrait::refresh(world, ref round, cards);
-
-                    // The player has no more cards in his hand and in the deck
-                    let game_deck = GameDeckStore::get(world, game_id);
-                    if game_deck.round_len.is_zero() && self.player_has_empty_hand(ref store, @game) {
-                        let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id };
-                        emit!(world, (play_game_over_event));
-                        game.state = GameState::FINISHED;
-                        game.player_score += round.player_score;
-                    }
-                }
-            }
-            store.set_game(game);
-
-            // Track PlayPokerHand
-            emit!(
-                world,
-                (PlayPokerHandEvent {
-                    game_id, level: game.level, count_hand: game.max_hands - round.hands, poker_hand: result_hand
-                })
-            );
-        }
+        fn play(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {}
 
         fn discard(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
             let mut store: Store = StoreTrait::new(world);
@@ -401,12 +219,12 @@ mod game_system {
                 idx += 1;
             };
 
-            let mut round = store.get_round(game.id);
-            CurrentHandCardTrait::refresh(world, ref round, cards);
+            // let mut round = store.get_round(game.id);
+            // CurrentHandCardTrait::refresh(world, ref round, cards);
 
             // The player has no more cards in his hand and in the deck
-            round.discard -= 1;
-            store.set_round(round);
+            // round.discard -= 1;
+            // store.set_round(round);
 
             let game_deck = GameDeckStore::get(world, game_id);
             if game_deck.round_len.is_zero() && self.player_has_empty_hand(ref store, @game) {
@@ -449,8 +267,8 @@ mod game_system {
             let current_hand_card = store.get_current_hand_card(game_id, card_index);
             assert(is_modifier_card(current_hand_card.card_id), errors::ONLY_EFFECT_CARD);
 
-            let mut round = store.get_round(game.id);
-            CurrentHandCardTrait::refresh(world, ref round, array![card_index]);
+            // let mut round = store.get_round(game.id);
+            // CurrentHandCardTrait::refresh(world, ref round, array![card_index]);
         }
 
         fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32) {
@@ -778,46 +596,46 @@ mod game_system {
             };
         }
 
-        fn calculate_earning_cash(
-            self: @ContractState, world: IWorldDispatcher, ref store: Store, round: Round, game: Game
-        ) -> u32 {
-            let config = store.get_config_earning_cash();
+        // fn calculate_earning_cash(
+        //     self: @ContractState, world: IWorldDispatcher, ref store: Store, round: Round, game: Game
+        // ) -> u32 {
+        //     let config = store.get_config_earning_cash();
 
-            let hands_left: u32 = (round.hands).into();
-            let mut discard_left: u32 = (round.discard).into();
-            let level_bonus = 500;
+        //     let hands_left: u32 = (round.hands).into();
+        //     let mut discard_left: u32 = (round.discard).into();
+        //     let level_bonus = 500;
 
-            let rage_round = RageRoundStore::get(world, game.id);
-            let mut rage_card_defeated = 0;
-            if rage_round.is_active {
-                rage_card_defeated = rage_round.active_rage_ids.len();
-                if is_rage_card_active(@rage_round, RAGE_CARD_ZERO_WASTE) {
-                    discard_left = game.max_discard.into();
-                }
-            }
+        //     let rage_round = RageRoundStore::get(world, game.id);
+        //     let mut rage_card_defeated = 0;
+        //     if rage_round.is_active {
+        //         rage_card_defeated = rage_round.active_rage_ids.len();
+        //         if is_rage_card_active(@rage_round, RAGE_CARD_ZERO_WASTE) {
+        //             discard_left = game.max_discard.into();
+        //         }
+        //     }
 
-            let total = config.base * 100
-                + level_bonus
-                + hands_left * 150
-                + discard_left * 150
-                + rage_card_defeated * 500;
+        //     let total = config.base * 100
+        //         + level_bonus
+        //         + hands_left * 150
+        //         + discard_left * 150
+        //         + rage_card_defeated * 500;
 
-            let detail_earned = DetailEarnedEvent {
-                player: game.owner,
-                game_id: game.id,
-                round_defeat: config.base * 100,
-                level_bonus,
-                hands_left,
-                hands_left_cash: hands_left * 150,
-                discard_left,
-                discard_left_cash: discard_left * 150,
-                rage_card_defeated,
-                rage_card_defeated_cash: rage_card_defeated * 500,
-                total
-            };
-            emit!(world, (detail_earned));
-            total
-        }
+        //     let detail_earned = DetailEarnedEvent {
+        //         player: game.owner,
+        //         game_id: game.id,
+        //         round_defeat: config.base * 100,
+        //         level_bonus,
+        //         hands_left,
+        //         hands_left_cash: hands_left * 150,
+        //         discard_left,
+        //         discard_left_cash: discard_left * 150,
+        //         rage_card_defeated,
+        //         rage_card_defeated_cash: rage_card_defeated * 500,
+        //         total
+        //     };
+        //     emit!(world, (detail_earned));
+        //     total
+        // }
 
         fn apply_modifiers(
             self: @ContractState,
@@ -868,38 +686,38 @@ mod game_system {
             };
         }
 
-        fn apply_special_global(
-            self: @ContractState,
-            world: IWorldDispatcher,
-            game: @Game,
-            round: @Round,
-            ref current_special_cards_index: Felt252Dict<Nullable<u32>>,
-            ref points_acum: u32,
-            ref multi_acum: u32
-        ) {
-            let mut store = StoreTrait::new(world);
-            if !(current_special_cards_index.get(SPECIAL_INITIAL_ADVANTAGE_ID.into()).is_null()) {
-                // first hand
-                if *game.max_hands == *round.hands {
-                    let effect_card = store.get_effect_card(SPECIAL_INITIAL_ADVANTAGE_ID);
-                    let effect = store.get_effect(effect_card.effect_id);
-                    points_acum += effect.points;
-                    multi_acum += effect.multi_add;
-                    emit!(
-                        world,
-                        SpecialGlobalEvent {
-                            player: get_caller_address(),
-                            game_id: *game.id,
-                            current_special_card_idx: current_special_cards_index
-                                .get(SPECIAL_INITIAL_ADVANTAGE_ID.into())
-                                .deref(),
-                            multi: effect.multi_add,
-                            points: effect.points
-                        }
-                    );
-                }
-            }
-        }
+        // fn apply_special_global(
+        //     self: @ContractState,
+        //     world: IWorldDispatcher,
+        //     game: @Game,
+        //     round: @Round,
+        //     ref current_special_cards_index: Felt252Dict<Nullable<u32>>,
+        //     ref points_acum: u32,
+        //     ref multi_acum: u32
+        // ) {
+        //     let mut store = StoreTrait::new(world);
+        //     if !(current_special_cards_index.get(SPECIAL_INITIAL_ADVANTAGE_ID.into()).is_null()) {
+        //         // first hand
+        //         if *game.max_hands == *round.hands {
+        //             let effect_card = store.get_effect_card(SPECIAL_INITIAL_ADVANTAGE_ID);
+        //             let effect = store.get_effect(effect_card.effect_id);
+        //             points_acum += effect.points;
+        //             multi_acum += effect.multi_add;
+        //             emit!(
+        //                 world,
+        //                 SpecialGlobalEvent {
+        //                     player: get_caller_address(),
+        //                     game_id: *game.id,
+        //                     current_special_card_idx: current_special_cards_index
+        //                         .get(SPECIAL_INITIAL_ADVANTAGE_ID.into())
+        //                         .deref(),
+        //                     multi: effect.multi_add,
+        //                     points: effect.points
+        //                 }
+        //             );
+        //         }
+        //     }
+        // }
 
         fn apply_special_every_card(
             self: @ContractState,
@@ -1087,133 +905,133 @@ mod game_system {
             }
         }
 
-        fn apply_special_level_hand(
-            self: @ContractState,
-            world: IWorldDispatcher,
-            ref store: Store,
-            game_id: u32,
-            round: @Round,
-            ref current_special_cards_index: Felt252Dict<Nullable<u32>>,
-            poker_hand: PokerHand,
-            ref hit_cards: Felt252Dict<bool>,
-            cards_index: @Array<u32>,
-            cards: @Array<Card>,
-            ref points_acum: u32,
-            ref multi_acum: u32
-        ) {
-            let mut level_acum = 1;
-            if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_PAIR_ID.into()).is_null()) {
-                if poker_hand == PokerHand::OnePair {
-                    level_acum += 4;
-                    let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
-                    emit!(
-                        world,
-                        SpecialPokerHandEvent {
-                            player: get_caller_address(),
-                            game_id,
-                            current_special_card_idx: current_special_cards_index
-                                .get(SPECIAL_INCREASE_LEVEL_PAIR_ID.into())
-                                .deref(),
-                            multi: level_poker_hand.multi,
-                            points: level_poker_hand.points
-                        }
-                    );
-                }
-            }
-            if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID.into()).is_null()) {
-                if poker_hand == PokerHand::TwoPair {
-                    level_acum += 4;
-                    let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
-                    emit!(
-                        world,
-                        SpecialPokerHandEvent {
-                            player: get_caller_address(),
-                            game_id,
-                            current_special_card_idx: current_special_cards_index
-                                .get(SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID.into())
-                                .deref(),
-                            multi: level_poker_hand.multi,
-                            points: level_poker_hand.points
-                        }
-                    );
-                }
-            }
-            if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_STRAIGHT_ID.into()).is_null()) {
-                if poker_hand == PokerHand::Straight {
-                    level_acum += 4;
-                    let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
-                    emit!(
-                        world,
-                        SpecialPokerHandEvent {
-                            player: get_caller_address(),
-                            game_id,
-                            current_special_card_idx: current_special_cards_index
-                                .get(SPECIAL_INCREASE_LEVEL_STRAIGHT_ID.into())
-                                .deref(),
-                            multi: level_poker_hand.multi,
-                            points: level_poker_hand.points
-                        }
-                    );
-                }
-            }
-            if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_FLUSH_ID.into()).is_null()) {
-                if poker_hand == PokerHand::Flush {
-                    level_acum += 4;
-                    let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
-                    emit!(
-                        world,
-                        SpecialPokerHandEvent {
-                            player: get_caller_address(),
-                            game_id,
-                            current_special_card_idx: current_special_cards_index
-                                .get(SPECIAL_INCREASE_LEVEL_FLUSH_ID.into())
-                                .deref(),
-                            multi: level_poker_hand.multi,
-                            points: level_poker_hand.points
-                        }
-                    );
-                }
-            }
-            if !(current_special_cards_index.get(SPECIAL_DEADLINE_ID.into()).is_null()) {
-                if *round.hands == 1 {
-                    level_acum += 10;
-                    let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
-                    emit!(
-                        world,
-                        SpecialPokerHandEvent {
-                            player: get_caller_address(),
-                            game_id,
-                            current_special_card_idx: current_special_cards_index
-                                .get(SPECIAL_DEADLINE_ID.into())
-                                .deref(),
-                            multi: level_poker_hand.multi,
-                            points: level_poker_hand.points
-                        }
-                    );
-                }
-            }
+        // fn apply_special_level_hand(
+        //     self: @ContractState,
+        //     world: IWorldDispatcher,
+        //     ref store: Store,
+        //     game_id: u32,
+        //     round: @Round,
+        //     ref current_special_cards_index: Felt252Dict<Nullable<u32>>,
+        //     poker_hand: PokerHand,
+        //     ref hit_cards: Felt252Dict<bool>,
+        //     cards_index: @Array<u32>,
+        //     cards: @Array<Card>,
+        //     ref points_acum: u32,
+        //     ref multi_acum: u32
+        // ) {
+        //     let mut level_acum = 1;
+        //     if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_PAIR_ID.into()).is_null()) {
+        //         if poker_hand == PokerHand::OnePair {
+        //             level_acum += 4;
+        //             let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //             emit!(
+        //                 world,
+        //                 SpecialPokerHandEvent {
+        //                     player: get_caller_address(),
+        //                     game_id,
+        //                     current_special_card_idx: current_special_cards_index
+        //                         .get(SPECIAL_INCREASE_LEVEL_PAIR_ID.into())
+        //                         .deref(),
+        //                     multi: level_poker_hand.multi,
+        //                     points: level_poker_hand.points
+        //                 }
+        //             );
+        //         }
+        //     }
+        //     if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID.into()).is_null()) {
+        //         if poker_hand == PokerHand::TwoPair {
+        //             level_acum += 4;
+        //             let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //             emit!(
+        //                 world,
+        //                 SpecialPokerHandEvent {
+        //                     player: get_caller_address(),
+        //                     game_id,
+        //                     current_special_card_idx: current_special_cards_index
+        //                         .get(SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID.into())
+        //                         .deref(),
+        //                     multi: level_poker_hand.multi,
+        //                     points: level_poker_hand.points
+        //                 }
+        //             );
+        //         }
+        //     }
+        //     if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_STRAIGHT_ID.into()).is_null()) {
+        //         if poker_hand == PokerHand::Straight {
+        //             level_acum += 4;
+        //             let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //             emit!(
+        //                 world,
+        //                 SpecialPokerHandEvent {
+        //                     player: get_caller_address(),
+        //                     game_id,
+        //                     current_special_card_idx: current_special_cards_index
+        //                         .get(SPECIAL_INCREASE_LEVEL_STRAIGHT_ID.into())
+        //                         .deref(),
+        //                     multi: level_poker_hand.multi,
+        //                     points: level_poker_hand.points
+        //                 }
+        //             );
+        //         }
+        //     }
+        //     if !(current_special_cards_index.get(SPECIAL_INCREASE_LEVEL_FLUSH_ID.into()).is_null()) {
+        //         if poker_hand == PokerHand::Flush {
+        //             level_acum += 4;
+        //             let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //             emit!(
+        //                 world,
+        //                 SpecialPokerHandEvent {
+        //                     player: get_caller_address(),
+        //                     game_id,
+        //                     current_special_card_idx: current_special_cards_index
+        //                         .get(SPECIAL_INCREASE_LEVEL_FLUSH_ID.into())
+        //                         .deref(),
+        //                     multi: level_poker_hand.multi,
+        //                     points: level_poker_hand.points
+        //                 }
+        //             );
+        //         }
+        //     }
+        //     if !(current_special_cards_index.get(SPECIAL_DEADLINE_ID.into()).is_null()) {
+        //         if *round.hands == 1 {
+        //             level_acum += 10;
+        //             let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //             emit!(
+        //                 world,
+        //                 SpecialPokerHandEvent {
+        //                     player: get_caller_address(),
+        //                     game_id,
+        //                     current_special_card_idx: current_special_cards_index
+        //                         .get(SPECIAL_DEADLINE_ID.into())
+        //                         .deref(),
+        //                     multi: level_poker_hand.multi,
+        //                     points: level_poker_hand.points
+        //                 }
+        //             );
+        //         }
+        //     }
 
-            let neon_idx = self.get_neon_hand_card_index(ref hit_cards, cards_index, cards);
-            if neon_idx.len() > 0 {
-                level_acum += 4;
-                let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //     let neon_idx = self.get_neon_hand_card_index(ref hit_cards, cards_index, cards);
+        //     if neon_idx.len() > 0 {
+        //         level_acum += 4;
+        //         let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
 
-                emit!(
-                    world,
-                    NeonPokerHandEvent {
-                        player: get_caller_address(),
-                        game_id,
-                        neon_cards_idx: neon_idx,
-                        multi: level_poker_hand.multi,
-                        points: level_poker_hand.points
-                    }
-                );
-            }
+        //         emit!(
+        //             world,
+        //             NeonPokerHandEvent {
+        //                 player: get_caller_address(),
+        //                 game_id,
+        //                 neon_cards_idx: neon_idx,
+        //                 multi: level_poker_hand.multi,
+        //                 points: level_poker_hand.points
+        //             }
+        //         );
+        //     }
 
-            let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
-            points_acum += level_poker_hand.points;
-            multi_acum += level_poker_hand.multi;
-        }
+        //     let level_poker_hand = store.get_level_poker_hand(poker_hand, level_acum);
+        //     points_acum += level_poker_hand.points;
+        //     multi_acum += level_poker_hand.multi;
+        // }
 
         fn apply_cash_special(
             self: @ContractState,
