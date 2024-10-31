@@ -151,6 +151,9 @@ mod game_system {
 
             game.state = GameState::SELECT_MODIFIER_CARDS;
             store.set_game(game);
+
+            let cards = open_blister_pack(world, ref store, game, MODIFIER_CARDS_PACK_ID);
+            store.set_blister_pack_result(BlisterPackResult { game_id, cards_picked: false, cards });
         }
 
         fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
@@ -184,6 +187,7 @@ mod game_system {
             let mut store: Store = StoreTrait::new(world);
 
             let game = store.get_game(game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
 
             if game.substate == GameSubState::BEAST {
                 let (_, beast_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-beast_system")) {
