@@ -26,7 +26,7 @@ if [ "$action" == "create" ]; then
     slot deployments delete jon-${profile} katana
     slot deployments delete jon-${profile} torii
     sleep 10
-    slot deployments create --tier epic jon-${profile} katana -b 3000 -v v1.0.0-alpha.19 --disable-fee true --invoke-max-steps 4294967295 --seed 420 -a 10
+    slot deployments create --tier epic jon-${profile} katana -b 3000 -v v1.0.0-alpha.16 --disable-fee true --invoke-max-steps 4294967295 --seed 420 -a 10
 fi
 
 echo "sozo -P ${profile} build && sozo -P ${profile} migrate plan && sozo -P ${profile} migrate apply"
@@ -38,5 +38,5 @@ export world_address=$(cat ./manifests/$profile/deployment/manifest.json | jq -r
 
 if [ "$action" == "create" ]; then
     echo -e "\n✅ Init Torii!"
-    slot d create --tier epic jon-${profile} torii --rpc https://api.cartridge.gg/x/jon-${profile}/katana --world $world_address -v v1.0.0-alpha.19
+    slot d create --tier epic jon-${profile} torii --rpc https://api.cartridge.gg/x/jon-${profile}/katana --world $world_address -v v1.0.0-alpha.16
 fi
