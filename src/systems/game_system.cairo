@@ -56,7 +56,7 @@ mod game_system {
     };
     use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
     use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
-    use jokers_of_neon::models::status::game::game::{Game, GameState};
+    use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
     use jokers_of_neon::models::status::round::round::Round;

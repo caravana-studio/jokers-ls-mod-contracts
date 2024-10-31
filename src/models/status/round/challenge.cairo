@@ -8,8 +8,11 @@ use jokers_of_neon::constants::challenge::{
     CHALLENGE_JOKER, challenges_all
 };
 use jokers_of_neon::models::{
-    data::{challenge::{Challenge, ChallengeStore}, card::{Card, Suit, Value}, poker_hand::PokerHand},
-    status::{game::{game::GameStore}}
+    data::{
+        challenge::{Challenge, ChallengeStore, ChallengePlayerStore}, card::{Card, Suit, Value},
+        events::ChallengeCompleted, poker_hand::PokerHand
+    },
+    status::{game::game::{GameStore, GameState, GameSubState}}
 };
 use jokers_of_neon::utils::{shop::generate_unique_random_values, calculate_hand::calculate_hand};
 
@@ -31,10 +34,24 @@ impl ChallengeImpl of ChallengeTrait {
         cards: @Array<Card>,
         ref current_special_cards_index: Felt252Dict<Nullable<u32>>
     ) {
+        let game = GameStore::get(world, game_id);
+        assert(game.state == GameState::IN_GAME, 'Game not in progress');
+        assert(game.substate == GameSubState::OBSTACLE, 'Game not in obstacle');
+        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
+        assert(challenge_player.plays.is_non_zero(), 'You dont have more plays');
+
         let mut challenge = ChallengeStore::get(world, game_id);
         let (result_hand, mut hit_cards) = calculate_hand(cards, ref current_special_cards_index);
         Self::_resolve_challenges(ref challenge, result_hand, ref hit_cards, cards);
         ChallengeStore::set(@challenge, world);
+
+        if Self::is_completed(@world, game_id) {
+            emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id })
+        } else {
+            challenge_player.plays -= 1;
+            ChallengePlayerStore::set(@challenge_player, world);
+        // if 0 then emit event
+        }
     }
 
     fn _resolve_challenges(

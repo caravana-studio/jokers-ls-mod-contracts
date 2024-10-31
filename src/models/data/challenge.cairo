@@ -6,7 +6,7 @@ struct Challenge {
     active_ids: Span<u32>,
 }
 
-#[derive(Copy, Drop, InstropectPacked, Serde)]
+#[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::model]
 struct ChallengePlayer {
     #[key]

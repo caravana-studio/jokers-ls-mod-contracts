@@ -64,5 +64,6 @@ fn challenges_all() -> Array<u32> {
         CHALLENGE_QUEEN,
         CHALLENGE_KING,
         CHALLENGE_ACE,
+        CHALLENGE_JOKER
     ]
 }
