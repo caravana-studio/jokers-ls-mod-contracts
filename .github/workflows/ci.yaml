@@ -9,7 +9,7 @@ on:
     workflow_dispatch:
 
 env:
-  DOJO_VERSION: v1.0.0-alpha.19
+  DOJO_VERSION: v1.0.0-alpha.16
   SCARB_VERSION: v2.7.0
 
 jobs:

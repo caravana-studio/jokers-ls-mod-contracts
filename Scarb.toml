@@ -19,7 +19,7 @@ move = "./scripts/move.sh"
 deploy-sepolia = "rm -rf ./manifest/sepolia && sozo --profile sepolia clean && sozo --profile sepolia build && sozo --profile sepolia migrate plan && sozo --profile sepolia migrate apply"
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.19" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0-alpha.16" }
 alexandria_sorting = { git = "https://github.com/dubzn/quaireaux.git", branch = "main" }
 
 [profile.prod]
