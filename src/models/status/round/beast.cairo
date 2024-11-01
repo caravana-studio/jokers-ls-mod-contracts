@@ -7,7 +7,7 @@ use jokers_of_neon::models::data::beast::{
 };
 use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
+use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::store::{Store, StoreTrait};
@@ -53,7 +53,7 @@ impl BeastImpl of BeastTrait {
         BeastStore::set(@beast, world);
         emit!(world, (beast));
 
-        let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
+        let player_beast = PlayerBeast { game_id, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);
 
         let mut game_deck = GameDeckStore::get(world, game_id);
@@ -242,20 +242,20 @@ fn _attack_beast(
     ref beast: Beast,
     ref game_mode_beast: GameModeBeast
 ) {
-    player_beast.health = if beast.attack > player_beast.health {
+    game.player_hp = if beast.attack > game.player_hp {
         0
     } else {
-        player_beast.health - beast.attack
+        game.player_hp - beast.attack
     };
 
-    if player_beast.health.is_zero() {
+    if game.player_hp.is_zero() {
         let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
         emit!(world, (play_game_over_event));
         game.state = GameState::FINISHED;
-        store.set_game(game);
     } else {
         // reset energy
         player_beast.energy = game_mode_beast.energy_max_player;
     }
+    store.set_game(game);
     PlayerBeastStore::set(@player_beast, world);
 }
