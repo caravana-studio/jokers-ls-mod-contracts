@@ -7,7 +7,8 @@ use jokers_of_neon::constants::{
         CHALLENGE_PAIR, CHALLENGE_HIGH_CARD, CHALLENGE_HEARTS, CHALLENGE_CLUBS, CHALLENGE_DIAMONDS, CHALLENGE_SPADES,
         CHALLENGE_ONE, CHALLENGE_TWO, CHALLENGE_THREE, CHALLENGE_FOUR, CHALLENGE_FIVE, CHALLENGE_SIX, CHALLENGE_SEVEN,
         CHALLENGE_EIGHT, CHALLENGE_NINE, CHALLENGE_TEN, CHALLENGE_JACK, CHALLENGE_QUEEN, CHALLENGE_KING, CHALLENGE_ACE,
-        CHALLENGE_JOKER, challenges_all
+        CHALLENGE_JOKER, CHALLENGE_500_POINTS, CHALLENGE_1000_POINTS, CHALLENGE_2000_POINTS, CHALLENGE_5000_POINTS,
+        challenges_all
     },
     specials::SPECIAL_ALL_CARDS_TO_HEARTS_ID,
 };
@@ -25,7 +26,8 @@ use jokers_of_neon::{
             round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait}
         },
     },
-    store::{Store, StoreTrait}, utils::{shop::generate_unique_random_values, calculate_hand::calculate_hand}
+    store::{Store, StoreTrait},
+    utils::{game::{play as calculate_hand_score}, shop::generate_unique_random_values, calculate_hand::calculate_hand}
 };
 use starknet::get_caller_address;
 
@@ -52,14 +54,14 @@ impl ChallengeImpl of ChallengeTrait {
 
         let mut store = StoreTrait::new(world);
         let mut current_special_cards_index = _current_special_cards(ref store, @game);
-        // TODO: Modifiers
         let (mut cards, _, _) = _get_cards(
             world, ref store, game.id, @cards_index, @modifiers_index, ref current_special_cards_index
         );
         let (result_hand, mut hit_cards) = calculate_hand(@cards, ref current_special_cards_index);
+        let hand_score = calculate_hand_score(world, ref game, @cards_index, @modifiers_index);
 
         let mut challenge = ChallengeStore::get(world, game_id);
-        _resolve_challenges(ref challenge, result_hand, ref hit_cards, @cards);
+        _resolve_challenges(ref challenge, result_hand, ref hit_cards, @cards, hand_score);
         ChallengeStore::set(@challenge, world);
 
         if Self::is_completed(@world, game_id) {
@@ -131,9 +133,12 @@ impl ChallengeImpl of ChallengeTrait {
     }
 }
 
-
 fn _resolve_challenges(
-    ref challenge: Challenge, result_hand: PokerHand, ref hit_cards: Felt252Dict<bool>, cards: @Array<Card>
+    ref challenge: Challenge,
+    result_hand: PokerHand,
+    ref hit_cards: Felt252Dict<bool>,
+    cards: @Array<Card>,
+    hand_score: u32,
 ) {
     match result_hand {
         PokerHand::RoyalFlush => _complete(ref challenge, CHALLENGE_ROYAL_FLUSH),
@@ -149,6 +154,19 @@ fn _resolve_challenges(
         PokerHand::HighCard => _complete(ref challenge, CHALLENGE_HIGH_CARD),
         PokerHand::None => (),
     };
+
+    if hand_score >= 5000 {
+        _complete(ref challenge, CHALLENGE_5000_POINTS);
+    }
+    if hand_score >= 2000 {
+        _complete(ref challenge, CHALLENGE_2000_POINTS);
+    }
+    if hand_score >= 1000 {
+        _complete(ref challenge, CHALLENGE_1000_POINTS);
+    }
+    if hand_score >= 500 {
+        _complete(ref challenge, CHALLENGE_500_POINTS);
+    }
 
     let mut idx = 0;
     loop {

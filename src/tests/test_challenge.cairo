@@ -47,5 +47,8 @@ mod test_challenge {
 
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
+
+        let challenge = ChallengeStore::get(world, game.id);
+        assert(challenge.active_ids.len().is_zero(), 'wrong len');
     }
 }
