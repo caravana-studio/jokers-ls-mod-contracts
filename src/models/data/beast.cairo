@@ -8,6 +8,12 @@ struct GameModeBeast {
     energy_max_player: u8
 }
 
+#[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
+enum TypeBeast {
+    LOOT_SURVIVOR,
+    JOKERS_OF_NEON
+}
+
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::event]
 #[dojo::model]
@@ -19,7 +25,8 @@ struct Beast {
     level: u8,
     health: u32,
     current_health: u32,
-    attack: u32
+    attack: u32,
+    type_beast: TypeBeast
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
