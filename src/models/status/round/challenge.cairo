@@ -154,15 +154,18 @@ fn _resolve_challenges(
         PokerHand::None => (),
     };
 
-    if hand_score <= 500 {
-        _complete(ref challenge, CHALLENGE_500_POINTS);
-    } else if hand_score <= 1000 {
-        _complete(ref challenge, CHALLENGE_1000_POINTS);
-    } else if hand_score <= 2000 {
-        _complete(ref challenge, CHALLENGE_2000_POINTS);
-    } else if hand_score <= 5000 {
+    if hand_score >= 5000 {
         _complete(ref challenge, CHALLENGE_5000_POINTS);
-    } else {}
+    }
+    if hand_score >= 2000 {
+        _complete(ref challenge, CHALLENGE_2000_POINTS);
+    }
+    if hand_score >= 1000 {
+        _complete(ref challenge, CHALLENGE_1000_POINTS);
+    }
+    if hand_score >= 500 {
+        _complete(ref challenge, CHALLENGE_500_POINTS);
+    }
 
     let mut idx = 0;
     loop {
