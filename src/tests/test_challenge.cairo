@@ -38,7 +38,13 @@ mod test_challenge {
         ChallengeStore::set(
             @Challenge {
                 game_id: game.id,
-                active_ids: array![CHALLENGE_STRAIGHT, CHALLENGE_CLUBS, CHALLENGE_HEARTS, CHALLENGE_TEN].span()
+                active_ids: array![
+                    (CHALLENGE_STRAIGHT, false),
+                    (CHALLENGE_CLUBS, false),
+                    (CHALLENGE_HEARTS, false),
+                    (CHALLENGE_TEN, false)
+                ]
+                    .span()
             },
             world
         );
@@ -48,7 +54,16 @@ mod test_challenge {
         set_contract_address(PLAYER());
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
 
-        let challenge = ChallengeStore::get(world, game.id);
-        assert(challenge.active_ids.len().is_zero(), 'wrong len');
+        let mut challenge = ChallengeStore::get(world, game.id);
+        assert(challenge.active_ids.len() == 4, 'wrong len');
+        loop {
+            match challenge.active_ids.pop_front() {
+                Option::Some(challenge) => {
+                    let (_, completed) = *challenge;
+                    assert(completed, 'challenge should be completed');
+                },
+                Option::None => { break; }
+            }
+        };
     }
 }
