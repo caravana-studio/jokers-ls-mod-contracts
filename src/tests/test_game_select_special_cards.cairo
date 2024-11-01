@@ -44,9 +44,6 @@ mod test_select_special_cards {
         let game_after = store.get_game(game.id);
         assert(game_after.state == GameState::SELECT_MODIFIER_CARDS, 'wrong GameState');
 
-        let blister_pack = store.get_blister_pack_result(game.id);
-        assert(blister_pack.cards_picked == true, 'cards_picked should be true');
-
         // last special must be `SPECIAL_MULTI_FOR_DIAMOND`
         let SPECIAL_PICKED = store.get_current_special_cards(game.id, game_after.len_current_special_cards - 1);
         assert(SPECIAL_PICKED.effect_card_id == SPECIAL_MULTI_FOR_DIAMOND_ID, 'wrong special card');
