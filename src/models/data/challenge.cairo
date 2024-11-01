@@ -1,4 +1,5 @@
 #[derive(Copy, Drop, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct Challenge {
     #[key]

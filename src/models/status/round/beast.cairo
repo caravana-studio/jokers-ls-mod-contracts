@@ -51,6 +51,7 @@ impl BeastImpl of BeastTrait {
 
         let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
         BeastStore::set(@beast, world);
+        emit!(world, (beast));
 
         let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);

@@ -9,6 +9,7 @@ struct GameModeBeast {
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct Beast {
     #[key]
