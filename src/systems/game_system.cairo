@@ -123,7 +123,7 @@ mod game_system {
             game.substate = LevelTrait::calculate(world, game_id);
             match game.substate {
                 GameSubState::BEAST => { BeastTrait::create(world, ref store, game_id); },
-                GameSubState::OBSTACLE => { ChallengeTrait::create(world, game_id); },
+                GameSubState::OBSTACLE => { ChallengeTrait::create(world, ref store, game_id); },
                 GameSubState::CREATE_LEVEL => {},
             }
             store.set_game(game);

@@ -16,7 +16,7 @@ use jokers_of_neon::constants::{
 use jokers_of_neon::{
     models::{
         data::{
-            challenge::{Challenge, ChallengeStore, ChallengePlayerStore}, card::{Card, Suit, Value},
+            challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore}, card::{Card, Suit, Value},
             game_deck::{GameDeckStore, GameDeckImpl},
             events::{ChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent, SpecialModifierSuitEvent},
             poker_hand::PokerHand
@@ -40,11 +40,20 @@ mod errors {
 
 #[generate_trait]
 impl ChallengeImpl of ChallengeTrait {
-    fn create(world: IWorldDispatcher, game_id: u32) {
+    fn create(world: IWorldDispatcher, ref store: Store, game_id: u32) {
+        let mut game = store.get_game(game_id);
+
         let mut challenge = ChallengeStore::get(world, game_id);
         challenge.active_ids = generate_unique_random_values(world, 3, challenges_all(), array![]).span();
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
+
+        let challenge_player = ChallengePlayer { game_id, discards: 5, plays: 5 };
+        ChallengePlayerStore::set(@challenge_player, world);
+
+        let mut game_deck = GameDeckStore::get(world, game_id);
+        game_deck.restore(world);
+        CurrentHandCardTrait::create(world, game);
     }
 
     fn play(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
