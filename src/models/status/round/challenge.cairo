@@ -36,6 +36,8 @@ mod errors {
     const SUBSTATE_NOT_OBSTACLE: felt252 = 'Substate not OBSTACLE';
     const USE_INVALID_CARD: felt252 = 'Use an invalid card';
     const ARRAY_REPEATED_ELEMENTS: felt252 = 'Array has repeated elements';
+    const OUT_OF_PLAYS: felt252 = 'Out of plays';
+    const OUT_OF_DISCARDS: felt252 = 'Out of discards';
 }
 
 #[generate_trait]
@@ -52,6 +54,9 @@ impl ChallengeImpl of ChallengeTrait {
         assert(game.state == GameState::IN_GAME, errors::STATE_NOT_IN_GAME);
         assert(game.substate == GameSubState::OBSTACLE, errors::SUBSTATE_NOT_OBSTACLE);
 
+        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
+        assert(challenge_player.plays > 0, errors::OUT_OF_PLAYS);
+
         let mut store = StoreTrait::new(world);
         let mut current_special_cards_index = _current_special_cards(ref store, @game);
         let (mut cards, _, _) = _get_cards(
@@ -65,9 +70,10 @@ impl ChallengeImpl of ChallengeTrait {
         ChallengeStore::set(@challenge, world);
 
         if Self::is_completed(@world, game_id) {
-            emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id })
+            emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id });
+            game.substate = GameSubState::CREATE_LEVEL;
+            GameStore::set(@game, world);
         } else {
-            let mut challenge_player = ChallengePlayerStore::get(world, game_id);
             challenge_player.plays -= 1;
             ChallengePlayerStore::set(@challenge_player, world);
         }
@@ -87,6 +93,9 @@ impl ChallengeImpl of ChallengeTrait {
         let mut game = GameStore::get(world, game_id);
         assert(game.state == GameState::IN_GAME, errors::STATE_NOT_IN_GAME);
         assert(game.substate == GameSubState::OBSTACLE, errors::SUBSTATE_NOT_OBSTACLE);
+
+        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
+        assert(challenge_player.discards > 0, errors::OUT_OF_DISCARDS);
 
         let mut store = StoreTrait::new(world);
         let mut cards = array![];
@@ -115,7 +124,6 @@ impl ChallengeImpl of ChallengeTrait {
         };
         CurrentHandCardTrait::refresh(world, game_id, cards);
 
-        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
         challenge_player.discards -= 1;
         ChallengePlayerStore::set(@challenge_player, world);
 
