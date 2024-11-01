@@ -254,3 +254,13 @@ struct ChallengeCompleted {
     player_name: felt252,
     game_id: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct ItemChallengeCompleted {
+    #[key]
+    game_id: u32,
+    challenge_id: u32
+}
+

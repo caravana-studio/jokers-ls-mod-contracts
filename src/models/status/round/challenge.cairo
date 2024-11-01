@@ -18,7 +18,10 @@ use jokers_of_neon::{
         data::{
             challenge::{Challenge, ChallengeStore, ChallengePlayerStore}, card::{Card, Suit, Value},
             game_deck::{GameDeckStore, GameDeckImpl},
-            events::{ChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent, SpecialModifierSuitEvent},
+            events::{
+                ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
+                SpecialModifierSuitEvent
+            },
             poker_hand::PokerHand
         },
         status::{
@@ -27,7 +30,9 @@ use jokers_of_neon::{
         },
     },
     store::{Store, StoreTrait},
-    utils::{game::{play as calculate_hand_score}, shop::generate_unique_random_values, calculate_hand::calculate_hand}
+    utils::{
+        game::{play as calculate_hand_score}, calculate_hand::calculate_hand, random::{Random, RandomImpl, RandomTrait}
+    }
 };
 use starknet::get_caller_address;
 
@@ -42,7 +47,7 @@ mod errors {
 impl ChallengeImpl of ChallengeTrait {
     fn create(world: IWorldDispatcher, game_id: u32) {
         let mut challenge = ChallengeStore::get(world, game_id);
-        challenge.active_ids = generate_unique_random_values(world, 3, challenges_all(), array![]).span();
+        challenge.active_ids = _generate_random_challenges(world, 3, challenges_all(), array![]).span();
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
     }
@@ -61,7 +66,7 @@ impl ChallengeImpl of ChallengeTrait {
         let hand_score = calculate_hand_score(world, ref game, @cards_index, @modifiers_index);
 
         let mut challenge = ChallengeStore::get(world, game_id);
-        _resolve_challenges(ref challenge, result_hand, ref hit_cards, @cards, hand_score);
+        _resolve_challenges(world, ref challenge, result_hand, ref hit_cards, @cards, hand_score);
         ChallengeStore::set(@challenge, world);
 
         if Self::is_completed(@world, game_id) {
@@ -134,6 +139,7 @@ impl ChallengeImpl of ChallengeTrait {
 }
 
 fn _resolve_challenges(
+    world: IWorldDispatcher,
     ref challenge: Challenge,
     result_hand: PokerHand,
     ref hit_cards: Felt252Dict<bool>,
@@ -141,31 +147,31 @@ fn _resolve_challenges(
     hand_score: u32,
 ) {
     match result_hand {
-        PokerHand::RoyalFlush => _complete(ref challenge, CHALLENGE_ROYAL_FLUSH),
-        PokerHand::StraightFlush => _complete(ref challenge, CHALLENGE_STRAIGHT_FLUSH),
-        PokerHand::FiveOfAKind => _complete(ref challenge, CHALLENGE_FIVE_OF_A_KIND),
-        PokerHand::FourOfAKind => _complete(ref challenge, CHALLENGE_FOUR_OF_A_KIND),
-        PokerHand::FullHouse => _complete(ref challenge, CHALLENGE_FULL_HOUSE),
-        PokerHand::Straight => _complete(ref challenge, CHALLENGE_STRAIGHT),
-        PokerHand::Flush => _complete(ref challenge, CHALLENGE_FLUSH),
-        PokerHand::ThreeOfAKind => _complete(ref challenge, CHALLENGE_THREE_OF_A_KIND),
-        PokerHand::TwoPair => _complete(ref challenge, CHALLENGE_DOUBLE_PAIR),
-        PokerHand::OnePair => _complete(ref challenge, CHALLENGE_PAIR),
-        PokerHand::HighCard => _complete(ref challenge, CHALLENGE_HIGH_CARD),
+        PokerHand::RoyalFlush => _complete(world, ref challenge, CHALLENGE_ROYAL_FLUSH),
+        PokerHand::StraightFlush => _complete(world, ref challenge, CHALLENGE_STRAIGHT_FLUSH),
+        PokerHand::FiveOfAKind => _complete(world, ref challenge, CHALLENGE_FIVE_OF_A_KIND),
+        PokerHand::FourOfAKind => _complete(world, ref challenge, CHALLENGE_FOUR_OF_A_KIND),
+        PokerHand::FullHouse => _complete(world, ref challenge, CHALLENGE_FULL_HOUSE),
+        PokerHand::Straight => _complete(world, ref challenge, CHALLENGE_STRAIGHT),
+        PokerHand::Flush => _complete(world, ref challenge, CHALLENGE_FLUSH),
+        PokerHand::ThreeOfAKind => _complete(world, ref challenge, CHALLENGE_THREE_OF_A_KIND),
+        PokerHand::TwoPair => _complete(world, ref challenge, CHALLENGE_DOUBLE_PAIR),
+        PokerHand::OnePair => _complete(world, ref challenge, CHALLENGE_PAIR),
+        PokerHand::HighCard => _complete(world, ref challenge, CHALLENGE_HIGH_CARD),
         PokerHand::None => (),
     };
 
     if hand_score >= 5000 {
-        _complete(ref challenge, CHALLENGE_5000_POINTS);
+        _complete(world, ref challenge, CHALLENGE_5000_POINTS);
     }
     if hand_score >= 2000 {
-        _complete(ref challenge, CHALLENGE_2000_POINTS);
+        _complete(world, ref challenge, CHALLENGE_2000_POINTS);
     }
     if hand_score >= 1000 {
-        _complete(ref challenge, CHALLENGE_1000_POINTS);
+        _complete(world, ref challenge, CHALLENGE_1000_POINTS);
     }
     if hand_score >= 500 {
-        _complete(ref challenge, CHALLENGE_500_POINTS);
+        _complete(world, ref challenge, CHALLENGE_500_POINTS);
     }
 
     let mut idx = 0;
@@ -178,29 +184,29 @@ fn _resolve_challenges(
         if hit {
             let card = *cards.at(idx);
             match card.value {
-                Value::Two => { _complete(ref challenge, CHALLENGE_TWO); },
-                Value::Three => { _complete(ref challenge, CHALLENGE_THREE); },
-                Value::Four => { _complete(ref challenge, CHALLENGE_FOUR); },
-                Value::Five => { _complete(ref challenge, CHALLENGE_FIVE); },
-                Value::Six => { _complete(ref challenge, CHALLENGE_SIX); },
-                Value::Seven => { _complete(ref challenge, CHALLENGE_SEVEN); },
-                Value::Eight => { _complete(ref challenge, CHALLENGE_EIGHT); },
-                Value::Nine => { _complete(ref challenge, CHALLENGE_NINE); },
-                Value::Ten => { _complete(ref challenge, CHALLENGE_TEN); },
-                Value::Jack => { _complete(ref challenge, CHALLENGE_JACK); },
-                Value::Queen => { _complete(ref challenge, CHALLENGE_QUEEN); },
-                Value::King => { _complete(ref challenge, CHALLENGE_KING); },
-                Value::Ace => { _complete(ref challenge, CHALLENGE_ACE); },
-                Value::Joker => { _complete(ref challenge, CHALLENGE_JOKER); },
-                Value::NeonJoker => { _complete(ref challenge, CHALLENGE_JOKER); },
+                Value::Two => { _complete(world, ref challenge, CHALLENGE_TWO); },
+                Value::Three => { _complete(world, ref challenge, CHALLENGE_THREE); },
+                Value::Four => { _complete(world, ref challenge, CHALLENGE_FOUR); },
+                Value::Five => { _complete(world, ref challenge, CHALLENGE_FIVE); },
+                Value::Six => { _complete(world, ref challenge, CHALLENGE_SIX); },
+                Value::Seven => { _complete(world, ref challenge, CHALLENGE_SEVEN); },
+                Value::Eight => { _complete(world, ref challenge, CHALLENGE_EIGHT); },
+                Value::Nine => { _complete(world, ref challenge, CHALLENGE_NINE); },
+                Value::Ten => { _complete(world, ref challenge, CHALLENGE_TEN); },
+                Value::Jack => { _complete(world, ref challenge, CHALLENGE_JACK); },
+                Value::Queen => { _complete(world, ref challenge, CHALLENGE_QUEEN); },
+                Value::King => { _complete(world, ref challenge, CHALLENGE_KING); },
+                Value::Ace => { _complete(world, ref challenge, CHALLENGE_ACE); },
+                Value::Joker => { _complete(world, ref challenge, CHALLENGE_JOKER); },
+                Value::NeonJoker => { _complete(world, ref challenge, CHALLENGE_JOKER); },
                 Value::None => {},
             };
 
             match card.suit {
-                Suit::Clubs => { _complete(ref challenge, CHALLENGE_CLUBS); },
-                Suit::Hearts => { _complete(ref challenge, CHALLENGE_HEARTS); },
-                Suit::Spades => { _complete(ref challenge, CHALLENGE_SPADES); },
-                Suit::Diamonds => { _complete(ref challenge, CHALLENGE_DIAMONDS); },
+                Suit::Clubs => { _complete(world, ref challenge, CHALLENGE_CLUBS); },
+                Suit::Hearts => { _complete(world, ref challenge, CHALLENGE_HEARTS); },
+                Suit::Spades => { _complete(world, ref challenge, CHALLENGE_SPADES); },
+                Suit::Diamonds => { _complete(world, ref challenge, CHALLENGE_DIAMONDS); },
                 Suit::Joker => {},
                 Suit::None => {},
             };
@@ -209,13 +215,17 @@ fn _resolve_challenges(
     };
 }
 
-fn _complete(ref challenge: Challenge, challenge_id: u32) {
+fn _complete(world: IWorldDispatcher, ref challenge: Challenge, _challenge_id: u32) {
     let mut remaining_challenges = array![];
     loop {
         match challenge.active_ids.pop_front() {
-            Option::Some(challenge) => { if *challenge != challenge_id {
-                remaining_challenges.append(*challenge);
-            } },
+            Option::Some(challenge_pop) => {
+                let (challenge_id, completed) = *challenge_pop;
+                if challenge_id != _challenge_id && !completed {
+                    remaining_challenges.append((challenge_id, true));
+                    emit!(world, ItemChallengeCompleted { game_id: challenge.game_id, challenge_id: challenge_id, });
+                }
+            },
             Option::None => { break; },
         }
     };
@@ -335,4 +345,45 @@ fn _has_repeated(array: @Array<u32>) -> bool {
             Option::None => { break false; }
         };
     }
+}
+
+
+fn item_in_array<
+    T,
+    impl TPartialEq: core::traits::PartialEq<T>,
+    impl TCopy: core::traits::Copy<T>,
+    impl TDrop: core::traits::Drop<T>,
+>(
+    array: @Array<T>, item: T
+) -> bool {
+    let mut array_span = array.span();
+    let result = loop {
+        match array_span.pop_front() {
+            Option::Some(seen_elem) => { if *seen_elem == item {
+                break true;
+            } },
+            Option::None => { break false; }
+        };
+    };
+    result
+}
+
+fn _generate_random_challenges(
+    world: IWorldDispatcher, size: u32, values: Array<u32>, exclude: Array<u32>
+) -> Array<(u32, bool)> {
+    let mut elements: Array<(u32, bool)> = ArrayTrait::new();
+    let mut randomizer = RandomImpl::new(world);
+
+    assert(size <= values.len(), 'error size unique values');
+    loop {
+        if elements.len() == size {
+            break;
+        }
+        let new_elem = *values.at(randomizer.between::<u32>(0, values.len() - 1));
+        if item_in_array(@exclude, new_elem) || item_in_array(@elements, (new_elem, false)) {
+            continue;
+        }
+        elements.append((new_elem, false));
+    };
+    elements
 }
