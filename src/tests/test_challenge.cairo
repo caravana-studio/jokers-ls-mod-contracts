@@ -56,6 +56,7 @@ mod test_challenge {
 
         let mut challenge = ChallengeStore::get(world, game.id);
         assert(challenge.active_ids.len() == 4, 'wrong len');
+        assert(ChallengeImpl::is_completed(world, game.id), 'challenges should be completed');
         loop {
             match challenge.active_ids.pop_front() {
                 Option::Some(challenge) => {

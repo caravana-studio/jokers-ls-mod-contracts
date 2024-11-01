@@ -83,12 +83,19 @@ impl ChallengeImpl of ChallengeTrait {
         _resolve_challenges(world, ref challenge, result_hand, ref hit_cards, @cards, hand_score);
         ChallengeStore::set(@challenge, world);
 
-        if Self::is_completed(@world, game_id) {
+        if Self::is_completed(world, game_id) {
             emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id });
             game.substate = GameSubState::CREATE_LEVEL;
             GameStore::set(@game, world);
         } else {
             challenge_player.plays -= 1;
+            if challenge_player.plays.is_zero() {
+                let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
+                emit!(world, (play_game_over_event));
+                game.state = GameState::FINISHED;
+                GameStore::set(@game, world);
+                return;
+            }
             emit!(world, (challenge_player));
             ChallengePlayerStore::set(@challenge_player, world);
         }
@@ -152,8 +159,19 @@ impl ChallengeImpl of ChallengeTrait {
         }
     }
 
-    fn is_completed(world: @IWorldDispatcher, game_id: u32) -> bool {
-        ChallengeStore::get(*world, game_id).active_ids.is_empty()
+    fn is_completed(world: IWorldDispatcher, game_id: u32) -> bool {
+        let mut active_challenges_ids = ChallengeStore::get(world, game_id).active_ids;
+        let mut is_completed = true;
+        loop {
+            match active_challenges_ids.pop_front() {
+                Option::Some(challenge) => {
+                    let (_, completed) = *challenge;
+                    is_completed = is_completed && completed;
+                },
+                Option::None => { break; }
+            }
+        };
+        is_completed
     }
 }
 
