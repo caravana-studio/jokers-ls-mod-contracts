@@ -91,6 +91,7 @@ mod game_system {
                 owner: player_id,
                 player_name,
                 player_hp: 500, // TODO: Obtain HP from adventurer
+                current_player_hp: 500,
                 max_hands: 5,
                 max_discard: 5,
                 max_jokers: 5,
