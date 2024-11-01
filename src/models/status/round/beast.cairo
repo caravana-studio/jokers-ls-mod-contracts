@@ -17,6 +17,7 @@ use jokers_of_neon::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
+use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
 use jokers_of_neon::utils::game::play;
 use jokers_of_neon::utils::level::create_level;
 use jokers_of_neon::utils::rage::is_rage_card_active;
@@ -268,7 +269,8 @@ fn _attack_beast(
 }
 
 fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
-    let beast_id = 1; // TODO: random
+    let mut randomizer = RandomImpl::new(world);
+    let beast_id = randomizer.between::<u32>(0, all_beast().len() - 1);
     let (tier, health, attack) = _generate_stats(level);
     let type_beast = if is_loot_survivor_beast(beast_id) {
         TypeBeast::LOOT_SURVIVOR
@@ -281,5 +283,12 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
 }
 
 fn _generate_stats(level: u8) -> (u8, u32, u32) { // tier, health, attack
-    (5, 300, 15)
+    match level {
+        0 => (0, 0, 0),
+        1 => (1, 300, 15),
+        2 => (1, 600, 25),
+        3 => (1, 900, 35),
+        4 => (1, 1200, 45),
+        _ => (2, 2000, 50),
+    }
 }
