@@ -93,12 +93,7 @@ mod test_play_beast_special_cards {
 
         // Mock hand
         let hand_cards_ids = array![
-            SIX_CLUBS_ID,
-            QUEEN_CLUBS_ID,
-            FOUR_CLUBS_ID,
-            JACK_HEARTS_ID,
-            KING_DIAMONDS_ID,
-            MULTI_MODIFIER_1_ID
+            SIX_CLUBS_ID, QUEEN_CLUBS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID, MULTI_MODIFIER_1_ID
         ];
         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
@@ -318,8 +313,7 @@ mod test_play_beast_modifier_cards {
         KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID
     };
     use jokers_of_neon::constants::modifiers::{
-        MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID,
-        MULTI_MODIFIER_3_ID,
+        MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID, MULTI_MODIFIER_3_ID,
     };
     use jokers_of_neon::models::data::beast::{
         GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
