@@ -3,6 +3,7 @@ mod store;
 mod traits;
 
 mod constants {
+    mod beast;
     mod card;
     mod challenge;
     mod effect;
