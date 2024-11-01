@@ -14,17 +14,19 @@ struct GameModeBeast {
 struct Beast {
     #[key]
     game_id: u32,
+    beast_id: u32,
     tier: u8,
     level: u8,
     health: u32,
+    current_health: u32,
     attack: u32
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct PlayerBeast {
     #[key]
     game_id: u32,
-    health: u32,
     energy: u8
 }

@@ -5,10 +5,9 @@ use jokers_of_neon::constants::{
         CHALLENGE_ROYAL_FLUSH, CHALLENGE_STRAIGHT_FLUSH, CHALLENGE_FIVE_OF_A_KIND, CHALLENGE_FOUR_OF_A_KIND,
         CHALLENGE_FULL_HOUSE, CHALLENGE_FLUSH, CHALLENGE_STRAIGHT, CHALLENGE_THREE_OF_A_KIND, CHALLENGE_DOUBLE_PAIR,
         CHALLENGE_PAIR, CHALLENGE_HIGH_CARD, CHALLENGE_HEARTS, CHALLENGE_CLUBS, CHALLENGE_DIAMONDS, CHALLENGE_SPADES,
-        CHALLENGE_ONE, CHALLENGE_TWO, CHALLENGE_THREE, CHALLENGE_FOUR, CHALLENGE_FIVE, CHALLENGE_SIX, CHALLENGE_SEVEN,
-        CHALLENGE_EIGHT, CHALLENGE_NINE, CHALLENGE_TEN, CHALLENGE_JACK, CHALLENGE_QUEEN, CHALLENGE_KING, CHALLENGE_ACE,
-        CHALLENGE_JOKER, CHALLENGE_500_POINTS, CHALLENGE_1000_POINTS, CHALLENGE_2000_POINTS, CHALLENGE_5000_POINTS,
-        challenges_all
+        CHALLENGE_TWO, CHALLENGE_THREE, CHALLENGE_FOUR, CHALLENGE_FIVE, CHALLENGE_SIX, CHALLENGE_SEVEN, CHALLENGE_EIGHT,
+        CHALLENGE_NINE, CHALLENGE_TEN, CHALLENGE_JACK, CHALLENGE_QUEEN, CHALLENGE_KING, CHALLENGE_ACE, CHALLENGE_JOKER,
+        CHALLENGE_500_POINTS, CHALLENGE_1000_POINTS, CHALLENGE_2000_POINTS, CHALLENGE_5000_POINTS, challenges_all
     },
     specials::SPECIAL_ALL_CARDS_TO_HEARTS_ID,
 };
@@ -16,7 +15,7 @@ use jokers_of_neon::constants::{
 use jokers_of_neon::{
     models::{
         data::{
-            challenge::{Challenge, ChallengeStore, ChallengePlayerStore}, card::{Card, Suit, Value},
+            challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore}, card::{Card, Suit, Value},
             game_deck::{GameDeckStore, GameDeckImpl},
             events::{
                 ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
@@ -41,21 +40,36 @@ mod errors {
     const SUBSTATE_NOT_OBSTACLE: felt252 = 'Substate not OBSTACLE';
     const USE_INVALID_CARD: felt252 = 'Use an invalid card';
     const ARRAY_REPEATED_ELEMENTS: felt252 = 'Array has repeated elements';
+    const OUT_OF_PLAYS: felt252 = 'Out of plays';
+    const OUT_OF_DISCARDS: felt252 = 'Out of discards';
 }
 
 #[generate_trait]
 impl ChallengeImpl of ChallengeTrait {
-    fn create(world: IWorldDispatcher, game_id: u32) {
+    fn create(world: IWorldDispatcher, ref store: Store, game_id: u32) {
+        let mut game = store.get_game(game_id);
+
         let mut challenge = ChallengeStore::get(world, game_id);
         challenge.active_ids = _generate_random_challenges(world, 3, challenges_all(), array![]).span();
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
+
+        let challenge_player = ChallengePlayer { game_id, discards: 5, plays: 5 };
+        ChallengePlayerStore::set(@challenge_player, world);
+        emit!(world, (challenge_player));
+
+        let mut game_deck = GameDeckStore::get(world, game_id);
+        game_deck.restore(world);
+        CurrentHandCardTrait::create(world, game);
     }
 
     fn play(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
         let mut game = GameStore::get(world, game_id);
         assert(game.state == GameState::IN_GAME, errors::STATE_NOT_IN_GAME);
         assert(game.substate == GameSubState::OBSTACLE, errors::SUBSTATE_NOT_OBSTACLE);
+
+        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
+        assert(challenge_player.plays > 0, errors::OUT_OF_PLAYS);
 
         let mut store = StoreTrait::new(world);
         let mut current_special_cards_index = _current_special_cards(ref store, @game);
@@ -70,10 +84,12 @@ impl ChallengeImpl of ChallengeTrait {
         ChallengeStore::set(@challenge, world);
 
         if Self::is_completed(@world, game_id) {
-            emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id })
+            emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id });
+            game.substate = GameSubState::CREATE_LEVEL;
+            GameStore::set(@game, world);
         } else {
-            let mut challenge_player = ChallengePlayerStore::get(world, game_id);
             challenge_player.plays -= 1;
+            emit!(world, (challenge_player));
             ChallengePlayerStore::set(@challenge_player, world);
         }
 
@@ -92,6 +108,9 @@ impl ChallengeImpl of ChallengeTrait {
         let mut game = GameStore::get(world, game_id);
         assert(game.state == GameState::IN_GAME, errors::STATE_NOT_IN_GAME);
         assert(game.substate == GameSubState::OBSTACLE, errors::SUBSTATE_NOT_OBSTACLE);
+
+        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
+        assert(challenge_player.discards > 0, errors::OUT_OF_DISCARDS);
 
         let mut store = StoreTrait::new(world);
         let mut cards = array![];
@@ -120,8 +139,8 @@ impl ChallengeImpl of ChallengeTrait {
         };
         CurrentHandCardTrait::refresh(world, game_id, cards);
 
-        let mut challenge_player = ChallengePlayerStore::get(world, game_id);
         challenge_player.discards -= 1;
+        emit!(world, (challenge_player));
         ChallengePlayerStore::set(@challenge_player, world);
 
         let game_deck = GameDeckStore::get(world, game_id);
