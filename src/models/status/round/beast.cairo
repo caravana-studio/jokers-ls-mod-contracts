@@ -5,7 +5,7 @@ use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
 };
-use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent};
+use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
 use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
@@ -73,13 +73,13 @@ impl BeastImpl of BeastTrait {
 
         let rage_round = RageRoundStore::get(world, game_id);
 
-        let score = play(world, ref game, @cards_index, @modifiers_index);
+        let attack = play(world, ref game, @cards_index, @modifiers_index);
 
-        let player_attack = score; // TODO:
+        emit!(world, (PlayerAttack { player: get_caller_address(), attack }));
 
         let mut beast = BeastStore::get(world, game.id);
-        beast.health = if player_attack < beast.health {
-            beast.health - player_attack
+        beast.health = if attack < beast.health {
+            beast.health - attack
         } else {
             0
         };
@@ -109,7 +109,7 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-        // create_level(world, ref store, game); TODO:
+            // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
@@ -242,6 +242,7 @@ fn _attack_beast(
     ref beast: Beast,
     ref game_mode_beast: GameModeBeast
 ) {
+    emit!(world, (BeastAttack { player: get_caller_address(), attack: beast.attack }));
     game.player_hp = if beast.attack > game.player_hp {
         0
     } else {

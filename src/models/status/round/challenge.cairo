@@ -69,6 +69,7 @@ impl ChallengeImpl of ChallengeTrait {
         } else {
             let mut challenge_player = ChallengePlayerStore::get(world, game_id);
             challenge_player.plays -= 1;
+            emit!(world, (challenge_player));
             ChallengePlayerStore::set(@challenge_player, world);
         }
 
@@ -117,6 +118,7 @@ impl ChallengeImpl of ChallengeTrait {
 
         let mut challenge_player = ChallengePlayerStore::get(world, game_id);
         challenge_player.discards -= 1;
+        emit!(world, (challenge_player));
         ChallengePlayerStore::set(@challenge_player, world);
 
         let game_deck = GameDeckStore::get(world, game_id);
