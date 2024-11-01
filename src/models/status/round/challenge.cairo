@@ -40,11 +40,17 @@ mod errors {
 
 #[generate_trait]
 impl ChallengeImpl of ChallengeTrait {
-    fn create(world: IWorldDispatcher, game_id: u32) {
+    fn create(world: IWorldDispatcher, ref store: Store, game_id: u32) {
+        let mut game = store.get_game(game_id);
+
         let mut challenge = ChallengeStore::get(world, game_id);
         challenge.active_ids = generate_unique_random_values(world, 3, challenges_all(), array![]).span();
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
+
+        let mut game_deck = GameDeckStore::get(world, game_id);
+        game_deck.restore(world);
+        CurrentHandCardTrait::create(world, game);
     }
 
     fn play(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
