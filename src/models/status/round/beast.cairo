@@ -248,13 +248,15 @@ fn _attack_beast(
     ref game_mode_beast: GameModeBeast
 ) {
     emit!(world, (BeastAttack { player: get_caller_address(), attack: beast.attack }));
-    game.player_hp = if beast.attack > game.player_hp {
-        0
-    } else {
-        game.player_hp - beast.attack
-    };
+    game
+        .current_player_hp =
+            if beast.attack > game.current_player_hp {
+                0
+            } else {
+                game.current_player_hp - beast.attack
+            };
 
-    if game.player_hp.is_zero() {
+    if game.current_player_hp.is_zero() {
         let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
         emit!(world, (play_game_over_event));
         game.state = GameState::FINISHED;
