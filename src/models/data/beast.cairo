@@ -18,6 +18,7 @@ struct Beast {
     tier: u8,
     level: u8,
     health: u32,
+    current_health: u32,
     attack: u32
 }
 
