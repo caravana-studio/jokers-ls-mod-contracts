@@ -50,6 +50,7 @@ impl ChallengeImpl of ChallengeTrait {
 
         let challenge_player = ChallengePlayer { game_id, discards: 5, plays: 5 };
         ChallengePlayerStore::set(@challenge_player, world);
+        emit!(world, (challenge_player));
 
         let mut game_deck = GameDeckStore::get(world, game_id);
         game_deck.restore(world);
