@@ -26,6 +26,5 @@ struct Beast {
 struct PlayerBeast {
     #[key]
     game_id: u32,
-    health: u32,
     energy: u8
 }
