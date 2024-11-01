@@ -31,6 +31,7 @@ mod errors {
     const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
     const GAME_NOT_IN_BEAST: felt252 = 'Game: is not BEAST';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
+    const PLAYER_WITHOUT_ENERGY: felt252 = 'Game: player without energy';
 }
 
 #[generate_trait]
@@ -71,6 +72,11 @@ impl BeastImpl of BeastTrait {
         assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
         assert(cards_index.len() > 0 && cards_index.len() <= game.len_hand, errors::INVALID_CARD_INDEX_LEN);
 
+        let mut player_beast = PlayerBeastStore::get(world, game.id);
+        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+
+        assert(player_beast.energy >= game_mode_beast.cost_play, errors::PLAYER_WITHOUT_ENERGY);
+
         let rage_round = RageRoundStore::get(world, game_id);
 
         let attack = play(world, ref game, @cards_index, @modifiers_index);
@@ -85,9 +91,6 @@ impl BeastImpl of BeastTrait {
         };
         BeastStore::set(@beast, world);
 
-        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
-
-        let mut player_beast = PlayerBeastStore::get(world, game.id);
         player_beast.energy -= game_mode_beast.cost_play;
         PlayerBeastStore::set(@player_beast, world);
 
@@ -157,6 +160,11 @@ impl BeastImpl of BeastTrait {
         assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
         assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
 
+        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+        let mut player_beast = PlayerBeastStore::get(world, game.id);
+
+        assert(player_beast.energy >= game_mode_beast.cost_play, errors::PLAYER_WITHOUT_ENERGY);
+
         let mut cards = array![];
         let mut idx = 0;
         loop {
@@ -184,9 +192,6 @@ impl BeastImpl of BeastTrait {
 
         CurrentHandCardTrait::refresh(world, game.id, cards);
 
-        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
-
-        let mut player_beast = PlayerBeastStore::get(world, game.id);
         player_beast.energy -= game_mode_beast.cost_discard;
         PlayerBeastStore::set(@player_beast, world);
 
