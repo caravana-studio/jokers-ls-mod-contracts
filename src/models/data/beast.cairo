@@ -14,6 +14,7 @@ struct GameModeBeast {
 struct Beast {
     #[key]
     game_id: u32,
+    beast_id: u32,
     tier: u8,
     level: u8,
     health: u32,

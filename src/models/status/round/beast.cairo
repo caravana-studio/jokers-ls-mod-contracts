@@ -49,7 +49,7 @@ impl BeastImpl of BeastTrait {
         let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
         GameModeBeastStore::set(@game_mode_beast, world);
 
-        let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
+        let beast = Beast { game_id, beast_id: 1, tier: 5, level: 5, health: 300, attack: 15 };
         BeastStore::set(@beast, world);
         emit!(world, (beast));
 
