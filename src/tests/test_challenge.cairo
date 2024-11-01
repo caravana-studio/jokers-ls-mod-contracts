@@ -49,6 +49,14 @@ mod test_challenge {
         systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 100, 100, 100, 100]);
 
         let challenge = ChallengeStore::get(world, game.id);
-        assert(challenge.active_ids.len().is_zero(), 'wrong len');
+        assert(challenge.active_ids == 4, 'wrong len');
+        loop {
+            match challenge.active_ids.pop_front() {
+                Option::Some(challenge) => {
+                    let (challenge_id, completed) = *challenge;
+                    assert(completed, 'challenge should be completed');
+                }, Option::None => {break;}
+            }
+        };
     }
 }
