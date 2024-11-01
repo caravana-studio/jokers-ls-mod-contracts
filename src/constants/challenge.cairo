@@ -32,6 +32,10 @@ const CHALLENGE_ACE: u32 = 29;
 
 const CHALLENGE_JOKER: u32 = 30;
 
+const CHALLENGE_500_POINTS: u32 = 31;
+const CHALLENGE_1000_POINTS: u32 = 32;
+const CHALLENGE_2000_POINTS: u32 = 33;
+const CHALLENGE_5000_POINTS: u32 = 34;
 
 fn challenges_all() -> Array<u32> {
     array![
@@ -64,6 +68,10 @@ fn challenges_all() -> Array<u32> {
         CHALLENGE_QUEEN,
         CHALLENGE_KING,
         CHALLENGE_ACE,
-        CHALLENGE_JOKER
+        CHALLENGE_JOKER,
+        CHALLENGE_500_POINTS,
+        CHALLENGE_1000_POINTS,
+        CHALLENGE_2000_POINTS,
+        CHALLENGE_5000_POINTS
     ]
 }
