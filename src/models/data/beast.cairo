@@ -21,6 +21,7 @@ struct Beast {
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct PlayerBeast {
     #[key]

@@ -8,6 +8,7 @@ struct Challenge {
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct ChallengePlayer {
     #[key]
