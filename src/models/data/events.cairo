@@ -264,3 +264,20 @@ struct ItemChallengeCompleted {
     challenge_id: u32
 }
 
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct BeastAttack {
+    #[key]
+    player: ContractAddress,
+    attack: u32
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct PlayerAttack {
+    #[key]
+    player: ContractAddress,
+    attack: u32
+}

@@ -5,9 +5,9 @@ use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
 };
-use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent};
+use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
+use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::store::{Store, StoreTrait};
@@ -31,6 +31,7 @@ mod errors {
     const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
     const GAME_NOT_IN_BEAST: felt252 = 'Game: is not BEAST';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
+    const PLAYER_WITHOUT_ENERGY: felt252 = 'Game: player without energy';
 }
 
 #[generate_trait]
@@ -49,11 +50,11 @@ impl BeastImpl of BeastTrait {
         let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
         GameModeBeastStore::set(@game_mode_beast, world);
 
-        let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
+        let beast = Beast { game_id, beast_id: 1, tier: 5, level: 5, health: 300, current_health: 300, attack: 15 };
         BeastStore::set(@beast, world);
         emit!(world, (beast));
 
-        let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
+        let player_beast = PlayerBeast { game_id, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);
 
         let mut game_deck = GameDeckStore::get(world, game_id);
@@ -71,23 +72,25 @@ impl BeastImpl of BeastTrait {
         assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
         assert(cards_index.len() > 0 && cards_index.len() <= game.len_hand, errors::INVALID_CARD_INDEX_LEN);
 
+        let mut player_beast = PlayerBeastStore::get(world, game.id);
+        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+
+        assert(player_beast.energy >= game_mode_beast.cost_play, errors::PLAYER_WITHOUT_ENERGY);
+
         let rage_round = RageRoundStore::get(world, game_id);
 
-        let score = play(world, ref game, @cards_index, @modifiers_index);
+        let attack = play(world, ref game, @cards_index, @modifiers_index);
 
-        let player_attack = score; // TODO:
+        emit!(world, (PlayerAttack { player: get_caller_address(), attack }));
 
         let mut beast = BeastStore::get(world, game.id);
-        beast.health = if player_attack < beast.health {
-            beast.health - player_attack
+        beast.current_health = if attack < beast.current_health {
+            beast.current_health - attack
         } else {
             0
         };
         BeastStore::set(@beast, world);
 
-        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
-
-        let mut player_beast = PlayerBeastStore::get(world, game.id);
         player_beast.energy -= game_mode_beast.cost_play;
         PlayerBeastStore::set(@player_beast, world);
 
@@ -109,7 +112,7 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-        // create_level(world, ref store, game); TODO:
+            // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
@@ -157,6 +160,11 @@ impl BeastImpl of BeastTrait {
         assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
         assert(game.substate == GameSubState::BEAST, errors::GAME_NOT_IN_BEAST);
 
+        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+        let mut player_beast = PlayerBeastStore::get(world, game.id);
+
+        assert(player_beast.energy >= game_mode_beast.cost_discard, errors::PLAYER_WITHOUT_ENERGY);
+
         let mut cards = array![];
         let mut idx = 0;
         loop {
@@ -184,9 +192,6 @@ impl BeastImpl of BeastTrait {
 
         CurrentHandCardTrait::refresh(world, game.id, cards);
 
-        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
-
-        let mut player_beast = PlayerBeastStore::get(world, game.id);
         player_beast.energy -= game_mode_beast.cost_discard;
         PlayerBeastStore::set(@player_beast, world);
 
@@ -242,20 +247,23 @@ fn _attack_beast(
     ref beast: Beast,
     ref game_mode_beast: GameModeBeast
 ) {
-    player_beast.health = if beast.attack > player_beast.health {
-        0
-    } else {
-        player_beast.health - beast.attack
-    };
+    emit!(world, (BeastAttack { player: get_caller_address(), attack: beast.attack }));
+    game
+        .current_player_hp =
+            if beast.attack > game.current_player_hp {
+                0
+            } else {
+                game.current_player_hp - beast.attack
+            };
 
-    if player_beast.health.is_zero() {
+    if game.current_player_hp.is_zero() {
         let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
         emit!(world, (play_game_over_event));
         game.state = GameState::FINISHED;
-        store.set_game(game);
     } else {
         // reset energy
         player_beast.energy = game_mode_beast.energy_max_player;
     }
+    store.set_game(game);
     PlayerBeastStore::set(@player_beast, world);
 }
