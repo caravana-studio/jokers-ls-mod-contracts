@@ -3,9 +3,9 @@ mod test_play_beast_special_cards {
     use jokers_of_neon::constants::card::{
         SIX_CLUBS_ID, ACE_CLUBS_ID, ACE_HEARTS_ID, ACE_DIAMONDS_ID, NINE_DIAMONDS_ID, EIGHT_HEARTS_ID, QUEEN_CLUBS_ID,
         SEVEN_DIAMONDS_ID, FIVE_CLUBS_ID, KING_CLUBS_ID, SIX_HEARTS_ID, FOUR_CLUBS_ID, JACK_CLUBS_ID, JACK_HEARTS_ID,
-        KING_DIAMONDS_ID, SEVEN_CLUBS_ID, SEVEN_HEARTS_ID, ACE_SPADES_ID
+        KING_DIAMONDS_ID, SEVEN_CLUBS_ID, SEVEN_HEARTS_ID, ACE_SPADES_ID, QUEEN_HEARTS_ID
     };
-    use jokers_of_neon::constants::modifiers::MULTI_MODIFIER_1_ID;
+    use jokers_of_neon::constants::modifiers::MULTI_MODIFIER_4_ID;
     use jokers_of_neon::constants::specials::{
         SPECIAL_LUCKY_SEVEN_ID, SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_HEART_ID,
         SPECIAL_POINTS_FOR_FIGURES_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID, SPECIAL_NEON_BONUS_ID,
@@ -67,7 +67,7 @@ mod test_play_beast_special_cards {
         // player_score = 300
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health == beast_before.health - 300, 'wrong beast health');
+        assert(beast_after.current_health == beast_before.current_health - 300, 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -92,23 +92,22 @@ mod test_play_beast_special_cards {
         mock_special_cards(ref store, ref game, special_cards_ids);
 
         // Mock hand
-        let hand_cards_ids = array![
-            SIX_CLUBS_ID, QUEEN_CLUBS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID, MULTI_MODIFIER_1_ID
-        ];
+        let hand_cards_ids = array![QUEEN_CLUBS_ID, QUEEN_HEARTS_ID, MULTI_MODIFIER_4_ID];
         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
         let game_mode_beast = GameModeBeastStore::get(world, game.id);
         let player_beast_before = PlayerBeastStore::get(world, game.id);
 
         set_contract_address(PLAYER());
-        systems.game_system.play(game.id, array![0, 1, 2, 3, 4], array![100, 7, 100, 5, 6]);
-        // Flush - points: 35, multi: 4
-        // points: 6 + 10 + 4 + 10 + 10 + 50 * 3
-        // multi add: 1
-        // player_score = 1125
+        systems.game_system.play(game.id, array![0, 1], array![100, 2]);
+        // Pair - points: 10, multi: 2
+        // points: 10 + 10 + 50 * 2
+        // multi add: 10
+        // player_score = 1560
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health.is_zero(), 'wrong beast health');
+        println!("beast_after.current_health: {}", beast_after.current_health);
+        assert(beast_after.current_health.is_zero(), 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -148,7 +147,7 @@ mod test_play_beast_special_cards {
         // player_score = 88
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health == beast_before.health - 88, 'wrong beast health');
+        assert(beast_after.current_health == beast_before.current_health - 88, 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -194,7 +193,7 @@ mod test_play_beast_special_cards {
         // player_score = 1050
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health.is_zero(), 'wrong beast health');
+        assert(beast_after.current_health.is_zero(), 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -233,7 +232,7 @@ mod test_play_beast_special_cards {
         // player_score = 1134
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health.is_zero(), 'wrong beast health');
+        assert(beast_after.current_health.is_zero(), 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -273,14 +272,14 @@ mod test_play_beast_special_cards {
         // player_score = 356
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health.is_zero(), 'wrong beast health');
+        assert(beast_after.current_health.is_zero(), 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
             player_beast_after.energy == player_beast_before.energy - game_mode_beast.cost_play, 'wrong player energy'
         );
     }
-// #[test]
+    // #[test]
 // #[available_gas(30000000000000000)]
 // fn test_play_special_initial_advantage() {
 //     let (world, systems) = setup::spawn_game();
@@ -288,15 +287,15 @@ mod test_play_beast_special_cards {
 //     let mut game = mock_game(ref store, PLAYER());
 //     mock_round(ref store, @game, 300);
 
-//     // Mock special card
+    //     // Mock special card
 //     let special_cards_ids = array![SPECIAL_INITIAL_ADVANTAGE_ID];
 //     mock_special_cards(ref store, ref game, special_cards_ids);
 
-//     // Mock hand
+    //     // Mock hand
 //     let hand_cards_ids = array![ACE_CLUBS_ID, ACE_HEARTS_ID, ACE_DIAMONDS_ID, ACE_SPADES_ID];
 //     mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
-//     set_contract_address(PLAYER());
+    //     set_contract_address(PLAYER());
 //     systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
 //     // Four of a Kind - points: 60, multi: 7
 //     // points: 11 + 11 + 11 + 11 + 100
@@ -363,7 +362,7 @@ mod test_play_beast_modifier_cards {
         systems.game_system.play(game.id, array![0], array![1]);
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health == beast_before.health - 115, 'wrong beast health');
+        assert(beast_after.current_health == beast_before.current_health - 115, 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -399,7 +398,7 @@ mod test_play_beast_modifier_cards {
         // player_score = 1368
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health.is_zero(), 'wrong beast health');
+        assert(beast_after.current_health.is_zero(), 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(
@@ -436,7 +435,7 @@ mod test_play_beast_modifier_cards {
         // player_score = 96
 
         let beast_after = BeastStore::get(world, game.id);
-        assert(beast_after.health == beast_before.health - 96, 'wrong beast health');
+        assert(beast_after.current_health == beast_before.current_health - 96, 'wrong beast health');
 
         let player_beast_after = PlayerBeastStore::get(world, game.id);
         assert(

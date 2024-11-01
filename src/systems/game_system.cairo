@@ -210,9 +210,6 @@ mod game_system {
 
             select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
 
-            blister_pack_result.cards_picked = true;
-            store.set_blister_pack_result(blister_pack_result);
-
             game.state = GameState::SELECT_MODIFIER_CARDS;
             store.set_game(game);
 

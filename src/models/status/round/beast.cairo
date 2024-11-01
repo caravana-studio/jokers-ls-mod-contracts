@@ -17,10 +17,10 @@ use jokers_of_neon::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
-use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
 use jokers_of_neon::utils::game::play;
 use jokers_of_neon::utils::level::create_level;
 use jokers_of_neon::utils::rage::is_rage_card_active;
+use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
 use starknet::{ContractAddress, get_caller_address, ClassHash};
 
 mod errors {
@@ -80,7 +80,6 @@ impl BeastImpl of BeastTrait {
         let rage_round = RageRoundStore::get(world, game_id);
 
         let attack = play(world, ref game, @cards_index, @modifiers_index);
-
         emit!(world, (PlayerAttack { player: get_caller_address(), attack }));
 
         let mut beast = BeastStore::get(world, game.id);
@@ -112,7 +111,7 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-        // create_level(world, ref store, game); TODO:
+            // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
