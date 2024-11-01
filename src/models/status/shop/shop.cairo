@@ -58,6 +58,7 @@ struct BlisterPackItem {
 }
 
 #[derive(Copy, Drop, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct BlisterPackResult {
     #[key]
