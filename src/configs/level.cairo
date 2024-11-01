@@ -9,7 +9,7 @@ struct LevelConfig {
 impl LevelConfigDefault of Default<LevelConfig> {
     fn default() -> LevelConfig {
         LevelConfig {
-            initial_probability: 35, increment_by_round: 15, min_round_level_before_activate: 3, level_cooldown: 2
+            initial_probability: 35, increment_by_round: 15, min_round_level_before_activate: 1, level_cooldown: 1
         }
     }
 }

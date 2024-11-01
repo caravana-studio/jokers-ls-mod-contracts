@@ -55,6 +55,7 @@ mod game_system {
         SpecialCashEvent
     };
     use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
+    use jokers_of_neon::models::data::last_beast_level::{LastBeastLevel, LastBeastLevelStore};
     use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
     use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
@@ -63,7 +64,6 @@ mod game_system {
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
     use jokers_of_neon::models::status::round::level::LevelTrait;
     use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
-
     use jokers_of_neon::store::{Store, StoreTrait};
     use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
     use jokers_of_neon::utils::calculate_hand::calculate_hand;
@@ -108,6 +108,12 @@ mod game_system {
             store.set_game(game);
             emit!(world, (game));
 
+            let level_config = store.get_level_config();
+            LastBeastLevelStore::set(
+                @LastBeastLevel { game_id: game_id, current_probability: level_config.initial_probability, level: 0 },
+                world
+            );
+
             let create_game_event = CreateGameEvent { player: get_caller_address(), game_id };
             emit!(world, (create_game_event));
             game_id
@@ -127,6 +133,7 @@ mod game_system {
                 GameSubState::OBSTACLE => { ChallengeTrait::create(world, ref store, game_id); },
                 GameSubState::CREATE_LEVEL => {},
             }
+            game.level += 1;
             store.set_game(game);
         }
 
