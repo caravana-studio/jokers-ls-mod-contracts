@@ -5,7 +5,7 @@ mod test_play_beast_special_cards {
         SEVEN_DIAMONDS_ID, FIVE_CLUBS_ID, KING_CLUBS_ID, SIX_HEARTS_ID, FOUR_CLUBS_ID, JACK_CLUBS_ID, JACK_HEARTS_ID,
         KING_DIAMONDS_ID, SEVEN_CLUBS_ID, SEVEN_HEARTS_ID, ACE_SPADES_ID
     };
-    use jokers_of_neon::constants::modifiers::{SUIT_CLUB_MODIFIER_ID, MULTI_MODIFIER_1_ID};
+    use jokers_of_neon::constants::modifiers::MULTI_MODIFIER_1_ID;
     use jokers_of_neon::constants::specials::{
         SPECIAL_LUCKY_SEVEN_ID, SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_HEART_ID,
         SPECIAL_POINTS_FOR_FIGURES_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID, SPECIAL_NEON_BONUS_ID,
@@ -98,8 +98,6 @@ mod test_play_beast_special_cards {
             FOUR_CLUBS_ID,
             JACK_HEARTS_ID,
             KING_DIAMONDS_ID,
-            SUIT_CLUB_MODIFIER_ID,
-            SUIT_CLUB_MODIFIER_ID,
             MULTI_MODIFIER_1_ID
         ];
         mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
@@ -320,7 +318,7 @@ mod test_play_beast_modifier_cards {
         KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID
     };
     use jokers_of_neon::constants::modifiers::{
-        SUIT_CLUB_MODIFIER_ID, MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID,
+        MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID,
         MULTI_MODIFIER_3_ID,
     };
     use jokers_of_neon::models::data::beast::{

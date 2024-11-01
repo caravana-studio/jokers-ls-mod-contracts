@@ -1,5 +1,5 @@
 use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
-use jokers_of_neon::constants::modifiers::{modifiers_ids_all, SUIT_HEARTS_MODIFIER_ID};
+use jokers_of_neon::constants::modifiers::modifiers_ids_all;
 use jokers_of_neon::constants::specials::{
     specials_ids_all, SPECIAL_ALL_CARDS_TO_HEARTS_ID, common_specials_ids, uncommon_specials_ids, rare_specials_ids,
     epic_specials_ids, legendary_specials_ids
@@ -187,12 +187,11 @@ fn LOVERS_BLISTER_PACK() -> BlisterPack {
         cards: array![
             hearts_ace.span(),
             array![SPECIAL_ALL_CARDS_TO_HEARTS_ID].span(),
-            array![SUIT_HEARTS_MODIFIER_ID].span(),
             array![CardTrait::generate_id(Value::Ace, Suit::Hearts)].span(),
             heart_cards.span(),
         ]
             .span(),
-        probs: array![100, 1, 10, 29, 60].span(),
+        probs: array![100, 1, 29, 70].span(),
     }
 }
 
