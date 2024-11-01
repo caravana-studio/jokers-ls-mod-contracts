@@ -163,7 +163,7 @@ impl BeastImpl of BeastTrait {
         let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
         let mut player_beast = PlayerBeastStore::get(world, game.id);
 
-        assert(player_beast.energy >= game_mode_beast.cost_play, errors::PLAYER_WITHOUT_ENERGY);
+        assert(player_beast.energy >= game_mode_beast.cost_discard, errors::PLAYER_WITHOUT_ENERGY);
 
         let mut cards = array![];
         let mut idx = 0;
