@@ -1,9 +1,10 @@
 use core::nullable::NullableTrait;
 use dojo::world::Resource::Contract;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use jokers_of_neon::constants::beast::{all_beast, is_loot_survivor_beast};
 use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::models::data::beast::{
-    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
+    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
 };
 use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
@@ -50,9 +51,7 @@ impl BeastImpl of BeastTrait {
         let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
         GameModeBeastStore::set(@game_mode_beast, world);
 
-        let beast = Beast { game_id, beast_id: 1, tier: 5, level: 5, health: 300, current_health: 300, attack: 15 };
-        BeastStore::set(@beast, world);
-        emit!(world, (beast));
+        _create_beast(world, game_id, game.level.try_into().unwrap());
 
         let player_beast = PlayerBeast { game_id, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);
@@ -266,4 +265,21 @@ fn _attack_beast(
     }
     store.set_game(game);
     PlayerBeastStore::set(@player_beast, world);
+}
+
+fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
+    let beast_id = 1; // TODO: random
+    let (tier, health, attack) = _generate_stats(level);
+    let type_beast = if is_loot_survivor_beast(beast_id) {
+        TypeBeast::LOOT_SURVIVOR
+    } else {
+        TypeBeast::JOKERS_OF_NEON
+    };
+    let beast = Beast { game_id, beast_id, tier, level, health, current_health: health, attack, type_beast };
+    BeastStore::set(@beast, world);
+    emit!(world, (beast));
+}
+
+fn _generate_stats(level: u8) -> (u8, u32, u32) { // tier, health, attack
+    (5, 300, 15)
 }
