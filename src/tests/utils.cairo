@@ -92,12 +92,11 @@ fn mock_game(ref store: Store, owner: ContractAddress) -> Game {
 fn mock_level_best(world: IWorldDispatcher, game_id: u32) {
     let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
     GameModeBeastStore::set(@game_mode_beast, world);
+// let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
+// BeastStore::set(@beast, world);
 
-    let beast = Beast { game_id, tier: 5, level: 5, health: 300, attack: 15 };
-    BeastStore::set(@beast, world);
-
-    let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
-    PlayerBeastStore::set(@player_beast, world);
+// let player_beast = PlayerBeast { game_id, health: 100, energy: game_mode_beast.energy_max_player };
+// PlayerBeastStore::set(@player_beast, world);
 }
 
 fn mock_game_deck(world: IWorldDispatcher, game_id: u32) -> GameDeck {

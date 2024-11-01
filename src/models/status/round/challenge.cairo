@@ -239,12 +239,12 @@ fn _complete(world: IWorldDispatcher, ref challenge: Challenge, _challenge_id: u
     loop {
         match challenge.active_ids.pop_front() {
             Option::Some(challenge_pop) => {
-                let (challenge_id, _) = *challenge_pop;
-                if challenge_id == _challenge_id {
+                let (challenge_id, completed) = *challenge_pop;
+                if challenge_id == _challenge_id && !completed {
                     remaining_challenges.append((challenge_id, true));
                     emit!(world, ItemChallengeCompleted { game_id: challenge.game_id, challenge_id: challenge_id });
                 } else {
-                    remaining_challenges.append((challenge_id, false));
+                    remaining_challenges.append((challenge_id, completed));
                 }
             },
             Option::None => { break; },
