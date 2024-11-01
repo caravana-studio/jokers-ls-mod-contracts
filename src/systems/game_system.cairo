@@ -185,7 +185,9 @@ mod game_system {
             store.set_game(game);
 
             let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
-            store.set_blister_pack_result(BlisterPackResult { game_id, cards_picked: false, cards });
+            let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
+            emit!(world, (blister_pack_result));
+            store.set_blister_pack_result(blister_pack_result);
         }
 
         fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
@@ -213,7 +215,9 @@ mod game_system {
             store.set_game(game);
 
             let cards = open_blister_pack(world, ref store, game, MODIFIER_CARDS_PACK_ID);
-            store.set_blister_pack_result(BlisterPackResult { game_id, cards_picked: false, cards });
+            let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
+            emit!(world, (blister_pack_result));
+            store.set_blister_pack_result(blister_pack_result);
         }
 
         fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
