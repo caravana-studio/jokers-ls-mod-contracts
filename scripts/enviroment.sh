@@ -21,3 +21,4 @@ echo -e "\n[INFO] Modifier cards selected successfully. Setup complete!"
 
 # sozo execute game_system play -c 1,5,0,1,2,3,4,5,100,100,100,100,100 --wait --world 0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88
 # sozo execute game_system end_turn -c 1 --wait --world 0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88 
+# sozo execute game_system create_level -c 1 --wait --world 0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88 

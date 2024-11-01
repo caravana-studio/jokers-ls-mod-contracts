@@ -239,8 +239,6 @@ mod game_system {
 
             game.state = GameState::IN_GAME;
             store.set_game(game);
-
-            create_level(world, ref store, game);
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {

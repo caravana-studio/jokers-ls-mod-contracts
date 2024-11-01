@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394"
-class_hash = "0x42e0a9b814ff24e92f45d9dd6e764ec9fc948c70b49242249b2cb7d97d62071"
-original_class_hash = "0x42e0a9b814ff24e92f45d9dd6e764ec9fc948c70b49242249b2cb7d97d62071"
+class_hash = "0x3a4aafb2e4f059bf801527b62432f2671368d33ae29c33b737f3c145e832229"
+original_class_hash = "0x3a4aafb2e4f059bf801527b62432f2671368d33ae29c33b737f3c145e832229"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-game_system-7a205bbc.json"
 reads = []
@@ -33,12 +33,13 @@ writes = ["ns:jokers_of_neon"]
 init_calldata = []
 tag = "jokers_of_neon-game_system"
 systems = [
-    "select_deck",
-    "select_special_cards",
-    "select_modifier_cards",
+    "create_level",
     "play",
     "discard",
     "end_turn",
+    "select_deck",
+    "select_special_cards",
+    "select_modifier_cards",
     "discard_effect_card",
     "discard_special_card",
 ]
@@ -370,6 +371,73 @@ key = false
 
 [[models]]
 kind = "DojoModel"
+class_hash = "0x366273a4ee649b33c07c7584bba0132ac37cc86f52ba525e4ced46a49b960f4"
+original_class_hash = "0x366273a4ee649b33c07c7584bba0132ac37cc86f52ba525e4ced46a49b960f4"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Challenge-61873cc7.json"
+tag = "jokers_of_neon-Challenge"
+qualified_path = "jokers_of_neon::models::data::challenge::challenge"
+manifest_name = "jokers_of_neon-Challenge-61873cc7"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "active_ids"
+type = "Span<u32>"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x21c6b6495f7bb89f6e79396f221ce4a47c8eab4f678e55d51248219648a003c"
+original_class_hash = "0x21c6b6495f7bb89f6e79396f221ce4a47c8eab4f678e55d51248219648a003c"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-ChallengeCompleted-510bb1ff.json"
+tag = "jokers_of_neon-ChallengeCompleted"
+qualified_path = "jokers_of_neon::models::data::events::challenge_completed"
+manifest_name = "jokers_of_neon-ChallengeCompleted-510bb1ff"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "player_name"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x60b252cd03fc19cedc1fb08e6295aa77daa96bf9d2ddb405282359f11bee54d"
+original_class_hash = "0x60b252cd03fc19cedc1fb08e6295aa77daa96bf9d2ddb405282359f11bee54d"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-ChallengePlayer-7d4feee6.json"
+tag = "jokers_of_neon-ChallengePlayer"
+qualified_path = "jokers_of_neon::models::data::challenge::challenge_player"
+manifest_name = "jokers_of_neon-ChallengePlayer-7d4feee6"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "discards"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "plays"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
 class_hash = "0x101deece771f5cbf115831a78e13c3e68fcf8a6220ea0f86b9177799a610dd1"
 original_class_hash = "0x101deece771f5cbf115831a78e13c3e68fcf8a6220ea0f86b9177799a610dd1"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-CreateGameEvent-17f86ee2.json"
@@ -535,8 +603,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x55a1aee842d76a253cb36c4989bc5ef74d3cd7d2d8dd4c464c64295986afa10"
-original_class_hash = "0x55a1aee842d76a253cb36c4989bc5ef74d3cd7d2d8dd4c464c64295986afa10"
+class_hash = "0x2a0bf5c76a2a51057fa8cd30b669b8b2e9ac982f6a7c0d2aac0caf2e8b385a1"
+original_class_hash = "0x2a0bf5c76a2a51057fa8cd30b669b8b2e9ac982f6a7c0d2aac0caf2e8b385a1"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Game-162de85b.json"
 tag = "jokers_of_neon-Game"
 qualified_path = "jokers_of_neon::models::status::game::game::game"
@@ -667,6 +735,30 @@ key = false
 
 [[models.members]]
 name = "energy_max_player"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2cdd0f8efcd582eb49fd33a9bc2c466d96bda4d2b7739b48258842fdb18984d"
+original_class_hash = "0x2cdd0f8efcd582eb49fd33a9bc2c466d96bda4d2b7739b48258842fdb18984d"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-LastBeastLevel-ce77bf82.json"
+tag = "jokers_of_neon-LastBeastLevel"
+qualified_path = "jokers_of_neon::models::data::last_beast_level::last_beast_level"
+manifest_name = "jokers_of_neon-LastBeastLevel-ce77bf82"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "current_probability"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "level"
 type = "u8"
 key = false
 

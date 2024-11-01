@@ -42,6 +42,7 @@ impl ChallengeImpl of ChallengeTrait {
         let mut challenge = ChallengeStore::get(world, game_id);
         challenge.active_ids = generate_unique_random_values(world, 3, challenges_all(), array![]).span();
         ChallengeStore::set(@challenge, world);
+        emit!(world, (challenge));
     }
 
     fn play(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
