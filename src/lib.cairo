@@ -52,9 +52,6 @@ mod systems {
     mod game_system;
     mod poker_hand_system;
     mod rage_system;
-    mod mock {
-        mod erc721_system;
-    }
 }
 
 #[cfg(test)]
@@ -87,4 +84,9 @@ mod configs {
     mod level;
     mod rage;
     mod slot_special_cards;
+}
+
+mod interfaces {
+    mod erc721;
+    mod loot_survivor;
 }
