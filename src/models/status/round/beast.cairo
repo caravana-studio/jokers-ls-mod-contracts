@@ -93,15 +93,18 @@ impl BeastImpl of BeastTrait {
         player_beast.energy -= game_mode_beast.cost_play;
         PlayerBeastStore::set(@player_beast, world);
 
-
         if beast.current_health.is_zero() {
             let play_win_game_event = PlayWinGameEvent {
                 player: get_caller_address(), game_id, level: game.level, player_score: 0
             };
             emit!(world, (play_win_game_event));
-            game.state = GameState::IN_GAME;
+            game.player_score += (beast.tier).into() * 500 + (beast.level).into() * 100;
+            game.beasts_defeated += 1;
+            game.player_level += 1;
+            game.player_hp += 10;
+            game.current_player_hp += 10;
+
             game.substate = GameSubState::CREATE_REWARD;
-            game.player_score += 1;
 
             if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
                 // return the cards to the deck
