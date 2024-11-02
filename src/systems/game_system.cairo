@@ -256,8 +256,7 @@ mod game_system {
             blister_pack_result.cards_picked = true;
             store.set_blister_pack_result(blister_pack_result);
 
-            game.substate = GameSubState::CREATE_LEVEL;
-            GameStore::set(@game, world)
+            self.create_level(game_id)
         }
 
         fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8) {
