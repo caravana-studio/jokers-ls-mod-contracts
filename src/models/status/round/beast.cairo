@@ -93,7 +93,8 @@ impl BeastImpl of BeastTrait {
         player_beast.energy -= game_mode_beast.cost_play;
         PlayerBeastStore::set(@player_beast, world);
 
-        if beast.health.is_zero() {
+
+        if beast.current_health.is_zero() {
             let play_win_game_event = PlayWinGameEvent {
                 player: get_caller_address(), game_id, level: game.level, player_score: 0
             };
