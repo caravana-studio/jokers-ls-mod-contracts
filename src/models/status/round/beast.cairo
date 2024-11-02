@@ -93,7 +93,6 @@ impl BeastImpl of BeastTrait {
         player_beast.energy -= game_mode_beast.cost_play;
         PlayerBeastStore::set(@player_beast, world);
 
-
         if beast.current_health.is_zero() {
             let play_win_game_event = PlayWinGameEvent {
                 player: get_caller_address(), game_id, level: game.level, player_score: 0
@@ -112,7 +111,7 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-        // create_level(world, ref store, game); TODO:
+            // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {

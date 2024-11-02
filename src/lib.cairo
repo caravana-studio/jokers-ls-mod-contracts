@@ -52,6 +52,9 @@ mod systems {
     mod game_system;
     mod poker_hand_system;
     mod rage_system;
+    mod mock {
+        mod erc721_system;
+    }
 }
 
 #[cfg(test)]

@@ -1,10 +1,8 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use jokers_of_neon::models::data::adventurer::{AdventurerConsumed, AdventurerConsumedStore};
+use jokers_of_neon::utils::adventurer::get_adventurer_address;
 
 use openzeppelin_token::erc721::interface::{IERC721Dispatcher, IERC721DispatcherTrait};
-use jokers_of_neon::models::data::adventurer::{
-    AdventurerConsumed, AdventurerConsumedStore
-};
-use jokers_of_neon::utils::adventurer::get_adventurer_address;
 use starknet::{ContractAddress, get_caller_address, get_tx_info};
 
 mod errors {
@@ -14,9 +12,8 @@ mod errors {
 
 #[generate_trait]
 impl AdventurerImpl of AdventurerTrait {
-
     fn use_adventurer(world: IWorldDispatcher, adventurer_id: u32) {
-        assert_adventurer_ownership(adventurer_id);
+        assert_adventurer_ownership(world, adventurer_id);
         let mut adventurer_consumed = AdventurerConsumedStore::get(world, adventurer_id);
         assert(!adventurer_consumed.consumed, errors::ADVENTURER_CONSUMED);
         adventurer_consumed.consumed = true;
@@ -24,17 +21,16 @@ impl AdventurerImpl of AdventurerTrait {
     }
 }
 
-fn assert_adventurer_ownership(token_id: u32) {
-    let owner = get_owner_of_adventurer(token_id);
+fn assert_adventurer_ownership(world: IWorldDispatcher, token_id: u32) {
+    let owner = get_owner_of_adventurer(world, token_id);
     assert(owner == get_caller_address(), errors::NOT_TOKEN_OWNER);
 }
 
-fn get_owner_of_adventurer(token_id: u32) -> ContractAddress {
-    let adventurer_address = get_adventurer_address(get_tx_info().unbox().chain_id);
+fn get_owner_of_adventurer(world: IWorldDispatcher, token_id: u32) -> ContractAddress {
+    let adventurer_address = get_adventurer_address(world, get_tx_info().unbox().chain_id);
     let erc721_dispatcher = IERC721Dispatcher { contract_address: adventurer_address };
     erc721_dispatcher.owner_of(token_id.into())
 }
-
 // fn _get_adventurer(self: @ContractState, token_id: u32) -> Adventurer {
 //     let adventurer_address = utils::ADVENTURER_ADDRESS_MAINNET();
 //     let game_dispatcher = IGameDispatcher { contract_address: adventurer_address };
@@ -48,3 +44,4 @@ fn get_owner_of_adventurer(token_id: u32) -> ContractAddress {
 //         rank_at_death: adventurer_meta.rank_at_death,
 //     }
 // }
+

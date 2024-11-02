@@ -278,7 +278,7 @@ mod test_play_beast_special_cards {
             player_beast_after.energy == player_beast_before.energy - game_mode_beast.cost_play, 'wrong player energy'
         );
     }
-// #[test]
+    // #[test]
 // #[available_gas(30000000000000000)]
 // fn test_play_special_initial_advantage() {
 //     let (world, systems) = setup::spawn_game();
@@ -286,15 +286,15 @@ mod test_play_beast_special_cards {
 //     let mut game = mock_game(ref store, PLAYER());
 //     mock_round(ref store, @game, 300);
 
-//     // Mock special card
+    //     // Mock special card
 //     let special_cards_ids = array![SPECIAL_INITIAL_ADVANTAGE_ID];
 //     mock_special_cards(ref store, ref game, special_cards_ids);
 
-//     // Mock hand
+    //     // Mock hand
 //     let hand_cards_ids = array![ACE_CLUBS_ID, ACE_HEARTS_ID, ACE_DIAMONDS_ID, ACE_SPADES_ID];
 //     mock_current_hand_cards_ids(ref store, game.id, hand_cards_ids);
 
-//     set_contract_address(PLAYER());
+    //     set_contract_address(PLAYER());
 //     systems.game_system.play(game.id, array![0, 1, 2, 3], array![100, 100, 100, 100]);
 //     // Four of a Kind - points: 60, multi: 7
 //     // points: 11 + 11 + 11 + 11 + 100
