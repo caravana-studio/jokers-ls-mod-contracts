@@ -3,20 +3,20 @@ use starknet::ContractAddress;
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
 enum GameSubState {
     BEAST,
-    CREATE_LEVEL,
     OBSTACLE,
-    REWARD
+    CREATE_LEVEL,
+    CREATE_REWARD,
+    REWARD_SPECIALS,
+    REWARD_CARDS_PACK,
+    DRAFT_MODIFIERS,
+    DRAFT_SPECIALS,
+    DRAFT_DECK
 }
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
 enum GameState {
-    SELECT_DECK,
-    SELECT_SPECIAL_CARDS,
-    SELECT_MODIFIER_CARDS,
-    AT_SHOP,
     IN_GAME,
-    FINISHED,
-    OPEN_BLISTER_PACK
+    FINISHED
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]

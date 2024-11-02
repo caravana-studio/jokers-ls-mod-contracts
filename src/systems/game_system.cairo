@@ -6,7 +6,8 @@ use jokers_of_neon::models::data::poker_hand::PokerHand;
 trait IGameSystem {
     fn create_game(ref world: IWorldDispatcher, player_name: felt252) -> u32;
     fn create_level(ref world: IWorldDispatcher, game_id: u32);
-    fn select_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8);
+    fn create_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8);
+    fn select_reward(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
     fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
@@ -26,12 +27,17 @@ mod errors {
     const GAME_NOT_IN_GAME: felt252 = 'Game: is not IN_GAME';
     const GAME_NOT_SELECT_SPECIAL_CARDS: felt252 = 'Game:is not SELECT_SPECIAL_CARD';
     const GAME_NOT_SELECT_MODIFIER_CARDS: felt252 = 'Game:is not SELCT_MODIFIER_CARD';
-    const GAME_NOT_SELECT_DECK: felt252 = 'Game:is not SELECT_DECK';
     const USE_INVALID_CARD: felt252 = 'Game: use an invalid card';
     const INVALID_DECK_ID: felt252 = 'Game: use an invalid deck';
-    const WRONG_SUBSTATE_BEAST: felt252 = 'Game: wrong substate BEAST';
+
+    const WRONG_SUBSTATE_BEAST: felt252 = 'Wrong substate BEAST';
     const WRONG_SUBSTATE_CREATE_LEVEL: felt252 = 'Wrong substate CREATE_LEVEL';
+    const WRONG_SUBSTATE_CREATE_REWARD: felt252 = 'Wrong substate CREATE_REWARD';
     const WRONG_SUBSTATE_REWARD: felt252 = 'Wrong substate REWARD';
+    const WRONG_SUBSTATE_DRAFT_DECK: felt252 = 'Wrong substate DRAFT_DECK';
+    const WRONG_SUBSTATE_DRAFT_MODIFIERS: felt252 = 'Wrong substate DRAFT_MODIFIERS';
+    const WRONG_SUBSTATE_DRAFT_SPECIALS: felt252 = 'Wrong substate DRAFT_SPECIALS';
+    const WRONG_SUBSTATE_SELECT_REWARD: felt252 = 'Wrong substate SELECT_REWARD';
 }
 
 #[dojo::contract]
@@ -105,8 +111,8 @@ mod game_system {
                 len_max_current_special_cards: 5,
                 len_current_special_cards: 0,
                 current_jokers: 0,
-                state: GameState::SELECT_DECK,
-                substate: GameSubState::CREATE_LEVEL,
+                state: GameState::IN_GAME,
+                substate: GameSubState::DRAFT_DECK,
                 cash: 0
             };
             store.set_game(game);
@@ -179,15 +185,15 @@ mod game_system {
             BeastTrait::end_turn(world, game_id);
         }
 
-        fn select_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8) {
+        fn create_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8) {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
-            assert(game.substate == GameSubState::REWARD, errors::WRONG_SUBSTATE_REWARD);
+            assert(game.substate == GameSubState::CREATE_REWARD, errors::WRONG_SUBSTATE_REWARD);
 
             let reward: RewardType = (*RewardStore::get(world, game_id).rewards_ids.at(reward_index.into())).into();
             match reward {
                 RewardType::HP_POTION => {
-                    game.state = GameState::IN_GAME;
+                    game.substate = GameSubState::CREATE_LEVEL;
 
                     let mut randomizer = RandomImpl::new(world);
                     let hp_heal = randomizer.between::<u32>(25, 50);
@@ -201,7 +207,7 @@ mod game_system {
                     emit!(world, PlayerHealed { game_id, potion_heal: hp_heal, current_hp: game.player_hp });
                 },
                 RewardType::BLISTER_PACK => {
-                    game.state = GameState::SELECT_MODIFIER_CARDS;
+                    game.substate = GameSubState::REWARD_CARDS_PACK;
 
                     let mut store = StoreTrait::new(world);
                     let cards = open_blister_pack(world, ref store, game, REWARD_CARDS_PACK_ID);
@@ -210,7 +216,7 @@ mod game_system {
                     store.set_blister_pack_result(blister_pack_result);
                 },
                 RewardType::SPECIAL_CARDS => {
-                    game.state = GameState::SELECT_SPECIAL_CARDS;
+                    game.substate = GameSubState::REWARD_SPECIALS;
 
                     let mut store = StoreTrait::new(world);
                     let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
@@ -220,6 +226,28 @@ mod game_system {
                 },
                 _ => {}
             }
+            GameStore::set(@game, world)
+        }
+
+        fn select_reward(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
+            let mut game = GameStore::get(world, game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(
+                game.substate == GameSubState::REWARD_SPECIALS || game.substate == GameSubState::REWARD_CARDS_PACK,
+                errors::WRONG_SUBSTATE_SELECT_REWARD
+            );
+
+            let mut store = StoreTrait::new(world);
+            match game.substate {
+                GameSubState::REWARD_SPECIALS => { assert(cards_index.len() <= 1, errors::INVALID_CARD_INDEX_LEN); },
+                GameSubState::REWARD_CARDS_PACK => { assert(cards_index.len() <= 3, errors::INVALID_CARD_INDEX_LEN); },
+                _ => {}
+            }
+            let mut blister_pack_result = store.get_blister_pack_result(game.id);
+            select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
+            blister_pack_result.cards_picked = true;
+            store.set_blister_pack_result(blister_pack_result);
+
             game.substate = GameSubState::CREATE_LEVEL;
             GameStore::set(@game, world)
         }
@@ -234,12 +262,11 @@ mod game_system {
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
 
             // Check that the status of the game
-            assert(game.state == GameState::SELECT_DECK, errors::GAME_NOT_SELECT_DECK);
-
+            assert(game.substate == GameSubState::DRAFT_DECK, errors::WRONG_SUBSTATE_DRAFT_DECK);
             assert(deck_id < 3, errors::INVALID_DECK_ID);
 
             GameDeckImpl::init(ref store, game_id, deck_id);
-            game.state = GameState::SELECT_SPECIAL_CARDS;
+            game.substate = GameSubState::DRAFT_SPECIALS;
             store.set_game(game);
 
             let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
@@ -259,14 +286,14 @@ mod game_system {
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
 
             // Check that the status of the game
-            assert(game.state == GameState::SELECT_SPECIAL_CARDS, errors::GAME_NOT_SELECT_SPECIAL_CARDS);
+            assert(game.substate == GameSubState::DRAFT_SPECIALS, errors::WRONG_SUBSTATE_DRAFT_SPECIALS);
 
             let mut blister_pack_result = store.get_blister_pack_result(game.id);
             assert(cards_index.len() <= 2, errors::INVALID_CARD_INDEX_LEN);
 
             select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
 
-            game.state = GameState::SELECT_MODIFIER_CARDS;
+            game.substate = GameSubState::DRAFT_MODIFIERS;
             store.set_game(game);
 
             let cards = open_blister_pack(world, ref store, game, MODIFIER_CARDS_PACK_ID);
@@ -286,7 +313,7 @@ mod game_system {
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
 
             // Check that the status of the game
-            assert(game.state == GameState::SELECT_MODIFIER_CARDS, errors::GAME_NOT_SELECT_MODIFIER_CARDS);
+            assert(game.substate == GameSubState::DRAFT_MODIFIERS, errors::WRONG_SUBSTATE_DRAFT_MODIFIERS);
 
             let mut blister_pack_result = store.get_blister_pack_result(game.id);
             assert(cards_index.len() <= 5, errors::INVALID_CARD_INDEX_LEN);

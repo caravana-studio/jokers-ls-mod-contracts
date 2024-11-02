@@ -99,7 +99,7 @@ impl BeastImpl of BeastTrait {
             };
             emit!(world, (play_win_game_event));
             game.state = GameState::IN_GAME;
-            game.substate = GameSubState::REWARD;
+            game.substate = GameSubState::CREATE_REWARD;
             game.player_score += 1;
 
             if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
