@@ -266,7 +266,7 @@ fn _resolve_challenges(
                 Suit::Hearts => { _complete(world, ref challenge, CHALLENGE_HEARTS); },
                 Suit::Spades => { _complete(world, ref challenge, CHALLENGE_SPADES); },
                 Suit::Diamonds => { _complete(world, ref challenge, CHALLENGE_DIAMONDS); },
-                Suit::Joker => {},
+                Suit::Joker => { _complete(world, ref challenge, CHALLENGE_JOKER); },
                 Suit::None => {},
             };
         }
