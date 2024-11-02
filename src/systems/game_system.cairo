@@ -16,6 +16,7 @@ trait IGameSystem {
     fn end_turn(ref world: IWorldDispatcher, game_id: u32);
     fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32);
     fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32);
+    fn use_adventurer(ref world: IWorldDispatcher, adventurer_id: u32);
 }
 
 mod errors {
@@ -69,6 +70,7 @@ mod game_system {
     use jokers_of_neon::models::data::reward::{Reward, RewardType, RewardStore};
     use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
+    use jokers_of_neon::models::status::round::adventurer::AdventurerTrait;
     use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
@@ -280,6 +282,10 @@ mod game_system {
             let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
             emit!(world, (blister_pack_result));
             store.set_blister_pack_result(blister_pack_result);
+        }
+
+        fn use_adventurer(ref world: IWorldDispatcher, adventurer_id: u32) {
+            AdventurerTrait::use_adventurer(world, adventurer_id);
         }
 
         fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {

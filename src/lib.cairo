@@ -17,6 +17,7 @@ mod constants {
 
 mod models {
     mod data {
+        mod adventurer;
         mod beast;
         mod blister_pack;
         mod card;
@@ -34,6 +35,7 @@ mod models {
             mod rage;
         }
         mod round {
+            mod adventurer;
             mod beast;
             mod challenge;
             mod current_hand_card;
@@ -66,6 +68,7 @@ mod tests {
 }
 
 mod utils {
+    mod adventurer;
     mod calculate_hand;
     mod constants;
     mod game;
