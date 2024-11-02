@@ -119,7 +119,7 @@ mod game_system {
                 len_current_special_cards: 0,
                 current_jokers: 0,
                 state: GameState::IN_GAME,
-                substate: GameSubState::DRAFT_ADVENTURER,
+                substate: GameSubState::DRAFT_DECK,
                 cash: 0
             };
             store.set_game(game);
@@ -327,7 +327,7 @@ mod game_system {
             // Check that the status of the game
             assert(game.substate == GameSubState::DRAFT_ADVENTURER, errors::WRONG_SUBSTATE_DRAFT_ADVENTURER);
             
-            game.substate = GameSubState::DRAFT_DECK;
+            game.substate = GameSubState::CREATE_LEVEL;
             store.set_game(game);
         }
 
@@ -349,7 +349,7 @@ mod game_system {
 
             select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
 
-            game.substate = GameSubState::DRAFT_DECK;
+            game.substate = GameSubState::CREATE_LEVEL;
             store.set_game(game);
         }
 
@@ -401,7 +401,7 @@ mod game_system {
             blister_pack_result.cards_picked = true;
             store.set_blister_pack_result(blister_pack_result);
 
-            game.substate = GameSubState::CREATE_LEVEL;
+            game.substate = GameSubState::DRAFT_ADVENTURER;
             store.set_game(game);
             // self.create_level(game_id)
         }
