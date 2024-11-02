@@ -281,3 +281,14 @@ struct PlayerAttack {
     player: ContractAddress,
     attack: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct PlayerHealed {
+    #[key]
+    game_id: u32,
+    potion_heal: u32,
+    current_hp: u32,
+}
+

@@ -100,7 +100,7 @@ impl BeastImpl of BeastTrait {
             };
             emit!(world, (play_win_game_event));
             game.state = GameState::IN_GAME;
-            game.substate = GameSubState::CREATE_LEVEL;
+            game.substate = GameSubState::CREATE_REWARD;
             game.player_score += 1;
 
             if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
@@ -112,7 +112,7 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-            // create_level(world, ref store, game); TODO:
+        // create_level(world, ref store, game); TODO:
         } else if player_beast.energy.is_zero() {
             _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
