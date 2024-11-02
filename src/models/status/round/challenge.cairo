@@ -89,6 +89,8 @@ impl ChallengeImpl of ChallengeTrait {
             GameStore::set(@game, world);
         } else {
             challenge_player.plays -= 1;
+            emit!(world, (challenge_player));
+            ChallengePlayerStore::set(@challenge_player, world);
             if challenge_player.plays.is_zero() {
                 let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                 emit!(world, (play_game_over_event));
@@ -96,18 +98,38 @@ impl ChallengeImpl of ChallengeTrait {
                 GameStore::set(@game, world);
                 return;
             }
-            emit!(world, (challenge_player));
-            ChallengePlayerStore::set(@challenge_player, world);
-        }
 
-        CurrentHandCardTrait::refresh(world, game_id, cards_index);
+            let mut cards = array![];
+            let mut idx = 0;
+            loop {
+                if idx == cards_index.len() {
+                    break;
+                }
+                cards.append(*cards_index.at(idx));
+                idx += 1;
+            };
 
-        let game_deck = GameDeckStore::get(world, game_id);
-        if game_deck.round_len.is_zero() && _player_has_empty_hand(ref store, @game) {
-            let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
-            emit!(world, (play_game_over_event));
-            game.state = GameState::FINISHED;
-            GameStore::set(@game, world);
+            idx = 0;
+            loop {
+                if idx == modifiers_index.len() {
+                    break;
+                }
+                let card_index = *modifiers_index.at(idx);
+                if card_index != 100 {
+                    cards.append(card_index);
+                }
+                idx += 1;
+            };
+
+            CurrentHandCardTrait::refresh(world, game_id, cards);
+
+            let game_deck = GameDeckStore::get(world, game_id);
+            if game_deck.round_len.is_zero() && _player_has_empty_hand(ref store, @game) {
+                let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
+                emit!(world, (play_game_over_event));
+                game.state = GameState::FINISHED;
+                GameStore::set(@game, world);
+            }
         }
     }
 
