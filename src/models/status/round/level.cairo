@@ -16,27 +16,23 @@ impl LevelImpl of LevelTrait {
         let mut last_active_level = LastBeastLevelStore::get(world, game_id);
 
         if game.level <= level_config.min_round_level_before_activate.into() {
-            println!("dale 1");
             return GameSubState::OBSTACLE;
         }
 
         if last_active_level.level != 0 && game.level
             - last_active_level.level.into() <= level_config.level_cooldown.try_into().unwrap() {
-            println!("dale 2");
             return GameSubState::OBSTACLE;
         }
 
         let mut randomizer = RandomImpl::new(world);
         let random = randomizer.between::<u16>(0, 100);
         if random <= last_active_level.current_probability {
-            println!("dale 3");
             last_active_level.level = game.level.try_into().unwrap();
             last_active_level.current_probability = level_config.initial_probability;
             LastBeastLevelStore::set(@last_active_level, world);
 
             GameSubState::BEAST
         } else {
-            println!("dale 4");
             if last_active_level.current_probability + level_config.increment_by_round <= 100 {
                 last_active_level.current_probability = last_active_level.current_probability
                     + level_config.increment_by_round;
