@@ -256,6 +256,8 @@ mod game_system {
             blister_pack_result.cards_picked = true;
             store.set_blister_pack_result(blister_pack_result);
 
+            game.substate = GameSubState::CREATE_LEVEL;
+            StoreGame::set(@game, world);
             self.create_level(game_id)
         }
 
@@ -330,8 +332,9 @@ mod game_system {
             blister_pack_result.cards_picked = true;
             store.set_blister_pack_result(blister_pack_result);
 
-            game.state = GameState::IN_GAME;
-            store.set_game(game);
+            game.substate = GameSubState::CREATE_LEVEL;
+            StoreGame::set(@game, world);
+            self.create_level(game_id)
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {
