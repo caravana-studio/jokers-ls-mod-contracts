@@ -24,8 +24,8 @@ manifest_name = "dojo-base"
 [[contracts]]
 kind = "DojoContract"
 address = "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394"
-class_hash = "0x352fd9eeb1842a703803b0b06071e21caf0e093be86e0bdeb3b7bad13f11be5"
-original_class_hash = "0x352fd9eeb1842a703803b0b06071e21caf0e093be86e0bdeb3b7bad13f11be5"
+class_hash = "0x6064cd42481d56780719611f314fd168f59da3e319e4fdaf3606c3483563db0"
+original_class_hash = "0x6064cd42481d56780719611f314fd168f59da3e319e4fdaf3606c3483563db0"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-game_system-7a205bbc.json"
 reads = []
@@ -37,7 +37,10 @@ systems = [
     "play",
     "discard",
     "end_turn",
+    "create_reward",
+    "select_reward",
     "select_deck",
+    "use_adventurer",
     "select_special_cards",
     "select_modifier_cards",
     "discard_effect_card",
@@ -62,8 +65,8 @@ manifest_name = "jokers_of_neon-poker_hand_system-25bae3ed"
 [[contracts]]
 kind = "DojoContract"
 address = "0x75602558fd679c49be1a6ccb73e3d6d842f0558e1f41c4013ce109d05a5790f"
-class_hash = "0x5f1bddfab781d4c4b67d7814361d1a38549f876f4e2574a576903291c3f536d"
-original_class_hash = "0x5f1bddfab781d4c4b67d7814361d1a38549f876f4e2574a576903291c3f536d"
+class_hash = "0x4da1956c768854cdfddd16b65b34b7ce24c2c44a2acf60b1f2592475b503fa2"
+original_class_hash = "0x4da1956c768854cdfddd16b65b34b7ce24c2c44a2acf60b1f2592475b503fa2"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
 abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-rage_system-601fc835.json"
 reads = []
@@ -72,6 +75,30 @@ init_calldata = []
 tag = "jokers_of_neon-rage_system"
 systems = ["calculate"]
 manifest_name = "jokers_of_neon-rage_system-601fc835"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x79045f9b971b4009a1822c5471f5b54365f86045fbf1ca4745a441195ec8c40"
+original_class_hash = "0x79045f9b971b4009a1822c5471f5b54365f86045fbf1ca4745a441195ec8c40"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-AdventurerConsumed-5d6c7696.json"
+tag = "jokers_of_neon-AdventurerConsumed"
+qualified_path = "jokers_of_neon::models::data::adventurer::adventurer_consumed"
+manifest_name = "jokers_of_neon-AdventurerConsumed-5d6c7696"
+
+[[models.members]]
+name = "adventurer_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "consumed"
+type = "bool"
+key = false
 
 [[models]]
 kind = "DojoModel"
@@ -637,8 +664,8 @@ key = false
 
 [[models]]
 kind = "DojoModel"
-class_hash = "0x3ffc052edb32b194e03a69e0b624c9ee4d508d4ce3de3de43a0f5503832b6c2"
-original_class_hash = "0x3ffc052edb32b194e03a69e0b624c9ee4d508d4ce3de3de43a0f5503832b6c2"
+class_hash = "0x25c9eb7813071767dcf7069b422a5b8a3895c51346932209f389a63ba62ecae"
+original_class_hash = "0x25c9eb7813071767dcf7069b422a5b8a3895c51346932209f389a63ba62ecae"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Game-162de85b.json"
 tag = "jokers_of_neon-Game"
 qualified_path = "jokers_of_neon::models::status::game::game::game"
@@ -1010,6 +1037,30 @@ key = false
 
 [[models]]
 kind = "DojoModel"
+class_hash = "0xc08b898bbf24211a37fbdccc3bc3bf615954fe0c821a9de3e6e8151eaa3871"
+original_class_hash = "0xc08b898bbf24211a37fbdccc3bc3bf615954fe0c821a9de3e6e8151eaa3871"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayerHealed-3cdab4ab.json"
+tag = "jokers_of_neon-PlayerHealed"
+qualified_path = "jokers_of_neon::models::data::events::player_healed"
+manifest_name = "jokers_of_neon-PlayerHealed-3cdab4ab"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "potion_heal"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_hp"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
 class_hash = "0x34c07816aa25e5daadc2370bd4793af7dbd786de2c1e99d74e7347680ffa281"
 original_class_hash = "0x34c07816aa25e5daadc2370bd4793af7dbd786de2c1e99d74e7347680ffa281"
 abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PokerHandEvent-2ca11749.json"
@@ -1069,6 +1120,25 @@ key = false
 [[models.members]]
 name = "last_active_level"
 type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x315761eb593391eaf1293fa2f5b43903a93c31ded0a925f9d31077fbd8ccc5a"
+original_class_hash = "0x315761eb593391eaf1293fa2f5b43903a93c31ded0a925f9d31077fbd8ccc5a"
+abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Reward-1ffe01c2.json"
+tag = "jokers_of_neon-Reward"
+qualified_path = "jokers_of_neon::models::data::reward::reward"
+manifest_name = "jokers_of_neon-Reward-1ffe01c2"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "rewards_ids"
+type = "Span<u32>"
 key = false
 
 [[models]]

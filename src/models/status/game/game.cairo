@@ -10,7 +10,8 @@ enum GameSubState {
     REWARD_CARDS_PACK,
     DRAFT_MODIFIERS,
     DRAFT_SPECIALS,
-    DRAFT_DECK
+    DRAFT_DECK,
+    DRAFT_ADVENTURER
 }
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]

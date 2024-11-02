@@ -16,7 +16,7 @@ trait IGameSystem {
     fn end_turn(ref world: IWorldDispatcher, game_id: u32);
     fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32);
     fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32);
-    fn use_adventurer(ref world: IWorldDispatcher, adventurer_id: u32);
+    fn use_adventurer(ref world: IWorldDispatcher, game_id: u32, adventurer_id: u32);
 }
 
 mod errors {
@@ -39,6 +39,7 @@ mod errors {
     const WRONG_SUBSTATE_DRAFT_MODIFIERS: felt252 = 'Wrong substate DRAFT_MODIFIERS';
     const WRONG_SUBSTATE_DRAFT_SPECIALS: felt252 = 'Wrong substate DRAFT_SPECIALS';
     const WRONG_SUBSTATE_SELECT_REWARD: felt252 = 'Wrong substate SELECT_REWARD';
+    const WRONG_SUBSTATE_DRAFT_ADVENTURER: felt252 = 'Wrong substate SELECT_ADVENTURE';
 }
 
 #[dojo::contract]
@@ -115,7 +116,7 @@ mod game_system {
                 len_current_special_cards: 0,
                 current_jokers: 0,
                 state: GameState::IN_GAME,
-                substate: GameSubState::DRAFT_DECK,
+                substate: GameSubState::DRAFT_ADVENTURER,
                 cash: 0
             };
             store.set_game(game);
@@ -284,8 +285,23 @@ mod game_system {
             store.set_blister_pack_result(blister_pack_result);
         }
 
-        fn use_adventurer(ref world: IWorldDispatcher, adventurer_id: u32) {
-            AdventurerTrait::use_adventurer(world, adventurer_id);
+        fn use_adventurer(ref world: IWorldDispatcher, game_id: u32, adventurer_id: u32) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.substate == GameSubState::DRAFT_ADVENTURER, errors::WRONG_SUBSTATE_DRAFT_ADVENTURER);
+            
+            AdventurerTrait::use_adventurer(world, adventurer_id, ref game);
+
+            game.substate = GameSubState::DRAFT_DECK;
+            store.set_game(game);
         }
 
         fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {

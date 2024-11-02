@@ -5,16 +5,8 @@ use starknet::{ContractAddress, contract_address_const};
 
 const MAINNET_CHAIN_ID: felt252 = 0x534e5f4d41494e;
 
-fn get_adventurer_address(world: IWorldDispatcher, chain_id: felt252) -> ContractAddress {
-    if chain_id == MAINNET_CHAIN_ID {
-        ADVENTURER_ADDRESS_MAINNET()
-    } else {
-        let (_, erc721_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-erc721_system")) {
-            Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
-            _ => Option::None
-        }.unwrap();
-        erc721_system_address
-    }
+fn is_mainnet(chain_id: felt252) -> bool{
+    chain_id == MAINNET_CHAIN_ID
 }
 
 fn ADVENTURER_ADDRESS_MAINNET() -> ContractAddress {
