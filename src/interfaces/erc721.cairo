@@ -3,5 +3,5 @@ use starknet::ContractAddress;
 
 #[dojo::interface]
 trait IERC721System {
-    fn owner_of(ref world: IWorldDispatcher, token_id: u256) -> ContractAddress;
+    fn owner_of(world: @IWorldDispatcher, token_id: u256) -> ContractAddress;
 }
