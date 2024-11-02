@@ -63,6 +63,11 @@ const WARRIOR_DECK: u8 = 1;
 const WIZARD_DECK: u8 = 2;
 
 // TRADITIONALS
+
+fn JOKER_CARD_C() -> Card {
+    Card { id: JOKER_CARD, suit: Suit::Joker, value: Value::Joker, points: 100, multi_add: 1 }
+}
+
 fn TWO_CLUBS() -> Card {
     Card { id: TWO_CLUBS_ID, suit: Suit::Clubs, value: Value::Two, points: 2, multi_add: 0 }
 }
