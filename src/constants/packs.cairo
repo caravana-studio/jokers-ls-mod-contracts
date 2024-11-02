@@ -22,6 +22,7 @@ const EMPTY_PACK_ID: u32 = 999;
 
 const SPECIAL_CARDS_PACK_ID: u32 = 20;
 const MODIFIER_CARDS_PACK_ID: u32 = 21;
+const REWARD_CARDS_PACK_ID: u32 = 22;
 
 fn blister_packs_ids_all() -> Array<u32> {
     array![
@@ -243,5 +244,17 @@ fn MODIFIER_CARDS_PACK() -> BlisterPack {
         size: 10,
         cards: array![array![].span(), modifiers_ids_all().span()].span(),
         probs: array![100, 100].span(),
+    }
+}
+
+fn REWARD_PACK() -> BlisterPack {
+    BlisterPack {
+        id: REWARD_CARDS_PACK_ID,
+        cost: 0,
+        name: 'reward_cards_pack',
+        probability: 100,
+        size: 5,
+        cards: array![array![].span(), array![JOKER_CARD].span(), modifiers_ids_all().span()].span(),
+        probs: array![100, 20, 80].span(),
     }
 }

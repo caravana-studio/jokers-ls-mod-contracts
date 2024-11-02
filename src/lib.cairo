@@ -10,6 +10,7 @@ mod constants {
     mod modifiers;
     mod packs;
     mod playhand;
+    mod reward;
     mod specials;
     mod two_pow;
 }
@@ -25,6 +26,7 @@ mod models {
         mod game_deck;
         mod last_beast_level;
         mod poker_hand;
+        mod reward;
     }
     mod status {
         mod game {

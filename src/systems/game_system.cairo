@@ -6,6 +6,7 @@ use jokers_of_neon::models::data::poker_hand::PokerHand;
 trait IGameSystem {
     fn create_game(ref world: IWorldDispatcher, player_name: felt252) -> u32;
     fn create_level(ref world: IWorldDispatcher, game_id: u32);
+    fn select_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8);
     fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8);
     fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
     fn select_modifier_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
@@ -30,6 +31,7 @@ mod errors {
     const INVALID_DECK_ID: felt252 = 'Game: use an invalid deck';
     const WRONG_SUBSTATE_BEAST: felt252 = 'Game: wrong substate BEAST';
     const WRONG_SUBSTATE_CREATE_LEVEL: felt252 = 'Wrong substate CREATE_LEVEL';
+    const WRONG_SUBSTATE_REWARD: felt252 = 'Wrong substate REWARD';
 }
 
 #[dojo::contract]
@@ -37,7 +39,7 @@ mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
     use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
-    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID};
+    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID};
     use jokers_of_neon::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID,
         SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID, SPECIAL_INCREASE_LEVEL_STRAIGHT_ID,
@@ -52,12 +54,13 @@ mod game_system {
         PokerHandEvent, CreateGameEvent, CardScoreEvent, PlayWinGameEvent, PlayGameOverEvent, DetailEarnedEvent,
         SpecialModifierPointsEvent, SpecialModifierMultiEvent, SpecialModifierSuitEvent, SpecialPokerHandEvent,
         SpecialGlobalEvent, ModifierCardSuitEvent, RoundScoreEvent, NeonPokerHandEvent, PlayPokerHandEvent,
-        SpecialCashEvent
+        SpecialCashEvent, PlayerHealed
     };
     use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
     use jokers_of_neon::models::data::last_beast_level::{LastBeastLevel, LastBeastLevelStore};
     use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
-    use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState};
+    use jokers_of_neon::models::data::reward::{Reward, RewardType, RewardStore};
+    use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
@@ -74,6 +77,7 @@ mod game_system {
     use jokers_of_neon::utils::level::create_level;
     use jokers_of_neon::utils::packs::{open_blister_pack, select_cards_from_blister};
     use jokers_of_neon::utils::rage::is_rage_card_active;
+    use jokers_of_neon::utils::random::RandomImpl;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
     use super::IGameSystem;
     use super::errors;
@@ -131,7 +135,7 @@ mod game_system {
             match game.substate {
                 GameSubState::BEAST => { BeastTrait::create(world, ref store, game_id); },
                 GameSubState::OBSTACLE => { ChallengeTrait::create(world, ref store, game_id); },
-                GameSubState::CREATE_LEVEL => {},
+                _ => {},
             }
             game.level += 1;
             store.set_game(game);
@@ -147,7 +151,7 @@ mod game_system {
             match game.substate {
                 GameSubState::BEAST => { BeastTrait::play(world, game_id, cards_index, modifiers_index); },
                 GameSubState::OBSTACLE => { ChallengeTrait::play(world, game_id, cards_index, modifiers_index); },
-                GameSubState::CREATE_LEVEL => {},
+                _ => {},
             }
         }
 
@@ -161,7 +165,7 @@ mod game_system {
             match game.substate {
                 GameSubState::BEAST => { BeastTrait::discard(world, game_id, cards_index, modifiers_index); },
                 GameSubState::OBSTACLE => { ChallengeTrait::discard(world, game_id, cards_index, modifiers_index); },
-                GameSubState::CREATE_LEVEL => {},
+                _ => {},
             }
         }
 
@@ -173,6 +177,51 @@ mod game_system {
             assert(game.substate == GameSubState::BEAST, errors::WRONG_SUBSTATE_BEAST);
 
             BeastTrait::end_turn(world, game_id);
+        }
+
+        fn select_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8) {
+            let mut game = GameStore::get(world, game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.substate == GameSubState::REWARD, errors::WRONG_SUBSTATE_REWARD);
+
+            let reward: RewardType = (*RewardStore::get(world, game_id).rewards_ids.at(reward_index.into())).into();
+            match reward {
+                RewardType::HP_POTION => {
+                    game.state = GameState::IN_GAME;
+
+                    let mut randomizer = RandomImpl::new(world);
+                    let hp_heal = randomizer.between::<u32>(25, 50);
+                    game
+                        .player_hp =
+                            if game.current_player_hp + hp_heal >= game.player_hp {
+                                game.player_hp
+                            } else {
+                                game.current_player_hp + hp_heal
+                            };
+                    emit!(world, PlayerHealed { game_id, potion_heal: hp_heal, current_hp: game.player_hp });
+                },
+                RewardType::BLISTER_PACK => {
+                    game.state = GameState::SELECT_MODIFIER_CARDS;
+
+                    let mut store = StoreTrait::new(world);
+                    let cards = open_blister_pack(world, ref store, game, REWARD_CARDS_PACK_ID);
+                    let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
+                    emit!(world, (blister_pack_result));
+                    store.set_blister_pack_result(blister_pack_result);
+                },
+                RewardType::SPECIAL_CARDS => {
+                    game.state = GameState::SELECT_SPECIAL_CARDS;
+
+                    let mut store = StoreTrait::new(world);
+                    let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
+                    let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
+                    emit!(world, (blister_pack_result));
+                    store.set_blister_pack_result(blister_pack_result);
+                },
+                _ => {}
+            }
+            game.substate = GameSubState::CREATE_LEVEL;
+            GameStore::set(@game, world)
         }
 
         fn select_deck(ref world: IWorldDispatcher, game_id: u32, deck_id: u8) {

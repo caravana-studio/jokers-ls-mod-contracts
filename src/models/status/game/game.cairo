@@ -4,7 +4,8 @@ use starknet::ContractAddress;
 enum GameSubState {
     BEAST,
     CREATE_LEVEL,
-    OBSTACLE
+    OBSTACLE,
+    REWARD
 }
 
 #[derive(Serde, Copy, Drop, IntrospectPacked, PartialEq)]
