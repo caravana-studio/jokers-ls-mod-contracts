@@ -32,7 +32,8 @@ impl AdventurerImpl of AdventurerTrait {
             let adventurer = loot_survivor_dispatcher.get_adventurer(adventurer_id.into());
             let level = get_level_from_xp(adventurer.xp);
 
-            game.player_hp += (level + level / 2).into();
+            game.player_hp += (level * 2).into();
+            game.current_player_hp += (level * 2).into();
 
             adventurer_consumed.consumed = true;
             AdventurerConsumedStore::set(@adventurer_consumed, world);
@@ -40,9 +41,10 @@ impl AdventurerImpl of AdventurerTrait {
             let mut adventurer_consumed = AdventurerConsumedStore::get(world, adventurer_id);
             assert(!adventurer_consumed.consumed, errors::ADVENTURER_CONSUMED);
 
-            let level = 13;
+            let level: u32 = 13;
 
-            game.player_hp += level + level / 2;
+            game.player_hp += (level * 2).into();
+            game.current_player_hp += (level * 2).into();
 
             adventurer_consumed.consumed = true;
             AdventurerConsumedStore::set(@adventurer_consumed, world);
