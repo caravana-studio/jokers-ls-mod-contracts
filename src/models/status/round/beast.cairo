@@ -1,7 +1,7 @@
 use core::nullable::NullableTrait;
 use dojo::world::Resource::Contract;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::beast::{all_beast, is_loot_survivor_beast};
+use jokers_of_neon::constants::beast::{all_beast, beast_loot_survivor, is_loot_survivor_beast};
 use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
@@ -273,7 +273,12 @@ fn _attack_beast(
 
 fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     let mut randomizer = RandomImpl::new(world);
-    let beast_id = randomizer.between::<u32>(0, all_beast().len() - 1);
+
+    let beast_id = if level < 10 {
+        *beast_loot_survivor()[randomizer.between::<u32>(0, beast_loot_survivor().len() - 1)]
+    } else {
+        *all_beast()[randomizer.between::<u32>(0, all_beast().len() - 1)]
+    };
     let (tier, health, attack) = _generate_stats(level);
     let type_beast = if is_loot_survivor_beast(beast_id) {
         TypeBeast::LOOT_SURVIVOR
