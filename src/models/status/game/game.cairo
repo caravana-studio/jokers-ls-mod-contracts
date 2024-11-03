@@ -30,11 +30,14 @@ struct Game {
     owner: ContractAddress,
     player_name: felt252,
     player_hp: u32,
+    player_score: u32,
+    player_level: u32,
+    obstacles_cleared: u32,
+    beasts_defeated: u32,
     current_player_hp: u32,
     max_hands: u8,
     max_discard: u8,
     max_jokers: u8,
-    player_score: u32,
     level: u32,
     len_hand: u32,
     len_max_current_special_cards: u32,
@@ -42,7 +45,6 @@ struct Game {
     current_jokers: u8,
     state: GameState,
     substate: GameSubState,
-    cash: u32
 }
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
@@ -64,11 +66,14 @@ impl DefaultGame of Default<Game> {
             owner: Zeroable::zero(),
             player_name: Zeroable::zero(),
             player_hp: 500,
+            player_score: 0,
+            obstacles_cleared: 0,
+            beasts_defeated: 0,
+            player_level: 1,
             current_player_hp: 500,
             max_hands: 5,
             max_discard: 5,
             max_jokers: 5,
-            player_score: 0,
             level: 1,
             len_hand: 8,
             len_max_current_special_cards: 5,
@@ -76,7 +81,6 @@ impl DefaultGame of Default<Game> {
             current_jokers: 0,
             state: GameState::IN_GAME,
             substate: GameSubState::CREATE_LEVEL,
-            cash: 0
         }
     }
 }

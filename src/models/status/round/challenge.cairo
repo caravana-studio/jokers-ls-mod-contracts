@@ -86,6 +86,9 @@ impl ChallengeImpl of ChallengeTrait {
         if Self::is_completed(world, game_id) {
             emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id });
             game.substate = GameSubState::CREATE_REWARD;
+            game.player_score += challenge.active_ids.len() * 100;
+            game.obstacles_cleared += 1;
+
             GameStore::set(@game, world);
         } else {
             challenge_player.plays -= 1;

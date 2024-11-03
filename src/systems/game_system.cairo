@@ -108,7 +108,10 @@ mod game_system {
                 owner: player_id,
                 player_name,
                 player_hp: 500, // TODO: Obtain HP from adventurer
+                player_level: 1,
                 current_player_hp: 500,
+                obstacles_cleared: 0,
+                beasts_defeated: 0,
                 max_hands: 5,
                 max_discard: 5,
                 max_jokers: 5,
@@ -120,7 +123,6 @@ mod game_system {
                 current_jokers: 0,
                 state: GameState::IN_GAME,
                 substate: GameSubState::DRAFT_DECK,
-                cash: 0
             };
             store.set_game(game);
             emit!(world, (game));
