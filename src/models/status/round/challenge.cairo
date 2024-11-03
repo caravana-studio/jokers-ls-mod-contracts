@@ -94,11 +94,13 @@ impl ChallengeImpl of ChallengeTrait {
             challenge_player.plays -= 1;
             emit!(world, (challenge_player));
             if challenge_player.plays.is_zero() {
-                game.current_player_hp = if game.current_player_hp <= 5 * game.level {
-                    0
-                } else {
-                    game.current_player_hp - 5 * game.level
-                };
+                game
+                    .current_player_hp =
+                        if game.current_player_hp <= 5 * game.level {
+                            0
+                        } else {
+                            game.current_player_hp - 5 * game.level
+                        };
 
                 if game.current_player_hp.is_zero() {
                     let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
