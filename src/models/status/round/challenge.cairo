@@ -54,7 +54,7 @@ impl ChallengeImpl of ChallengeTrait {
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
 
-        let challenge_player = ChallengePlayer { game_id, discards: 5, plays: 5 };
+        let challenge_player = ChallengePlayer { game_id, discards: game.max_discard, plays: game.max_hands };
         ChallengePlayerStore::set(@challenge_player, world);
         emit!(world, (challenge_player));
 
@@ -93,13 +93,25 @@ impl ChallengeImpl of ChallengeTrait {
         } else {
             challenge_player.plays -= 1;
             emit!(world, (challenge_player));
-            ChallengePlayerStore::set(@challenge_player, world);
             if challenge_player.plays.is_zero() {
-                let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
-                emit!(world, (play_game_over_event));
-                game.state = GameState::FINISHED;
+                game.current_player_hp = if game.current_player_hp <= 5 * game.level {
+                    0
+                } else {
+                    game.current_player_hp - 5 * game.level
+                };
+
+                if game.current_player_hp.is_zero() {
+                    let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
+                    emit!(world, (play_game_over_event));
+                    game.state = GameState::FINISHED;
+                    return;
+                }
+                challenge_player.discards = game.max_discard;
+                challenge_player.plays = game.max_hands;
+
+                ChallengePlayerStore::set(@challenge_player, world);
+                emit!(world, (challenge_player));
                 GameStore::set(@game, world);
-                return;
             }
 
             let mut cards = array![];
