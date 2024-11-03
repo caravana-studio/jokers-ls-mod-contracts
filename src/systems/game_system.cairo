@@ -50,7 +50,9 @@ mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
     use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
-    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, SPECIALS_BLISTER_PACK_ID};
+    use jokers_of_neon::constants::packs::{
+        SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, SPECIALS_BLISTER_PACK_ID
+    };
     use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
     use jokers_of_neon::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID,
@@ -214,7 +216,7 @@ mod game_system {
                     let mut randomizer = RandomImpl::new(world);
                     let hp_heal = randomizer.between::<u32>(25, 50);
                     game
-                        .player_hp =
+                        .current_player_hp =
                             if game.current_player_hp + hp_heal >= game.player_hp {
                                 game.player_hp
                             } else {
@@ -304,7 +306,7 @@ mod game_system {
 
             // Check that the status of the game
             assert(game.substate == GameSubState::DRAFT_ADVENTURER, errors::WRONG_SUBSTATE_DRAFT_ADVENTURER);
-            
+
             AdventurerTrait::use_adventurer(world, adventurer_id, ref game);
 
             game.substate = GameSubState::DRAFT_ADVENTURER_CARDS;
@@ -328,7 +330,7 @@ mod game_system {
 
             // Check that the status of the game
             assert(game.substate == GameSubState::DRAFT_ADVENTURER, errors::WRONG_SUBSTATE_DRAFT_ADVENTURER);
-            
+
             game.substate = GameSubState::CREATE_LEVEL;
             store.set_game(game);
         }
@@ -405,7 +407,7 @@ mod game_system {
 
             game.substate = GameSubState::DRAFT_ADVENTURER;
             store.set_game(game);
-            // self.create_level(game_id)
+        // self.create_level(game_id)
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {

@@ -5,7 +5,7 @@ use starknet::{ContractAddress, contract_address_const};
 
 const MAINNET_CHAIN_ID: felt252 = 0x534e5f4d41494e;
 
-fn is_mainnet(chain_id: felt252) -> bool{
+fn is_mainnet(chain_id: felt252) -> bool {
     chain_id == MAINNET_CHAIN_ID
 }
 
