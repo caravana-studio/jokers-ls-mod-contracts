@@ -1,12 +1,12 @@
-use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
-use jokers_of_neon::constants::modifiers::modifiers_ids_all;
-use jokers_of_neon::constants::specials::{
+use jokers_ls_mod::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
+use jokers_ls_mod::constants::modifiers::modifiers_ids_all;
+use jokers_ls_mod::constants::specials::{
     specials_ids_all, SPECIAL_ALL_CARDS_TO_HEARTS_ID, common_specials_ids, uncommon_specials_ids, rare_specials_ids,
     epic_specials_ids, legendary_specials_ids
 };
-use jokers_of_neon::models::data::blister_pack::BlisterPack;
-use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, ValueEnumerableImpl};
-use jokers_of_neon::utils::constants::{jokers_all, common_cards_all};
+use jokers_ls_mod::models::data::blister_pack::BlisterPack;
+use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, ValueEnumerableImpl};
+use jokers_ls_mod::utils::constants::{jokers_all, common_cards_all};
 
 const BASIC_BLISTER_PACK_ID: u32 = 1;
 const ADVANCED_BLISTER_PACK_ID: u32 = 2;

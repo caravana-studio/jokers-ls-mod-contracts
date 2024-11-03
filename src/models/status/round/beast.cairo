@@ -1,26 +1,26 @@
 use core::nullable::NullableTrait;
 use dojo::world::Resource::Contract;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::beast::{all_beast, is_loot_survivor_beast};
-use jokers_of_neon::constants::card::INVALID_CARD;
-use jokers_of_neon::models::data::beast::{
+use jokers_ls_mod::constants::beast::{all_beast, is_loot_survivor_beast};
+use jokers_ls_mod::constants::card::INVALID_CARD;
+use jokers_ls_mod::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
 };
-use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
-use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
-use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
-use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
-use jokers_of_neon::store::{Store, StoreTrait};
-use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
-use jokers_of_neon::utils::constants::{
+use jokers_ls_mod::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
+use jokers_ls_mod::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
+use jokers_ls_mod::models::status::game::game::{Game, GameStore, GameState, GameSubState};
+use jokers_ls_mod::models::status::game::rage::{RageRound, RageRoundStore};
+use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
+use jokers_ls_mod::store::{Store, StoreTrait};
+use jokers_ls_mod::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
+use jokers_ls_mod::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
-use jokers_of_neon::utils::game::play;
-use jokers_of_neon::utils::level::create_level;
-use jokers_of_neon::utils::rage::is_rage_card_active;
-use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
+use jokers_ls_mod::utils::game::play;
+use jokers_ls_mod::utils::level::create_level;
+use jokers_ls_mod::utils::rage::is_rage_card_active;
+use jokers_ls_mod::utils::random::{Random, RandomImpl, RandomTrait};
 use starknet::{ContractAddress, get_caller_address, ClassHash};
 
 mod errors {
@@ -110,7 +110,7 @@ impl BeastImpl of BeastTrait {
                 // return the cards to the deck
                 game.len_hand += 2;
             }
-            let (_, rage_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-rage_system")) {
+            let (_, rage_system_address) = match world.resource(selector_from_tag!("jokers_ls_mod-rage_system")) {
                 Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
                 _ => Option::None
             }.unwrap();

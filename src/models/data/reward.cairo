@@ -1,4 +1,4 @@
-use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
+use jokers_ls_mod::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
 
 #[derive(Copy, Drop, Serde)]
 #[dojo::model]

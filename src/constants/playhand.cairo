@@ -1,4 +1,4 @@
-use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
+use jokers_ls_mod::models::data::poker_hand::{LevelPokerHand, PokerHand};
 
 fn ROYAL_FLUSH(level: u8) -> LevelPokerHand {
     LevelPokerHand {

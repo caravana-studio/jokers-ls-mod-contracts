@@ -1,7 +1,7 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::models::status::game::game::Game;
-use jokers_of_neon::models::status::round::deck_card::DeckCardTrait;
-use jokers_of_neon::store::{Store, StoreTrait};
+use jokers_ls_mod::models::status::game::game::Game;
+use jokers_ls_mod::models::status::round::deck_card::DeckCardTrait;
+use jokers_ls_mod::store::{Store, StoreTrait};
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::model]

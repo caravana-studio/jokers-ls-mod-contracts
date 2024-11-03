@@ -1,11 +1,11 @@
 use dojo::world::{IWorld, IWorldDispatcher};
-use jokers_of_neon::models::data::last_beast_level::{LastBeastLevel, LastBeastLevelStore};
-use jokers_of_neon::models::status::game::game::GameSubState;
-use jokers_of_neon::models::status::{game::{game::GameStore}};
-use jokers_of_neon::store::StoreTrait;
-use jokers_of_neon::utils::constants::rage_cards_all;
-use jokers_of_neon::utils::random::RandomImpl;
-use jokers_of_neon::utils::shop::generate_unique_random_values;
+use jokers_ls_mod::models::data::last_beast_level::{LastBeastLevel, LastBeastLevelStore};
+use jokers_ls_mod::models::status::game::game::GameSubState;
+use jokers_ls_mod::models::status::{game::{game::GameStore}};
+use jokers_ls_mod::store::StoreTrait;
+use jokers_ls_mod::utils::constants::rage_cards_all;
+use jokers_ls_mod::utils::random::RandomImpl;
+use jokers_ls_mod::utils::shop::generate_unique_random_values;
 
 #[generate_trait]
 impl LevelImpl of LevelTrait {

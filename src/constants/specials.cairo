@@ -1,4 +1,4 @@
-use jokers_of_neon::constants::effect::{
+use jokers_ls_mod::constants::effect::{
     SPECIAL_MULTI_FOR_HEARTS_EFFECT_ID, SPECIAL_MULTI_FOR_DIAMONDS_EFFECT_ID, SPECIAL_MULTI_FOR_CLUBS_EFFECT_ID,
     SPECIAL_MULTI_FOR_SPADES_EFFECT_ID, SPECIAL_INCREASE_LEVEL_PAIR_EFFECT_ID,
     SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_EFFECT_ID, SPECIAL_INCREASE_LEVEL_STRAIGHT_EFFECT_ID,
@@ -8,7 +8,7 @@ use jokers_of_neon::constants::effect::{
     SPECIAL_HAND_THIEF_EFFECT_ID, SPECIAL_NEON_BONUS_EFFECT_ID, SPECIAL_DEADLINE_EFFECT_ID,
     SPECIAL_INITIAL_ADVANTAGE_EFFECT_ID, SPECIAL_LUCKY_SEVEN_EFFECT_ID
 };
-use jokers_of_neon::models::data::effect_card::{EffectCard, TypeEffectCard};
+use jokers_ls_mod::models::data::effect_card::{EffectCard, TypeEffectCard};
 
 const SPECIAL_MULTI_FOR_HEART_ID: u32 = 300;
 const SPECIAL_MULTI_FOR_CLUB_ID: u32 = 301;

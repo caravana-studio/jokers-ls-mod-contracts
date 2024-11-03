@@ -1,10 +1,10 @@
-use jokers_of_neon::constants::effect::{
+use jokers_ls_mod::constants::effect::{
     POINTS_MODIFIER_1_EFFECT_ID, POINTS_MODIFIER_2_EFFECT_ID, POINTS_MODIFIER_3_EFFECT_ID, POINTS_MODIFIER_4_EFFECT_ID,
     MULTI_MODIFIER_1_EFFECT_ID, MULTI_MODIFIER_2_EFFECT_ID, MULTI_MODIFIER_3_EFFECT_ID, MULTI_MODIFIER_4_EFFECT_ID,
     SUIT_CLUBS_MODIFIER_EFFECT_ID, SUIT_DIAMONDS_MODIFIER_EFFECT_ID, SUIT_HEARTS_MODIFIER_EFFECT_ID,
     SUIT_SPADES_MODIFIER_EFFECT_ID, SPECIAL_LUCKY_SEVEN_EFFECT_ID,
 };
-use jokers_of_neon::models::data::effect_card::{EffectCard, TypeEffectCard};
+use jokers_ls_mod::models::data::effect_card::{EffectCard, TypeEffectCard};
 
 const POINTS_MODIFIER_1_ID: u32 = 600;
 const POINTS_MODIFIER_2_ID: u32 = 601;

@@ -1,8 +1,8 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::card::INVALID_CARD;
-use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardStore};
-use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
+use jokers_ls_mod::constants::card::INVALID_CARD;
+use jokers_ls_mod::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
+use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardStore};
+use jokers_ls_mod::utils::random::{Random, RandomImpl, RandomTrait};
 
 const TWO_POW_160: u256 = 0x10000000000000000000000000000000000000000;
 const TWO_POW_255: u256 = 0x8000000000000000000000000000000000000000000000000000000000000000;

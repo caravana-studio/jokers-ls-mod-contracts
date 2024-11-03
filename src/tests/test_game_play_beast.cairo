@@ -1,32 +1,32 @@
 mod test_play_beast_special_cards {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::constants::card::{
+    use jokers_ls_mod::constants::card::{
         SIX_CLUBS_ID, ACE_CLUBS_ID, ACE_HEARTS_ID, ACE_DIAMONDS_ID, NINE_DIAMONDS_ID, EIGHT_HEARTS_ID, QUEEN_CLUBS_ID,
         SEVEN_DIAMONDS_ID, FIVE_CLUBS_ID, KING_CLUBS_ID, SIX_HEARTS_ID, FOUR_CLUBS_ID, JACK_CLUBS_ID, JACK_HEARTS_ID,
         KING_DIAMONDS_ID, SEVEN_CLUBS_ID, SEVEN_HEARTS_ID, ACE_SPADES_ID, QUEEN_HEARTS_ID
     };
-    use jokers_of_neon::constants::modifiers::MULTI_MODIFIER_4_ID;
-    use jokers_of_neon::constants::specials::{
+    use jokers_ls_mod::constants::modifiers::MULTI_MODIFIER_4_ID;
+    use jokers_ls_mod::constants::specials::{
         SPECIAL_LUCKY_SEVEN_ID, SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_HEART_ID,
         SPECIAL_POINTS_FOR_FIGURES_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID, SPECIAL_NEON_BONUS_ID,
         SPECIAL_INITIAL_ADVANTAGE_ID, SPECIAL_MULTI_ACES_ID, SPECIAL_DEADLINE_ID, SPECIAL_ALL_CARDS_TO_HEARTS_ID,
         SPECIAL_LUCKY_HAND_ID
     };
-    use jokers_of_neon::models::data::beast::{
+    use jokers_ls_mod::models::data::beast::{
         GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
     };
-    use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
-    use jokers_of_neon::models::data::game_deck::{GameDeck, DeckCard};
-    use jokers_of_neon::models::data::poker_hand::PokerHand;
-    use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState, GameSubState};
-    use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::store::{Store, StoreTrait};
+    use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
+    use jokers_ls_mod::models::data::game_deck::{GameDeck, DeckCard};
+    use jokers_ls_mod::models::data::poker_hand::PokerHand;
+    use jokers_ls_mod::models::status::game::game::{Game, CurrentSpecialCards, GameState, GameSubState};
+    use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard};
+    use jokers_ls_mod::store::{Store, StoreTrait};
 
-    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::tests::setup::{
+    use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_ls_mod::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
-    use jokers_of_neon::tests::utils::{
+    use jokers_ls_mod::tests::utils::{
         mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_special_cards, mock_level_best
     };
     use starknet::testing::set_contract_address;
@@ -306,29 +306,29 @@ mod test_play_beast_special_cards {
 
 mod test_play_beast_modifier_cards {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::constants::card::{
+    use jokers_ls_mod::constants::card::{
         JACK_CLUBS_ID, JACK_SPADES_ID, SIX_CLUBS_ID, QUEEN_CLUBS_ID, FOUR_CLUBS_ID, JACK_HEARTS_ID, KING_DIAMONDS_ID,
         KING_SPADES_ID, TWO_SPADES_ID, TWO_DIAMONDS_ID, TWO_CLUBS_ID, FOUR_DIAMONDS_ID, FOUR_HEARTS_ID
     };
-    use jokers_of_neon::constants::modifiers::{
+    use jokers_ls_mod::constants::modifiers::{
         MULTI_MODIFIER_1_ID, POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID, POINTS_MODIFIER_2_ID, MULTI_MODIFIER_3_ID,
     };
-    use jokers_of_neon::models::data::beast::{
+    use jokers_ls_mod::models::data::beast::{
         GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore
     };
-    use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
-    use jokers_of_neon::models::data::game_deck::{GameDeck};
-    use jokers_of_neon::models::data::poker_hand::{PokerHand, LevelPokerHand};
-    use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState, GameSubState};
-    use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-    use jokers_of_neon::store::{Store, StoreTrait};
+    use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
+    use jokers_ls_mod::models::data::game_deck::{GameDeck};
+    use jokers_ls_mod::models::data::poker_hand::{PokerHand, LevelPokerHand};
+    use jokers_ls_mod::models::status::game::game::{Game, CurrentSpecialCards, GameState, GameSubState};
+    use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard};
+    use jokers_ls_mod::store::{Store, StoreTrait};
 
-    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::tests::setup::{
+    use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_ls_mod::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
 
-    use jokers_of_neon::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_level_best};
+    use jokers_ls_mod::tests::utils::{mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_level_best};
 
     use starknet::testing::set_contract_address;
 
@@ -444,29 +444,29 @@ mod test_play_beast_modifier_cards {
 }
 // mod test_rage_cards {
 //     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-//     use jokers_of_neon::constants::card::{
+//     use jokers_ls_mod::constants::card::{
 //         ACE_CLUBS_ID, ACE_HEARTS_ID, ACE_DIAMONDS_ID, ACE_SPADES_ID, SIX_CLUBS_ID, JOKER_CARD, FOUR_CLUBS_ID,
 //         JACK_HEARTS_ID, KING_DIAMONDS_ID
 //     };
-//     use jokers_of_neon::constants::specials::{SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_JOKER_BOOSTER_ID};
-//     use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
-//     use jokers_of_neon::models::data::game_deck::{GameDeck};
-//     use jokers_of_neon::models::data::poker_hand::PokerHand;
-//     use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, GameState};
-//     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard};
-//     use jokers_of_neon::models::status::round::round::{Round};
+//     use jokers_ls_mod::constants::specials::{SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_JOKER_BOOSTER_ID};
+//     use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
+//     use jokers_ls_mod::models::data::game_deck::{GameDeck};
+//     use jokers_ls_mod::models::data::poker_hand::PokerHand;
+//     use jokers_ls_mod::models::status::game::game::{Game, CurrentSpecialCards, GameState};
+//     use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard};
+//     use jokers_ls_mod::models::status::round::round::{Round};
 
-//     use jokers_of_neon::store::{Store, StoreTrait};
+//     use jokers_ls_mod::store::{Store, StoreTrait};
 
-//     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-//     use jokers_of_neon::tests::setup::{
+//     use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+//     use jokers_ls_mod::tests::setup::{
 //         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
 //     };
 
-//     use jokers_of_neon::tests::utils::{
+//     use jokers_ls_mod::tests::utils::{
 //         mock_current_hand, mock_current_hand_cards_ids, mock_game, mock_round, mock_special_cards, mock_rage_round
 //     };
-//     use jokers_of_neon::utils::constants::{
+//     use jokers_ls_mod::utils::constants::{
 //         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_ZERO_WASTE, RAGE_CARD_SILENT_JOKERS
 //     };
 //     use starknet::testing::set_contract_address;
@@ -599,19 +599,19 @@ mod test_play_beast_modifier_cards {
 // }
 
 // mod test_play_validations {
-//     use jokers_of_neon::constants::card::INVALID_CARD;
-//     use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
-//     use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-//     use jokers_of_neon::models::data::poker_hand::PokerHand;
+//     use jokers_ls_mod::constants::card::INVALID_CARD;
+//     use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl};
+//     use jokers_ls_mod::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
+//     use jokers_ls_mod::models::data::poker_hand::PokerHand;
 
-//     use jokers_of_neon::models::status::game::game::{Game, GameState, DefaultGame};
-//     use jokers_of_neon::models::status::round::round::Round;
+//     use jokers_ls_mod::models::status::game::game::{Game, GameState, DefaultGame};
+//     use jokers_ls_mod::models::status::round::round::Round;
 
-//     use jokers_of_neon::store::{Store, StoreTrait};
+//     use jokers_ls_mod::store::{Store, StoreTrait};
 
-//     use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-//     use jokers_of_neon::tests::setup::{setup, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
-//     use jokers_of_neon::tests::utils::{mock_current_hand_cards_ids, mock_game, mock_game_deck};
+//     use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+//     use jokers_ls_mod::tests::setup::{setup, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
+//     use jokers_ls_mod::tests::utils::{mock_current_hand_cards_ids, mock_game, mock_game_deck};
 //     use starknet::testing::set_contract_address;
 
 //     fn PLAYER() -> starknet::ContractAddress {

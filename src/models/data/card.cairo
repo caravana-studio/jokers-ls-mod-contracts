@@ -1,4 +1,4 @@
-use jokers_of_neon::traits::Enumerable;
+use jokers_ls_mod::traits::Enumerable;
 use starknet::ContractAddress;
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]

@@ -1,5 +1,5 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::{
+use jokers_ls_mod::constants::{
     card::INVALID_CARD,
     challenge::{
         CHALLENGE_ROYAL_FLUSH, CHALLENGE_STRAIGHT_FLUSH, CHALLENGE_FIVE_OF_A_KIND, CHALLENGE_FOUR_OF_A_KIND,
@@ -12,7 +12,7 @@ use jokers_of_neon::constants::{
     specials::SPECIAL_ALL_CARDS_TO_HEARTS_ID,
 };
 
-use jokers_of_neon::{
+use jokers_ls_mod::{
     models::{
         data::{
             challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore}, card::{Card, Suit, Value},

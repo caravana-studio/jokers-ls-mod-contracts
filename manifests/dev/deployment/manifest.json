@@ -1237,7 +1237,7 @@
     "address": "0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88",
     "transaction_hash": "0x244541a1180fd75745c73a9a013978c29a6b2f06df19582c4945cfeeedd768c",
     "block_number": 3,
-    "seed": "jokers_of_neon",
+    "seed": "jokers_ls_mod",
     "metadata": {
       "profile_name": "dev",
       "rpc_url": "http://localhost:5050/"
@@ -1390,11 +1390,11 @@
         {
           "type": "impl",
           "name": "ActionsImpl",
-          "interface_name": "jokers_of_neon::systems::game_system::IGameSystem"
+          "interface_name": "jokers_ls_mod::systems::game_system::IGameSystem"
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::systems::game_system::IGameSystem",
+          "name": "jokers_ls_mod::systems::game_system::IGameSystem",
           "items": [
             {
               "type": "function",
@@ -1609,11 +1609,11 @@
         {
           "type": "impl",
           "name": "IDojoInitImpl",
-          "interface_name": "jokers_of_neon::systems::game_system::game_system::IDojoInit"
+          "interface_name": "jokers_ls_mod::systems::game_system::game_system::IDojoInit"
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::systems::game_system::game_system::IDojoInit",
+          "name": "jokers_ls_mod::systems::game_system::game_system::IDojoInit",
           "items": [
             {
               "type": "function",
@@ -1673,7 +1673,7 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::systems::game_system::game_system::Event",
+          "name": "jokers_ls_mod::systems::game_system::game_system::Event",
           "kind": "enum",
           "variants": [
             {
@@ -1686,10 +1686,10 @@
       ],
       "reads": [],
       "writes": [
-        "ns:jokers_of_neon"
+        "ns:jokers_ls_mod"
       ],
       "init_calldata": [],
-      "tag": "jokers_of_neon-game_system",
+      "tag": "jokers_ls_mod-game_system",
       "systems": [
         "create_level",
         "play",
@@ -1704,7 +1704,7 @@
         "discard_effect_card",
         "discard_special_card"
       ],
-      "manifest_name": "jokers_of_neon-game_system-7a205bbc"
+      "manifest_name": "jokers_ls_mod-game_system-7a205bbc"
     },
     {
       "kind": "DojoContract",
@@ -1843,11 +1843,11 @@
         {
           "type": "impl",
           "name": "PokerHandSystem",
-          "interface_name": "jokers_of_neon::systems::poker_hand_system::IPokerHandSystem"
+          "interface_name": "jokers_ls_mod::systems::poker_hand_system::IPokerHandSystem"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::data::poker_hand::PokerHand",
+          "name": "jokers_ls_mod::models::data::poker_hand::PokerHand",
           "variants": [
             {
               "name": "None",
@@ -1901,11 +1901,11 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::poker_hand::LevelPokerHand",
+          "name": "jokers_ls_mod::models::data::poker_hand::LevelPokerHand",
           "members": [
             {
               "name": "poker_hand",
-              "type": "jokers_of_neon::models::data::poker_hand::PokerHand"
+              "type": "jokers_ls_mod::models::data::poker_hand::PokerHand"
             },
             {
               "name": "level",
@@ -1923,7 +1923,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::systems::poker_hand_system::IPokerHandSystem",
+          "name": "jokers_ls_mod::systems::poker_hand_system::IPokerHandSystem",
           "items": [
             {
               "type": "function",
@@ -1936,7 +1936,7 @@
               ],
               "outputs": [
                 {
-                  "type": "core::array::Array::<jokers_of_neon::models::data::poker_hand::LevelPokerHand>"
+                  "type": "core::array::Array::<jokers_ls_mod::models::data::poker_hand::LevelPokerHand>"
                 }
               ],
               "state_mutability": "view"
@@ -1946,11 +1946,11 @@
         {
           "type": "impl",
           "name": "IDojoInitImpl",
-          "interface_name": "jokers_of_neon::systems::poker_hand_system::poker_hand_system::IDojoInit"
+          "interface_name": "jokers_ls_mod::systems::poker_hand_system::poker_hand_system::IDojoInit"
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::systems::poker_hand_system::poker_hand_system::IDojoInit",
+          "name": "jokers_ls_mod::systems::poker_hand_system::poker_hand_system::IDojoInit",
           "items": [
             {
               "type": "function",
@@ -2010,7 +2010,7 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::systems::poker_hand_system::poker_hand_system::Event",
+          "name": "jokers_ls_mod::systems::poker_hand_system::poker_hand_system::Event",
           "kind": "enum",
           "variants": [
             {
@@ -2023,12 +2023,12 @@
       ],
       "reads": [],
       "writes": [
-        "ns:jokers_of_neon"
+        "ns:jokers_ls_mod"
       ],
       "init_calldata": [],
-      "tag": "jokers_of_neon-poker_hand_system",
+      "tag": "jokers_ls_mod-poker_hand_system",
       "systems": [],
-      "manifest_name": "jokers_of_neon-poker_hand_system-25bae3ed"
+      "manifest_name": "jokers_ls_mod-poker_hand_system-25bae3ed"
     },
     {
       "kind": "DojoContract",
@@ -2167,11 +2167,11 @@
         {
           "type": "impl",
           "name": "RageImpl",
-          "interface_name": "jokers_of_neon::systems::rage_system::IRageSystem"
+          "interface_name": "jokers_ls_mod::systems::rage_system::IRageSystem"
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::systems::rage_system::IRageSystem",
+          "name": "jokers_ls_mod::systems::rage_system::IRageSystem",
           "items": [
             {
               "type": "function",
@@ -2190,11 +2190,11 @@
         {
           "type": "impl",
           "name": "IDojoInitImpl",
-          "interface_name": "jokers_of_neon::systems::rage_system::rage_system::IDojoInit"
+          "interface_name": "jokers_ls_mod::systems::rage_system::rage_system::IDojoInit"
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::systems::rage_system::rage_system::IDojoInit",
+          "name": "jokers_ls_mod::systems::rage_system::rage_system::IDojoInit",
           "items": [
             {
               "type": "function",
@@ -2254,7 +2254,7 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::systems::rage_system::rage_system::Event",
+          "name": "jokers_ls_mod::systems::rage_system::rage_system::Event",
           "kind": "enum",
           "variants": [
             {
@@ -2267,14 +2267,14 @@
       ],
       "reads": [],
       "writes": [
-        "ns:jokers_of_neon"
+        "ns:jokers_ls_mod"
       ],
       "init_calldata": [],
-      "tag": "jokers_of_neon-rage_system",
+      "tag": "jokers_ls_mod-rage_system",
       "systems": [
         "calculate"
       ],
-      "manifest_name": "jokers_of_neon-rage_system-601fc835"
+      "manifest_name": "jokers_ls_mod-rage_system-601fc835"
     }
   ],
   "models": [
@@ -2665,7 +2665,7 @@
         {
           "type": "impl",
           "name": "adventurer_consumedImpl",
-          "interface_name": "jokers_of_neon::models::data::adventurer::Iadventurer_consumed"
+          "interface_name": "jokers_ls_mod::models::data::adventurer::Iadventurer_consumed"
         },
         {
           "type": "enum",
@@ -2683,7 +2683,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::adventurer::AdventurerConsumed",
+          "name": "jokers_ls_mod::models::data::adventurer::AdventurerConsumed",
           "members": [
             {
               "name": "adventurer_id",
@@ -2701,7 +2701,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::adventurer::Iadventurer_consumed",
+          "name": "jokers_ls_mod::models::data::adventurer::Iadventurer_consumed",
           "items": [
             {
               "type": "function",
@@ -2709,7 +2709,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::adventurer::AdventurerConsumed"
+                  "type": "jokers_ls_mod::models::data::adventurer::AdventurerConsumed"
                 }
               ],
               "outputs": [],
@@ -2719,14 +2719,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::adventurer::adventurer_consumed::Event",
+          "name": "jokers_ls_mod::models::data::adventurer::adventurer_consumed::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-AdventurerConsumed",
-      "qualified_path": "jokers_of_neon::models::data::adventurer::adventurer_consumed",
-      "manifest_name": "jokers_of_neon-AdventurerConsumed-5d6c7696"
+      "tag": "jokers_ls_mod-AdventurerConsumed",
+      "qualified_path": "jokers_ls_mod::models::data::adventurer::adventurer_consumed",
+      "manifest_name": "jokers_ls_mod-AdventurerConsumed-5d6c7696"
     },
     {
       "kind": "DojoModel",
@@ -3140,11 +3140,11 @@
         {
           "type": "impl",
           "name": "beastImpl",
-          "interface_name": "jokers_of_neon::models::data::beast::Ibeast"
+          "interface_name": "jokers_ls_mod::models::data::beast::Ibeast"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::data::beast::TypeBeast",
+          "name": "jokers_ls_mod::models::data::beast::TypeBeast",
           "variants": [
             {
               "name": "LOOT_SURVIVOR",
@@ -3158,7 +3158,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::beast::Beast",
+          "name": "jokers_ls_mod::models::data::beast::Beast",
           "members": [
             {
               "name": "game_id",
@@ -3190,13 +3190,13 @@
             },
             {
               "name": "type_beast",
-              "type": "jokers_of_neon::models::data::beast::TypeBeast"
+              "type": "jokers_ls_mod::models::data::beast::TypeBeast"
             }
           ]
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::beast::Ibeast",
+          "name": "jokers_ls_mod::models::data::beast::Ibeast",
           "items": [
             {
               "type": "function",
@@ -3204,7 +3204,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::beast::Beast"
+                  "type": "jokers_ls_mod::models::data::beast::Beast"
                 }
               ],
               "outputs": [],
@@ -3214,14 +3214,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::beast::beast::Event",
+          "name": "jokers_ls_mod::models::data::beast::beast::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-Beast",
-      "qualified_path": "jokers_of_neon::models::data::beast::beast",
-      "manifest_name": "jokers_of_neon-Beast-35a29cda"
+      "tag": "jokers_ls_mod-Beast",
+      "qualified_path": "jokers_ls_mod::models::data::beast::beast",
+      "manifest_name": "jokers_ls_mod-Beast-35a29cda"
     },
     {
       "kind": "DojoModel",
@@ -3605,11 +3605,11 @@
         {
           "type": "impl",
           "name": "beast_attackImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ibeast_attack"
+          "interface_name": "jokers_ls_mod::models::data::events::Ibeast_attack"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::BeastAttack",
+          "name": "jokers_ls_mod::models::data::events::BeastAttack",
           "members": [
             {
               "name": "player",
@@ -3623,7 +3623,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ibeast_attack",
+          "name": "jokers_ls_mod::models::data::events::Ibeast_attack",
           "items": [
             {
               "type": "function",
@@ -3631,7 +3631,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::BeastAttack"
+                  "type": "jokers_ls_mod::models::data::events::BeastAttack"
                 }
               ],
               "outputs": [],
@@ -3641,14 +3641,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::beast_attack::Event",
+          "name": "jokers_ls_mod::models::data::events::beast_attack::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BeastAttack",
-      "qualified_path": "jokers_of_neon::models::data::events::beast_attack",
-      "manifest_name": "jokers_of_neon-BeastAttack-46464e29"
+      "tag": "jokers_ls_mod-BeastAttack",
+      "qualified_path": "jokers_ls_mod::models::data::events::beast_attack",
+      "manifest_name": "jokers_ls_mod-BeastAttack-46464e29"
     },
     {
       "kind": "DojoModel",
@@ -4047,7 +4047,7 @@
         {
           "type": "impl",
           "name": "blister_pack_itemImpl",
-          "interface_name": "jokers_of_neon::models::status::shop::shop::Iblister_pack_item"
+          "interface_name": "jokers_ls_mod::models::status::shop::shop::Iblister_pack_item"
         },
         {
           "type": "enum",
@@ -4065,7 +4065,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::shop::shop::BlisterPackItem",
+          "name": "jokers_ls_mod::models::status::shop::shop::BlisterPackItem",
           "members": [
             {
               "name": "game_id",
@@ -4091,7 +4091,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::shop::shop::Iblister_pack_item",
+          "name": "jokers_ls_mod::models::status::shop::shop::Iblister_pack_item",
           "items": [
             {
               "type": "function",
@@ -4099,7 +4099,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::shop::shop::BlisterPackItem"
+                  "type": "jokers_ls_mod::models::status::shop::shop::BlisterPackItem"
                 }
               ],
               "outputs": [],
@@ -4109,14 +4109,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::shop::shop::blister_pack_item::Event",
+          "name": "jokers_ls_mod::models::status::shop::shop::blister_pack_item::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BlisterPackItem",
-      "qualified_path": "jokers_of_neon::models::status::shop::shop::blister_pack_item",
-      "manifest_name": "jokers_of_neon-BlisterPackItem-57733b8c"
+      "tag": "jokers_ls_mod-BlisterPackItem",
+      "qualified_path": "jokers_ls_mod::models::status::shop::shop::blister_pack_item",
+      "manifest_name": "jokers_ls_mod-BlisterPackItem-57733b8c"
     },
     {
       "kind": "DojoModel",
@@ -4505,7 +4505,7 @@
         {
           "type": "impl",
           "name": "blister_pack_resultImpl",
-          "interface_name": "jokers_of_neon::models::status::shop::shop::Iblister_pack_result"
+          "interface_name": "jokers_ls_mod::models::status::shop::shop::Iblister_pack_result"
         },
         {
           "type": "enum",
@@ -4533,7 +4533,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::shop::shop::BlisterPackResult",
+          "name": "jokers_ls_mod::models::status::shop::shop::BlisterPackResult",
           "members": [
             {
               "name": "game_id",
@@ -4551,7 +4551,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::shop::shop::Iblister_pack_result",
+          "name": "jokers_ls_mod::models::status::shop::shop::Iblister_pack_result",
           "items": [
             {
               "type": "function",
@@ -4559,7 +4559,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::shop::shop::BlisterPackResult"
+                  "type": "jokers_ls_mod::models::status::shop::shop::BlisterPackResult"
                 }
               ],
               "outputs": [],
@@ -4569,14 +4569,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::shop::shop::blister_pack_result::Event",
+          "name": "jokers_ls_mod::models::status::shop::shop::blister_pack_result::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BlisterPackResult",
-      "qualified_path": "jokers_of_neon::models::status::shop::shop::blister_pack_result",
-      "manifest_name": "jokers_of_neon-BlisterPackResult-2fcefd2c"
+      "tag": "jokers_ls_mod-BlisterPackResult",
+      "qualified_path": "jokers_ls_mod::models::status::shop::shop::blister_pack_result",
+      "manifest_name": "jokers_ls_mod-BlisterPackResult-2fcefd2c"
     },
     {
       "kind": "DojoModel",
@@ -4970,11 +4970,11 @@
         {
           "type": "impl",
           "name": "buy_blister_pack_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ibuy_blister_pack_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ibuy_blister_pack_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::BuyBlisterPackEvent",
+          "name": "jokers_ls_mod::models::data::events::BuyBlisterPackEvent",
           "members": [
             {
               "name": "game_id",
@@ -4996,7 +4996,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ibuy_blister_pack_event",
+          "name": "jokers_ls_mod::models::data::events::Ibuy_blister_pack_event",
           "items": [
             {
               "type": "function",
@@ -5004,7 +5004,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::BuyBlisterPackEvent"
+                  "type": "jokers_ls_mod::models::data::events::BuyBlisterPackEvent"
                 }
               ],
               "outputs": [],
@@ -5014,14 +5014,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::buy_blister_pack_event::Event",
+          "name": "jokers_ls_mod::models::data::events::buy_blister_pack_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BuyBlisterPackEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::buy_blister_pack_event",
-      "manifest_name": "jokers_of_neon-BuyBlisterPackEvent-4b403c73"
+      "tag": "jokers_ls_mod-BuyBlisterPackEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::buy_blister_pack_event",
+      "manifest_name": "jokers_ls_mod-BuyBlisterPackEvent-4b403c73"
     },
     {
       "kind": "DojoModel",
@@ -5425,11 +5425,11 @@
         {
           "type": "impl",
           "name": "buy_card_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ibuy_card_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ibuy_card_event"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::status::shop::shop::CardItemType",
+          "name": "jokers_ls_mod::models::status::shop::shop::CardItemType",
           "variants": [
             {
               "name": "None",
@@ -5465,7 +5465,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::BuyCardEvent",
+          "name": "jokers_ls_mod::models::data::events::BuyCardEvent",
           "members": [
             {
               "name": "game_id",
@@ -5481,7 +5481,7 @@
             },
             {
               "name": "item_type",
-              "type": "jokers_of_neon::models::status::shop::shop::CardItemType"
+              "type": "jokers_ls_mod::models::status::shop::shop::CardItemType"
             },
             {
               "name": "card_id",
@@ -5495,7 +5495,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ibuy_card_event",
+          "name": "jokers_ls_mod::models::data::events::Ibuy_card_event",
           "items": [
             {
               "type": "function",
@@ -5503,7 +5503,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::BuyCardEvent"
+                  "type": "jokers_ls_mod::models::data::events::BuyCardEvent"
                 }
               ],
               "outputs": [],
@@ -5513,14 +5513,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::buy_card_event::Event",
+          "name": "jokers_ls_mod::models::data::events::buy_card_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BuyCardEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::buy_card_event",
-      "manifest_name": "jokers_of_neon-BuyCardEvent-2f7801e2"
+      "tag": "jokers_ls_mod-BuyCardEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::buy_card_event",
+      "manifest_name": "jokers_ls_mod-BuyCardEvent-2f7801e2"
     },
     {
       "kind": "DojoModel",
@@ -5919,11 +5919,11 @@
         {
           "type": "impl",
           "name": "buy_poker_hand_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ibuy_poker_hand_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ibuy_poker_hand_event"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::data::poker_hand::PokerHand",
+          "name": "jokers_ls_mod::models::data::poker_hand::PokerHand",
           "variants": [
             {
               "name": "None",
@@ -5977,7 +5977,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::BuyPokerHandEvent",
+          "name": "jokers_ls_mod::models::data::events::BuyPokerHandEvent",
           "members": [
             {
               "name": "game_id",
@@ -5993,7 +5993,7 @@
             },
             {
               "name": "poker_hand",
-              "type": "jokers_of_neon::models::data::poker_hand::PokerHand"
+              "type": "jokers_ls_mod::models::data::poker_hand::PokerHand"
             },
             {
               "name": "level_hand",
@@ -6003,7 +6003,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ibuy_poker_hand_event",
+          "name": "jokers_ls_mod::models::data::events::Ibuy_poker_hand_event",
           "items": [
             {
               "type": "function",
@@ -6011,7 +6011,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::BuyPokerHandEvent"
+                  "type": "jokers_ls_mod::models::data::events::BuyPokerHandEvent"
                 }
               ],
               "outputs": [],
@@ -6021,14 +6021,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::buy_poker_hand_event::Event",
+          "name": "jokers_ls_mod::models::data::events::buy_poker_hand_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BuyPokerHandEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::buy_poker_hand_event",
-      "manifest_name": "jokers_of_neon-BuyPokerHandEvent-271c3d94"
+      "tag": "jokers_ls_mod-BuyPokerHandEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::buy_poker_hand_event",
+      "manifest_name": "jokers_ls_mod-BuyPokerHandEvent-271c3d94"
     },
     {
       "kind": "DojoModel",
@@ -6422,7 +6422,7 @@
         {
           "type": "impl",
           "name": "buy_reroll_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ibuy_reroll_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ibuy_reroll_event"
         },
         {
           "type": "enum",
@@ -6440,7 +6440,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::BuyRerollEvent",
+          "name": "jokers_ls_mod::models::data::events::BuyRerollEvent",
           "members": [
             {
               "name": "game_id",
@@ -6462,7 +6462,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ibuy_reroll_event",
+          "name": "jokers_ls_mod::models::data::events::Ibuy_reroll_event",
           "items": [
             {
               "type": "function",
@@ -6470,7 +6470,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::BuyRerollEvent"
+                  "type": "jokers_ls_mod::models::data::events::BuyRerollEvent"
                 }
               ],
               "outputs": [],
@@ -6480,14 +6480,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::buy_reroll_event::Event",
+          "name": "jokers_ls_mod::models::data::events::buy_reroll_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-BuyRerollEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::buy_reroll_event",
-      "manifest_name": "jokers_of_neon-BuyRerollEvent-5231a152"
+      "tag": "jokers_ls_mod-BuyRerollEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::buy_reroll_event",
+      "manifest_name": "jokers_ls_mod-BuyRerollEvent-5231a152"
     },
     {
       "kind": "DojoModel",
@@ -6896,11 +6896,11 @@
         {
           "type": "impl",
           "name": "card_itemImpl",
-          "interface_name": "jokers_of_neon::models::status::shop::shop::Icard_item"
+          "interface_name": "jokers_ls_mod::models::status::shop::shop::Icard_item"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::status::shop::shop::CardItemType",
+          "name": "jokers_ls_mod::models::status::shop::shop::CardItemType",
           "variants": [
             {
               "name": "None",
@@ -6936,7 +6936,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::shop::shop::CardItem",
+          "name": "jokers_ls_mod::models::status::shop::shop::CardItem",
           "members": [
             {
               "name": "game_id",
@@ -6948,7 +6948,7 @@
             },
             {
               "name": "item_type",
-              "type": "jokers_of_neon::models::status::shop::shop::CardItemType"
+              "type": "jokers_ls_mod::models::status::shop::shop::CardItemType"
             },
             {
               "name": "card_id",
@@ -6970,7 +6970,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::shop::shop::Icard_item",
+          "name": "jokers_ls_mod::models::status::shop::shop::Icard_item",
           "items": [
             {
               "type": "function",
@@ -6978,7 +6978,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::shop::shop::CardItem"
+                  "type": "jokers_ls_mod::models::status::shop::shop::CardItem"
                 }
               ],
               "outputs": [],
@@ -6988,14 +6988,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::shop::shop::card_item::Event",
+          "name": "jokers_ls_mod::models::status::shop::shop::card_item::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-CardItem",
-      "qualified_path": "jokers_of_neon::models::status::shop::shop::card_item",
-      "manifest_name": "jokers_of_neon-CardItem-1a854299"
+      "tag": "jokers_ls_mod-CardItem",
+      "qualified_path": "jokers_ls_mod::models::status::shop::shop::card_item",
+      "manifest_name": "jokers_ls_mod-CardItem-1a854299"
     },
     {
       "kind": "DojoModel",
@@ -7389,11 +7389,11 @@
         {
           "type": "impl",
           "name": "card_score_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Icard_score_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Icard_score_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::CardScoreEvent",
+          "name": "jokers_ls_mod::models::data::events::CardScoreEvent",
           "members": [
             {
               "name": "player",
@@ -7415,7 +7415,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Icard_score_event",
+          "name": "jokers_ls_mod::models::data::events::Icard_score_event",
           "items": [
             {
               "type": "function",
@@ -7423,7 +7423,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::CardScoreEvent"
+                  "type": "jokers_ls_mod::models::data::events::CardScoreEvent"
                 }
               ],
               "outputs": [],
@@ -7433,14 +7433,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::card_score_event::Event",
+          "name": "jokers_ls_mod::models::data::events::card_score_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-CardScoreEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::card_score_event",
-      "manifest_name": "jokers_of_neon-CardScoreEvent-5e073648"
+      "tag": "jokers_ls_mod-CardScoreEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::card_score_event",
+      "manifest_name": "jokers_ls_mod-CardScoreEvent-5e073648"
     },
     {
       "kind": "DojoModel",
@@ -7824,7 +7824,7 @@
         {
           "type": "impl",
           "name": "challengeImpl",
-          "interface_name": "jokers_of_neon::models::data::challenge::Ichallenge"
+          "interface_name": "jokers_ls_mod::models::data::challenge::Ichallenge"
         },
         {
           "type": "enum",
@@ -7852,7 +7852,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::challenge::Challenge",
+          "name": "jokers_ls_mod::models::data::challenge::Challenge",
           "members": [
             {
               "name": "game_id",
@@ -7866,7 +7866,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::challenge::Ichallenge",
+          "name": "jokers_ls_mod::models::data::challenge::Ichallenge",
           "items": [
             {
               "type": "function",
@@ -7874,7 +7874,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::challenge::Challenge"
+                  "type": "jokers_ls_mod::models::data::challenge::Challenge"
                 }
               ],
               "outputs": [],
@@ -7884,14 +7884,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::challenge::challenge::Event",
+          "name": "jokers_ls_mod::models::data::challenge::challenge::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-Challenge",
-      "qualified_path": "jokers_of_neon::models::data::challenge::challenge",
-      "manifest_name": "jokers_of_neon-Challenge-61873cc7"
+      "tag": "jokers_ls_mod-Challenge",
+      "qualified_path": "jokers_ls_mod::models::data::challenge::challenge",
+      "manifest_name": "jokers_ls_mod-Challenge-61873cc7"
     },
     {
       "kind": "DojoModel",
@@ -8280,11 +8280,11 @@
         {
           "type": "impl",
           "name": "challenge_completedImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ichallenge_completed"
+          "interface_name": "jokers_ls_mod::models::data::events::Ichallenge_completed"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::ChallengeCompleted",
+          "name": "jokers_ls_mod::models::data::events::ChallengeCompleted",
           "members": [
             {
               "name": "player",
@@ -8302,7 +8302,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ichallenge_completed",
+          "name": "jokers_ls_mod::models::data::events::Ichallenge_completed",
           "items": [
             {
               "type": "function",
@@ -8310,7 +8310,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::ChallengeCompleted"
+                  "type": "jokers_ls_mod::models::data::events::ChallengeCompleted"
                 }
               ],
               "outputs": [],
@@ -8320,14 +8320,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::challenge_completed::Event",
+          "name": "jokers_ls_mod::models::data::events::challenge_completed::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-ChallengeCompleted",
-      "qualified_path": "jokers_of_neon::models::data::events::challenge_completed",
-      "manifest_name": "jokers_of_neon-ChallengeCompleted-510bb1ff"
+      "tag": "jokers_ls_mod-ChallengeCompleted",
+      "qualified_path": "jokers_ls_mod::models::data::events::challenge_completed",
+      "manifest_name": "jokers_ls_mod-ChallengeCompleted-510bb1ff"
     },
     {
       "kind": "DojoModel",
@@ -8716,11 +8716,11 @@
         {
           "type": "impl",
           "name": "challenge_playerImpl",
-          "interface_name": "jokers_of_neon::models::data::challenge::Ichallenge_player"
+          "interface_name": "jokers_ls_mod::models::data::challenge::Ichallenge_player"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::challenge::ChallengePlayer",
+          "name": "jokers_ls_mod::models::data::challenge::ChallengePlayer",
           "members": [
             {
               "name": "game_id",
@@ -8738,7 +8738,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::challenge::Ichallenge_player",
+          "name": "jokers_ls_mod::models::data::challenge::Ichallenge_player",
           "items": [
             {
               "type": "function",
@@ -8746,7 +8746,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::challenge::ChallengePlayer"
+                  "type": "jokers_ls_mod::models::data::challenge::ChallengePlayer"
                 }
               ],
               "outputs": [],
@@ -8756,14 +8756,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::challenge::challenge_player::Event",
+          "name": "jokers_ls_mod::models::data::challenge::challenge_player::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-ChallengePlayer",
-      "qualified_path": "jokers_of_neon::models::data::challenge::challenge_player",
-      "manifest_name": "jokers_of_neon-ChallengePlayer-7d4feee6"
+      "tag": "jokers_ls_mod-ChallengePlayer",
+      "qualified_path": "jokers_ls_mod::models::data::challenge::challenge_player",
+      "manifest_name": "jokers_ls_mod-ChallengePlayer-7d4feee6"
     },
     {
       "kind": "DojoModel",
@@ -9147,11 +9147,11 @@
         {
           "type": "impl",
           "name": "create_game_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Icreate_game_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Icreate_game_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::CreateGameEvent",
+          "name": "jokers_ls_mod::models::data::events::CreateGameEvent",
           "members": [
             {
               "name": "player",
@@ -9165,7 +9165,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Icreate_game_event",
+          "name": "jokers_ls_mod::models::data::events::Icreate_game_event",
           "items": [
             {
               "type": "function",
@@ -9173,7 +9173,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::CreateGameEvent"
+                  "type": "jokers_ls_mod::models::data::events::CreateGameEvent"
                 }
               ],
               "outputs": [],
@@ -9183,14 +9183,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::create_game_event::Event",
+          "name": "jokers_ls_mod::models::data::events::create_game_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-CreateGameEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::create_game_event",
-      "manifest_name": "jokers_of_neon-CreateGameEvent-17f86ee2"
+      "tag": "jokers_ls_mod-CreateGameEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::create_game_event",
+      "manifest_name": "jokers_ls_mod-CreateGameEvent-17f86ee2"
     },
     {
       "kind": "DojoModel",
@@ -9579,11 +9579,11 @@
         {
           "type": "impl",
           "name": "current_hand_cardImpl",
-          "interface_name": "jokers_of_neon::models::status::round::current_hand_card::Icurrent_hand_card"
+          "interface_name": "jokers_ls_mod::models::status::round::current_hand_card::Icurrent_hand_card"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::round::current_hand_card::CurrentHandCard",
+          "name": "jokers_ls_mod::models::status::round::current_hand_card::CurrentHandCard",
           "members": [
             {
               "name": "game_id",
@@ -9601,7 +9601,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::round::current_hand_card::Icurrent_hand_card",
+          "name": "jokers_ls_mod::models::status::round::current_hand_card::Icurrent_hand_card",
           "items": [
             {
               "type": "function",
@@ -9609,7 +9609,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::round::current_hand_card::CurrentHandCard"
+                  "type": "jokers_ls_mod::models::status::round::current_hand_card::CurrentHandCard"
                 }
               ],
               "outputs": [],
@@ -9619,14 +9619,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::round::current_hand_card::current_hand_card::Event",
+          "name": "jokers_ls_mod::models::status::round::current_hand_card::current_hand_card::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-CurrentHandCard",
-      "qualified_path": "jokers_of_neon::models::status::round::current_hand_card::current_hand_card",
-      "manifest_name": "jokers_of_neon-CurrentHandCard-29753f22"
+      "tag": "jokers_ls_mod-CurrentHandCard",
+      "qualified_path": "jokers_ls_mod::models::status::round::current_hand_card::current_hand_card",
+      "manifest_name": "jokers_ls_mod-CurrentHandCard-29753f22"
     },
     {
       "kind": "DojoModel",
@@ -10025,7 +10025,7 @@
         {
           "type": "impl",
           "name": "current_special_cardsImpl",
-          "interface_name": "jokers_of_neon::models::status::game::game::Icurrent_special_cards"
+          "interface_name": "jokers_ls_mod::models::status::game::game::Icurrent_special_cards"
         },
         {
           "type": "enum",
@@ -10043,7 +10043,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::game::game::CurrentSpecialCards",
+          "name": "jokers_ls_mod::models::status::game::game::CurrentSpecialCards",
           "members": [
             {
               "name": "game_id",
@@ -10069,7 +10069,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::game::game::Icurrent_special_cards",
+          "name": "jokers_ls_mod::models::status::game::game::Icurrent_special_cards",
           "items": [
             {
               "type": "function",
@@ -10077,7 +10077,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::game::game::CurrentSpecialCards"
+                  "type": "jokers_ls_mod::models::status::game::game::CurrentSpecialCards"
                 }
               ],
               "outputs": [],
@@ -10087,14 +10087,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::game::game::current_special_cards::Event",
+          "name": "jokers_ls_mod::models::status::game::game::current_special_cards::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-CurrentSpecialCards",
-      "qualified_path": "jokers_of_neon::models::status::game::game::current_special_cards",
-      "manifest_name": "jokers_of_neon-CurrentSpecialCards-11ae0174"
+      "tag": "jokers_ls_mod-CurrentSpecialCards",
+      "qualified_path": "jokers_ls_mod::models::status::game::game::current_special_cards",
+      "manifest_name": "jokers_ls_mod-CurrentSpecialCards-11ae0174"
     },
     {
       "kind": "DojoModel",
@@ -10483,11 +10483,11 @@
         {
           "type": "impl",
           "name": "deck_cardImpl",
-          "interface_name": "jokers_of_neon::models::data::game_deck::Ideck_card"
+          "interface_name": "jokers_ls_mod::models::data::game_deck::Ideck_card"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::game_deck::DeckCard",
+          "name": "jokers_ls_mod::models::data::game_deck::DeckCard",
           "members": [
             {
               "name": "game_id",
@@ -10505,7 +10505,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::game_deck::Ideck_card",
+          "name": "jokers_ls_mod::models::data::game_deck::Ideck_card",
           "items": [
             {
               "type": "function",
@@ -10513,7 +10513,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::game_deck::DeckCard"
+                  "type": "jokers_ls_mod::models::data::game_deck::DeckCard"
                 }
               ],
               "outputs": [],
@@ -10523,14 +10523,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::game_deck::deck_card::Event",
+          "name": "jokers_ls_mod::models::data::game_deck::deck_card::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-DeckCard",
-      "qualified_path": "jokers_of_neon::models::data::game_deck::deck_card",
-      "manifest_name": "jokers_of_neon-DeckCard-4e65fb96"
+      "tag": "jokers_ls_mod-DeckCard",
+      "qualified_path": "jokers_ls_mod::models::data::game_deck::deck_card",
+      "manifest_name": "jokers_ls_mod-DeckCard-4e65fb96"
     },
     {
       "kind": "DojoModel",
@@ -10959,11 +10959,11 @@
         {
           "type": "impl",
           "name": "detail_earned_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Idetail_earned_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Idetail_earned_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::DetailEarnedEvent",
+          "name": "jokers_ls_mod::models::data::events::DetailEarnedEvent",
           "members": [
             {
               "name": "player",
@@ -11013,7 +11013,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Idetail_earned_event",
+          "name": "jokers_ls_mod::models::data::events::Idetail_earned_event",
           "items": [
             {
               "type": "function",
@@ -11021,7 +11021,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::DetailEarnedEvent"
+                  "type": "jokers_ls_mod::models::data::events::DetailEarnedEvent"
                 }
               ],
               "outputs": [],
@@ -11031,14 +11031,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::detail_earned_event::Event",
+          "name": "jokers_ls_mod::models::data::events::detail_earned_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-DetailEarnedEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::detail_earned_event",
-      "manifest_name": "jokers_of_neon-DetailEarnedEvent-40f670e5"
+      "tag": "jokers_ls_mod-DetailEarnedEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::detail_earned_event",
+      "manifest_name": "jokers_ls_mod-DetailEarnedEvent-40f670e5"
     },
     {
       "kind": "DojoModel",
@@ -11497,11 +11497,11 @@
         {
           "type": "impl",
           "name": "gameImpl",
-          "interface_name": "jokers_of_neon::models::status::game::game::Igame"
+          "interface_name": "jokers_ls_mod::models::status::game::game::Igame"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::status::game::game::GameState",
+          "name": "jokers_ls_mod::models::status::game::game::GameState",
           "variants": [
             {
               "name": "IN_GAME",
@@ -11515,7 +11515,7 @@
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::status::game::game::GameSubState",
+          "name": "jokers_ls_mod::models::status::game::game::GameSubState",
           "variants": [
             {
               "name": "BEAST",
@@ -11561,7 +11561,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::game::game::Game",
+          "name": "jokers_ls_mod::models::status::game::game::Game",
           "members": [
             {
               "name": "id",
@@ -11621,11 +11621,11 @@
             },
             {
               "name": "state",
-              "type": "jokers_of_neon::models::status::game::game::GameState"
+              "type": "jokers_ls_mod::models::status::game::game::GameState"
             },
             {
               "name": "substate",
-              "type": "jokers_of_neon::models::status::game::game::GameSubState"
+              "type": "jokers_ls_mod::models::status::game::game::GameSubState"
             },
             {
               "name": "cash",
@@ -11635,7 +11635,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::game::game::Igame",
+          "name": "jokers_ls_mod::models::status::game::game::Igame",
           "items": [
             {
               "type": "function",
@@ -11643,7 +11643,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::game::game::Game"
+                  "type": "jokers_ls_mod::models::status::game::game::Game"
                 }
               ],
               "outputs": [],
@@ -11653,14 +11653,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::game::game::game::Event",
+          "name": "jokers_ls_mod::models::status::game::game::game::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-Game",
-      "qualified_path": "jokers_of_neon::models::status::game::game::game",
-      "manifest_name": "jokers_of_neon-Game-162de85b"
+      "tag": "jokers_ls_mod-Game",
+      "qualified_path": "jokers_ls_mod::models::status::game::game::game",
+      "manifest_name": "jokers_ls_mod-Game-162de85b"
     },
     {
       "kind": "DojoModel",
@@ -12049,11 +12049,11 @@
         {
           "type": "impl",
           "name": "game_deckImpl",
-          "interface_name": "jokers_of_neon::models::data::game_deck::Igame_deck"
+          "interface_name": "jokers_ls_mod::models::data::game_deck::Igame_deck"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::game_deck::GameDeck",
+          "name": "jokers_ls_mod::models::data::game_deck::GameDeck",
           "members": [
             {
               "name": "game_id",
@@ -12071,7 +12071,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::game_deck::Igame_deck",
+          "name": "jokers_ls_mod::models::data::game_deck::Igame_deck",
           "items": [
             {
               "type": "function",
@@ -12079,7 +12079,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::game_deck::GameDeck"
+                  "type": "jokers_ls_mod::models::data::game_deck::GameDeck"
                 }
               ],
               "outputs": [],
@@ -12089,14 +12089,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::game_deck::game_deck::Event",
+          "name": "jokers_ls_mod::models::data::game_deck::game_deck::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-GameDeck",
-      "qualified_path": "jokers_of_neon::models::data::game_deck::game_deck",
-      "manifest_name": "jokers_of_neon-GameDeck-481bbebe"
+      "tag": "jokers_ls_mod-GameDeck",
+      "qualified_path": "jokers_ls_mod::models::data::game_deck::game_deck",
+      "manifest_name": "jokers_ls_mod-GameDeck-481bbebe"
     },
     {
       "kind": "DojoModel",
@@ -12490,11 +12490,11 @@
         {
           "type": "impl",
           "name": "game_mode_beastImpl",
-          "interface_name": "jokers_of_neon::models::data::beast::Igame_mode_beast"
+          "interface_name": "jokers_ls_mod::models::data::beast::Igame_mode_beast"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::beast::GameModeBeast",
+          "name": "jokers_ls_mod::models::data::beast::GameModeBeast",
           "members": [
             {
               "name": "game_id",
@@ -12516,7 +12516,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::beast::Igame_mode_beast",
+          "name": "jokers_ls_mod::models::data::beast::Igame_mode_beast",
           "items": [
             {
               "type": "function",
@@ -12524,7 +12524,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::beast::GameModeBeast"
+                  "type": "jokers_ls_mod::models::data::beast::GameModeBeast"
                 }
               ],
               "outputs": [],
@@ -12534,14 +12534,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::beast::game_mode_beast::Event",
+          "name": "jokers_ls_mod::models::data::beast::game_mode_beast::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-GameModeBeast",
-      "qualified_path": "jokers_of_neon::models::data::beast::game_mode_beast",
-      "manifest_name": "jokers_of_neon-GameModeBeast-2eece866"
+      "tag": "jokers_ls_mod-GameModeBeast",
+      "qualified_path": "jokers_ls_mod::models::data::beast::game_mode_beast",
+      "manifest_name": "jokers_ls_mod-GameModeBeast-2eece866"
     },
     {
       "kind": "DojoModel",
@@ -12925,11 +12925,11 @@
         {
           "type": "impl",
           "name": "item_challenge_completedImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iitem_challenge_completed"
+          "interface_name": "jokers_ls_mod::models::data::events::Iitem_challenge_completed"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::ItemChallengeCompleted",
+          "name": "jokers_ls_mod::models::data::events::ItemChallengeCompleted",
           "members": [
             {
               "name": "game_id",
@@ -12943,7 +12943,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iitem_challenge_completed",
+          "name": "jokers_ls_mod::models::data::events::Iitem_challenge_completed",
           "items": [
             {
               "type": "function",
@@ -12951,7 +12951,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::ItemChallengeCompleted"
+                  "type": "jokers_ls_mod::models::data::events::ItemChallengeCompleted"
                 }
               ],
               "outputs": [],
@@ -12961,14 +12961,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::item_challenge_completed::Event",
+          "name": "jokers_ls_mod::models::data::events::item_challenge_completed::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-ItemChallengeCompleted",
-      "qualified_path": "jokers_of_neon::models::data::events::item_challenge_completed",
-      "manifest_name": "jokers_of_neon-ItemChallengeCompleted-2cb0f253"
+      "tag": "jokers_ls_mod-ItemChallengeCompleted",
+      "qualified_path": "jokers_ls_mod::models::data::events::item_challenge_completed",
+      "manifest_name": "jokers_ls_mod-ItemChallengeCompleted-2cb0f253"
     },
     {
       "kind": "DojoModel",
@@ -13357,11 +13357,11 @@
         {
           "type": "impl",
           "name": "last_beast_levelImpl",
-          "interface_name": "jokers_of_neon::models::data::last_beast_level::Ilast_beast_level"
+          "interface_name": "jokers_ls_mod::models::data::last_beast_level::Ilast_beast_level"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::last_beast_level::LastBeastLevel",
+          "name": "jokers_ls_mod::models::data::last_beast_level::LastBeastLevel",
           "members": [
             {
               "name": "game_id",
@@ -13379,7 +13379,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::last_beast_level::Ilast_beast_level",
+          "name": "jokers_ls_mod::models::data::last_beast_level::Ilast_beast_level",
           "items": [
             {
               "type": "function",
@@ -13387,7 +13387,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::last_beast_level::LastBeastLevel"
+                  "type": "jokers_ls_mod::models::data::last_beast_level::LastBeastLevel"
                 }
               ],
               "outputs": [],
@@ -13397,14 +13397,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::last_beast_level::last_beast_level::Event",
+          "name": "jokers_ls_mod::models::data::last_beast_level::last_beast_level::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-LastBeastLevel",
-      "qualified_path": "jokers_of_neon::models::data::last_beast_level::last_beast_level",
-      "manifest_name": "jokers_of_neon-LastBeastLevel-ce77bf82"
+      "tag": "jokers_ls_mod-LastBeastLevel",
+      "qualified_path": "jokers_ls_mod::models::data::last_beast_level::last_beast_level",
+      "manifest_name": "jokers_ls_mod-LastBeastLevel-ce77bf82"
     },
     {
       "kind": "DojoModel",
@@ -13803,11 +13803,11 @@
         {
           "type": "impl",
           "name": "modifier_card_suit_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Imodifier_card_suit_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Imodifier_card_suit_event"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::data::card::Suit",
+          "name": "jokers_ls_mod::models::data::card::Suit",
           "variants": [
             {
               "name": "None",
@@ -13837,7 +13837,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::ModifierCardSuitEvent",
+          "name": "jokers_ls_mod::models::data::events::ModifierCardSuitEvent",
           "members": [
             {
               "name": "player",
@@ -13857,13 +13857,13 @@
             },
             {
               "name": "suit",
-              "type": "jokers_of_neon::models::data::card::Suit"
+              "type": "jokers_ls_mod::models::data::card::Suit"
             }
           ]
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Imodifier_card_suit_event",
+          "name": "jokers_ls_mod::models::data::events::Imodifier_card_suit_event",
           "items": [
             {
               "type": "function",
@@ -13871,7 +13871,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::ModifierCardSuitEvent"
+                  "type": "jokers_ls_mod::models::data::events::ModifierCardSuitEvent"
                 }
               ],
               "outputs": [],
@@ -13881,14 +13881,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::modifier_card_suit_event::Event",
+          "name": "jokers_ls_mod::models::data::events::modifier_card_suit_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-ModifierCardSuitEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::modifier_card_suit_event",
-      "manifest_name": "jokers_of_neon-ModifierCardSuitEvent-3733fa1c"
+      "tag": "jokers_ls_mod-ModifierCardSuitEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::modifier_card_suit_event",
+      "manifest_name": "jokers_ls_mod-ModifierCardSuitEvent-3733fa1c"
     },
     {
       "kind": "DojoModel",
@@ -14287,11 +14287,11 @@
         {
           "type": "impl",
           "name": "neon_poker_hand_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ineon_poker_hand_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ineon_poker_hand_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::NeonPokerHandEvent",
+          "name": "jokers_ls_mod::models::data::events::NeonPokerHandEvent",
           "members": [
             {
               "name": "player",
@@ -14317,7 +14317,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ineon_poker_hand_event",
+          "name": "jokers_ls_mod::models::data::events::Ineon_poker_hand_event",
           "items": [
             {
               "type": "function",
@@ -14325,7 +14325,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::NeonPokerHandEvent"
+                  "type": "jokers_ls_mod::models::data::events::NeonPokerHandEvent"
                 }
               ],
               "outputs": [],
@@ -14335,14 +14335,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::neon_poker_hand_event::Event",
+          "name": "jokers_ls_mod::models::data::events::neon_poker_hand_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-NeonPokerHandEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::neon_poker_hand_event",
-      "manifest_name": "jokers_of_neon-NeonPokerHandEvent-319c54d1"
+      "tag": "jokers_ls_mod-NeonPokerHandEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::neon_poker_hand_event",
+      "manifest_name": "jokers_ls_mod-NeonPokerHandEvent-319c54d1"
     },
     {
       "kind": "DojoModel",
@@ -14726,11 +14726,11 @@
         {
           "type": "impl",
           "name": "play_game_over_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iplay_game_over_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Iplay_game_over_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::PlayGameOverEvent",
+          "name": "jokers_ls_mod::models::data::events::PlayGameOverEvent",
           "members": [
             {
               "name": "player",
@@ -14744,7 +14744,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iplay_game_over_event",
+          "name": "jokers_ls_mod::models::data::events::Iplay_game_over_event",
           "items": [
             {
               "type": "function",
@@ -14752,7 +14752,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::PlayGameOverEvent"
+                  "type": "jokers_ls_mod::models::data::events::PlayGameOverEvent"
                 }
               ],
               "outputs": [],
@@ -14762,14 +14762,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::play_game_over_event::Event",
+          "name": "jokers_ls_mod::models::data::events::play_game_over_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PlayGameOverEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::play_game_over_event",
-      "manifest_name": "jokers_of_neon-PlayGameOverEvent-12f13b9f"
+      "tag": "jokers_ls_mod-PlayGameOverEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::play_game_over_event",
+      "manifest_name": "jokers_ls_mod-PlayGameOverEvent-12f13b9f"
     },
     {
       "kind": "DojoModel",
@@ -15163,11 +15163,11 @@
         {
           "type": "impl",
           "name": "play_poker_hand_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iplay_poker_hand_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Iplay_poker_hand_event"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::data::poker_hand::PokerHand",
+          "name": "jokers_ls_mod::models::data::poker_hand::PokerHand",
           "variants": [
             {
               "name": "None",
@@ -15221,7 +15221,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::PlayPokerHandEvent",
+          "name": "jokers_ls_mod::models::data::events::PlayPokerHandEvent",
           "members": [
             {
               "name": "game_id",
@@ -15237,13 +15237,13 @@
             },
             {
               "name": "poker_hand",
-              "type": "jokers_of_neon::models::data::poker_hand::PokerHand"
+              "type": "jokers_ls_mod::models::data::poker_hand::PokerHand"
             }
           ]
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iplay_poker_hand_event",
+          "name": "jokers_ls_mod::models::data::events::Iplay_poker_hand_event",
           "items": [
             {
               "type": "function",
@@ -15251,7 +15251,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::PlayPokerHandEvent"
+                  "type": "jokers_ls_mod::models::data::events::PlayPokerHandEvent"
                 }
               ],
               "outputs": [],
@@ -15261,14 +15261,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::play_poker_hand_event::Event",
+          "name": "jokers_ls_mod::models::data::events::play_poker_hand_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PlayPokerHandEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::play_poker_hand_event",
-      "manifest_name": "jokers_of_neon-PlayPokerHandEvent-6abe67fd"
+      "tag": "jokers_ls_mod-PlayPokerHandEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::play_poker_hand_event",
+      "manifest_name": "jokers_ls_mod-PlayPokerHandEvent-6abe67fd"
     },
     {
       "kind": "DojoModel",
@@ -15662,11 +15662,11 @@
         {
           "type": "impl",
           "name": "play_win_game_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iplay_win_game_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Iplay_win_game_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::PlayWinGameEvent",
+          "name": "jokers_ls_mod::models::data::events::PlayWinGameEvent",
           "members": [
             {
               "name": "player",
@@ -15688,7 +15688,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iplay_win_game_event",
+          "name": "jokers_ls_mod::models::data::events::Iplay_win_game_event",
           "items": [
             {
               "type": "function",
@@ -15696,7 +15696,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::PlayWinGameEvent"
+                  "type": "jokers_ls_mod::models::data::events::PlayWinGameEvent"
                 }
               ],
               "outputs": [],
@@ -15706,14 +15706,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::play_win_game_event::Event",
+          "name": "jokers_ls_mod::models::data::events::play_win_game_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PlayWinGameEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::play_win_game_event",
-      "manifest_name": "jokers_of_neon-PlayWinGameEvent-c57c8fde"
+      "tag": "jokers_ls_mod-PlayWinGameEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::play_win_game_event",
+      "manifest_name": "jokers_ls_mod-PlayWinGameEvent-c57c8fde"
     },
     {
       "kind": "DojoModel",
@@ -16097,11 +16097,11 @@
         {
           "type": "impl",
           "name": "player_attackImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iplayer_attack"
+          "interface_name": "jokers_ls_mod::models::data::events::Iplayer_attack"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::PlayerAttack",
+          "name": "jokers_ls_mod::models::data::events::PlayerAttack",
           "members": [
             {
               "name": "player",
@@ -16115,7 +16115,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iplayer_attack",
+          "name": "jokers_ls_mod::models::data::events::Iplayer_attack",
           "items": [
             {
               "type": "function",
@@ -16123,7 +16123,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::PlayerAttack"
+                  "type": "jokers_ls_mod::models::data::events::PlayerAttack"
                 }
               ],
               "outputs": [],
@@ -16133,14 +16133,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::player_attack::Event",
+          "name": "jokers_ls_mod::models::data::events::player_attack::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PlayerAttack",
-      "qualified_path": "jokers_of_neon::models::data::events::player_attack",
-      "manifest_name": "jokers_of_neon-PlayerAttack-3b7323b8"
+      "tag": "jokers_ls_mod-PlayerAttack",
+      "qualified_path": "jokers_ls_mod::models::data::events::player_attack",
+      "manifest_name": "jokers_ls_mod-PlayerAttack-3b7323b8"
     },
     {
       "kind": "DojoModel",
@@ -16524,11 +16524,11 @@
         {
           "type": "impl",
           "name": "player_beastImpl",
-          "interface_name": "jokers_of_neon::models::data::beast::Iplayer_beast"
+          "interface_name": "jokers_ls_mod::models::data::beast::Iplayer_beast"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::beast::PlayerBeast",
+          "name": "jokers_ls_mod::models::data::beast::PlayerBeast",
           "members": [
             {
               "name": "game_id",
@@ -16542,7 +16542,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::beast::Iplayer_beast",
+          "name": "jokers_ls_mod::models::data::beast::Iplayer_beast",
           "items": [
             {
               "type": "function",
@@ -16550,7 +16550,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::beast::PlayerBeast"
+                  "type": "jokers_ls_mod::models::data::beast::PlayerBeast"
                 }
               ],
               "outputs": [],
@@ -16560,14 +16560,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::beast::player_beast::Event",
+          "name": "jokers_ls_mod::models::data::beast::player_beast::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PlayerBeast",
-      "qualified_path": "jokers_of_neon::models::data::beast::player_beast",
-      "manifest_name": "jokers_of_neon-PlayerBeast-22d6f7af"
+      "tag": "jokers_ls_mod-PlayerBeast",
+      "qualified_path": "jokers_ls_mod::models::data::beast::player_beast",
+      "manifest_name": "jokers_ls_mod-PlayerBeast-22d6f7af"
     },
     {
       "kind": "DojoModel",
@@ -16956,11 +16956,11 @@
         {
           "type": "impl",
           "name": "player_healedImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iplayer_healed"
+          "interface_name": "jokers_ls_mod::models::data::events::Iplayer_healed"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::PlayerHealed",
+          "name": "jokers_ls_mod::models::data::events::PlayerHealed",
           "members": [
             {
               "name": "game_id",
@@ -16978,7 +16978,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iplayer_healed",
+          "name": "jokers_ls_mod::models::data::events::Iplayer_healed",
           "items": [
             {
               "type": "function",
@@ -16986,7 +16986,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::PlayerHealed"
+                  "type": "jokers_ls_mod::models::data::events::PlayerHealed"
                 }
               ],
               "outputs": [],
@@ -16996,14 +16996,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::player_healed::Event",
+          "name": "jokers_ls_mod::models::data::events::player_healed::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PlayerHealed",
-      "qualified_path": "jokers_of_neon::models::data::events::player_healed",
-      "manifest_name": "jokers_of_neon-PlayerHealed-3cdab4ab"
+      "tag": "jokers_ls_mod-PlayerHealed",
+      "qualified_path": "jokers_ls_mod::models::data::events::player_healed",
+      "manifest_name": "jokers_ls_mod-PlayerHealed-3cdab4ab"
     },
     {
       "kind": "DojoModel",
@@ -17397,11 +17397,11 @@
         {
           "type": "impl",
           "name": "poker_hand_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ipoker_hand_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ipoker_hand_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::PokerHandEvent",
+          "name": "jokers_ls_mod::models::data::events::PokerHandEvent",
           "members": [
             {
               "name": "player",
@@ -17423,7 +17423,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ipoker_hand_event",
+          "name": "jokers_ls_mod::models::data::events::Ipoker_hand_event",
           "items": [
             {
               "type": "function",
@@ -17431,7 +17431,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::PokerHandEvent"
+                  "type": "jokers_ls_mod::models::data::events::PokerHandEvent"
                 }
               ],
               "outputs": [],
@@ -17441,14 +17441,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::poker_hand_event::Event",
+          "name": "jokers_ls_mod::models::data::events::poker_hand_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-PokerHandEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::poker_hand_event",
-      "manifest_name": "jokers_of_neon-PokerHandEvent-2ca11749"
+      "tag": "jokers_ls_mod-PokerHandEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::poker_hand_event",
+      "manifest_name": "jokers_ls_mod-PokerHandEvent-2ca11749"
     },
     {
       "kind": "DojoModel",
@@ -17847,7 +17847,7 @@
         {
           "type": "impl",
           "name": "rage_roundImpl",
-          "interface_name": "jokers_of_neon::models::status::game::rage::Irage_round"
+          "interface_name": "jokers_ls_mod::models::status::game::rage::Irage_round"
         },
         {
           "type": "enum",
@@ -17875,7 +17875,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::status::game::rage::RageRound",
+          "name": "jokers_ls_mod::models::status::game::rage::RageRound",
           "members": [
             {
               "name": "game_id",
@@ -17901,7 +17901,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::status::game::rage::Irage_round",
+          "name": "jokers_ls_mod::models::status::game::rage::Irage_round",
           "items": [
             {
               "type": "function",
@@ -17909,7 +17909,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::status::game::rage::RageRound"
+                  "type": "jokers_ls_mod::models::status::game::rage::RageRound"
                 }
               ],
               "outputs": [],
@@ -17919,14 +17919,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::status::game::rage::rage_round::Event",
+          "name": "jokers_ls_mod::models::status::game::rage::rage_round::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-RageRound",
-      "qualified_path": "jokers_of_neon::models::status::game::rage::rage_round",
-      "manifest_name": "jokers_of_neon-RageRound-625525ca"
+      "tag": "jokers_ls_mod-RageRound",
+      "qualified_path": "jokers_ls_mod::models::status::game::rage::rage_round",
+      "manifest_name": "jokers_ls_mod-RageRound-625525ca"
     },
     {
       "kind": "DojoModel",
@@ -18310,7 +18310,7 @@
         {
           "type": "impl",
           "name": "rewardImpl",
-          "interface_name": "jokers_of_neon::models::data::reward::Ireward"
+          "interface_name": "jokers_ls_mod::models::data::reward::Ireward"
         },
         {
           "type": "struct",
@@ -18324,7 +18324,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::reward::Reward",
+          "name": "jokers_ls_mod::models::data::reward::Reward",
           "members": [
             {
               "name": "game_id",
@@ -18338,7 +18338,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::reward::Ireward",
+          "name": "jokers_ls_mod::models::data::reward::Ireward",
           "items": [
             {
               "type": "function",
@@ -18346,7 +18346,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::reward::Reward"
+                  "type": "jokers_ls_mod::models::data::reward::Reward"
                 }
               ],
               "outputs": [],
@@ -18356,14 +18356,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::reward::reward::Event",
+          "name": "jokers_ls_mod::models::data::reward::reward::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-Reward",
-      "qualified_path": "jokers_of_neon::models::data::reward::reward",
-      "manifest_name": "jokers_of_neon-Reward-1ffe01c2"
+      "tag": "jokers_ls_mod-Reward",
+      "qualified_path": "jokers_ls_mod::models::data::reward::reward",
+      "manifest_name": "jokers_ls_mod-Reward-1ffe01c2"
     },
     {
       "kind": "DojoModel",
@@ -18752,11 +18752,11 @@
         {
           "type": "impl",
           "name": "round_score_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Iround_score_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Iround_score_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::RoundScoreEvent",
+          "name": "jokers_ls_mod::models::data::events::RoundScoreEvent",
           "members": [
             {
               "name": "player",
@@ -18774,7 +18774,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Iround_score_event",
+          "name": "jokers_ls_mod::models::data::events::Iround_score_event",
           "items": [
             {
               "type": "function",
@@ -18782,7 +18782,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::RoundScoreEvent"
+                  "type": "jokers_ls_mod::models::data::events::RoundScoreEvent"
                 }
               ],
               "outputs": [],
@@ -18792,14 +18792,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::round_score_event::Event",
+          "name": "jokers_ls_mod::models::data::events::round_score_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-RoundScoreEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::round_score_event",
-      "manifest_name": "jokers_of_neon-RoundScoreEvent-58b51501"
+      "tag": "jokers_ls_mod-RoundScoreEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::round_score_event",
+      "manifest_name": "jokers_ls_mod-RoundScoreEvent-58b51501"
     },
     {
       "kind": "DojoModel",
@@ -19193,11 +19193,11 @@
         {
           "type": "impl",
           "name": "special_cash_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ispecial_cash_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ispecial_cash_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::SpecialCashEvent",
+          "name": "jokers_ls_mod::models::data::events::SpecialCashEvent",
           "members": [
             {
               "name": "player",
@@ -19219,7 +19219,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ispecial_cash_event",
+          "name": "jokers_ls_mod::models::data::events::Ispecial_cash_event",
           "items": [
             {
               "type": "function",
@@ -19227,7 +19227,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::SpecialCashEvent"
+                  "type": "jokers_ls_mod::models::data::events::SpecialCashEvent"
                 }
               ],
               "outputs": [],
@@ -19237,14 +19237,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::special_cash_event::Event",
+          "name": "jokers_ls_mod::models::data::events::special_cash_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-SpecialCashEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::special_cash_event",
-      "manifest_name": "jokers_of_neon-SpecialCashEvent-40bd0e93"
+      "tag": "jokers_ls_mod-SpecialCashEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::special_cash_event",
+      "manifest_name": "jokers_ls_mod-SpecialCashEvent-40bd0e93"
     },
     {
       "kind": "DojoModel",
@@ -19643,11 +19643,11 @@
         {
           "type": "impl",
           "name": "special_global_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ispecial_global_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ispecial_global_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::SpecialGlobalEvent",
+          "name": "jokers_ls_mod::models::data::events::SpecialGlobalEvent",
           "members": [
             {
               "name": "player",
@@ -19673,7 +19673,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ispecial_global_event",
+          "name": "jokers_ls_mod::models::data::events::Ispecial_global_event",
           "items": [
             {
               "type": "function",
@@ -19681,7 +19681,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::SpecialGlobalEvent"
+                  "type": "jokers_ls_mod::models::data::events::SpecialGlobalEvent"
                 }
               ],
               "outputs": [],
@@ -19691,14 +19691,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::special_global_event::Event",
+          "name": "jokers_ls_mod::models::data::events::special_global_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-SpecialGlobalEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::special_global_event",
-      "manifest_name": "jokers_of_neon-SpecialGlobalEvent-80244645"
+      "tag": "jokers_ls_mod-SpecialGlobalEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::special_global_event",
+      "manifest_name": "jokers_ls_mod-SpecialGlobalEvent-80244645"
     },
     {
       "kind": "DojoModel",
@@ -20097,11 +20097,11 @@
         {
           "type": "impl",
           "name": "special_modifier_multi_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ispecial_modifier_multi_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ispecial_modifier_multi_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::SpecialModifierMultiEvent",
+          "name": "jokers_ls_mod::models::data::events::SpecialModifierMultiEvent",
           "members": [
             {
               "name": "player",
@@ -20127,7 +20127,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ispecial_modifier_multi_event",
+          "name": "jokers_ls_mod::models::data::events::Ispecial_modifier_multi_event",
           "items": [
             {
               "type": "function",
@@ -20135,7 +20135,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::SpecialModifierMultiEvent"
+                  "type": "jokers_ls_mod::models::data::events::SpecialModifierMultiEvent"
                 }
               ],
               "outputs": [],
@@ -20145,14 +20145,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::special_modifier_multi_event::Event",
+          "name": "jokers_ls_mod::models::data::events::special_modifier_multi_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-SpecialModifierMultiEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::special_modifier_multi_event",
-      "manifest_name": "jokers_of_neon-SpecialModifierMultiEvent-a1caec57"
+      "tag": "jokers_ls_mod-SpecialModifierMultiEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::special_modifier_multi_event",
+      "manifest_name": "jokers_ls_mod-SpecialModifierMultiEvent-a1caec57"
     },
     {
       "kind": "DojoModel",
@@ -20551,11 +20551,11 @@
         {
           "type": "impl",
           "name": "special_modifier_points_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ispecial_modifier_points_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ispecial_modifier_points_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::SpecialModifierPointsEvent",
+          "name": "jokers_ls_mod::models::data::events::SpecialModifierPointsEvent",
           "members": [
             {
               "name": "player",
@@ -20581,7 +20581,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ispecial_modifier_points_event",
+          "name": "jokers_ls_mod::models::data::events::Ispecial_modifier_points_event",
           "items": [
             {
               "type": "function",
@@ -20589,7 +20589,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::SpecialModifierPointsEvent"
+                  "type": "jokers_ls_mod::models::data::events::SpecialModifierPointsEvent"
                 }
               ],
               "outputs": [],
@@ -20599,14 +20599,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::special_modifier_points_event::Event",
+          "name": "jokers_ls_mod::models::data::events::special_modifier_points_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-SpecialModifierPointsEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::special_modifier_points_event",
-      "manifest_name": "jokers_of_neon-SpecialModifierPointsEvent-3ab9ac06"
+      "tag": "jokers_ls_mod-SpecialModifierPointsEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::special_modifier_points_event",
+      "manifest_name": "jokers_ls_mod-SpecialModifierPointsEvent-3ab9ac06"
     },
     {
       "kind": "DojoModel",
@@ -21005,11 +21005,11 @@
         {
           "type": "impl",
           "name": "special_modifier_suit_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ispecial_modifier_suit_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ispecial_modifier_suit_event"
         },
         {
           "type": "enum",
-          "name": "jokers_of_neon::models::data::card::Suit",
+          "name": "jokers_ls_mod::models::data::card::Suit",
           "variants": [
             {
               "name": "None",
@@ -21039,7 +21039,7 @@
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::SpecialModifierSuitEvent",
+          "name": "jokers_ls_mod::models::data::events::SpecialModifierSuitEvent",
           "members": [
             {
               "name": "player",
@@ -21059,13 +21059,13 @@
             },
             {
               "name": "suit",
-              "type": "jokers_of_neon::models::data::card::Suit"
+              "type": "jokers_ls_mod::models::data::card::Suit"
             }
           ]
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ispecial_modifier_suit_event",
+          "name": "jokers_ls_mod::models::data::events::Ispecial_modifier_suit_event",
           "items": [
             {
               "type": "function",
@@ -21073,7 +21073,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::SpecialModifierSuitEvent"
+                  "type": "jokers_ls_mod::models::data::events::SpecialModifierSuitEvent"
                 }
               ],
               "outputs": [],
@@ -21083,14 +21083,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::special_modifier_suit_event::Event",
+          "name": "jokers_ls_mod::models::data::events::special_modifier_suit_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-SpecialModifierSuitEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::special_modifier_suit_event",
-      "manifest_name": "jokers_of_neon-SpecialModifierSuitEvent-527fb756"
+      "tag": "jokers_ls_mod-SpecialModifierSuitEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::special_modifier_suit_event",
+      "manifest_name": "jokers_ls_mod-SpecialModifierSuitEvent-527fb756"
     },
     {
       "kind": "DojoModel",
@@ -21489,11 +21489,11 @@
         {
           "type": "impl",
           "name": "special_poker_hand_eventImpl",
-          "interface_name": "jokers_of_neon::models::data::events::Ispecial_poker_hand_event"
+          "interface_name": "jokers_ls_mod::models::data::events::Ispecial_poker_hand_event"
         },
         {
           "type": "struct",
-          "name": "jokers_of_neon::models::data::events::SpecialPokerHandEvent",
+          "name": "jokers_ls_mod::models::data::events::SpecialPokerHandEvent",
           "members": [
             {
               "name": "player",
@@ -21519,7 +21519,7 @@
         },
         {
           "type": "interface",
-          "name": "jokers_of_neon::models::data::events::Ispecial_poker_hand_event",
+          "name": "jokers_ls_mod::models::data::events::Ispecial_poker_hand_event",
           "items": [
             {
               "type": "function",
@@ -21527,7 +21527,7 @@
               "inputs": [
                 {
                   "name": "model",
-                  "type": "jokers_of_neon::models::data::events::SpecialPokerHandEvent"
+                  "type": "jokers_ls_mod::models::data::events::SpecialPokerHandEvent"
                 }
               ],
               "outputs": [],
@@ -21537,14 +21537,14 @@
         },
         {
           "type": "event",
-          "name": "jokers_of_neon::models::data::events::special_poker_hand_event::Event",
+          "name": "jokers_ls_mod::models::data::events::special_poker_hand_event::Event",
           "kind": "enum",
           "variants": []
         }
       ],
-      "tag": "jokers_of_neon-SpecialPokerHandEvent",
-      "qualified_path": "jokers_of_neon::models::data::events::special_poker_hand_event",
-      "manifest_name": "jokers_of_neon-SpecialPokerHandEvent-2b45fe2e"
+      "tag": "jokers_ls_mod-SpecialPokerHandEvent",
+      "qualified_path": "jokers_ls_mod::models::data::events::special_poker_hand_event",
+      "manifest_name": "jokers_ls_mod-SpecialPokerHandEvent-2b45fe2e"
     }
   ]
 }

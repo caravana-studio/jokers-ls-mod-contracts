@@ -67,7 +67,7 @@ version = "1.0.0-alpha.4"
 source = "git+https://github.com/dojoengine/dojo?tag=v1.0.0-alpha.16#3b3a78cd8239ca2ee524c49c83f36db4d79cb4bc"
 
 [[package]]
-name = "jokers_of_neon"
+name = "jokers_ls_mod"
 version = "0.0.1"
 dependencies = [
  "alexandria_sorting",

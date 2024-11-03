@@ -1,18 +1,18 @@
 mod test_discard_special_card {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::constants::specials::{
+    use jokers_ls_mod::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_JOKER_BOOSTER_ID, SPECIAL_MULTI_ACES_ID,
         SPECIAL_FLUSH_WITH_FOUR_CARDS_ID,
     };
-    use jokers_of_neon::models::status::game::game::Game;
-    use jokers_of_neon::store::{Store, StoreTrait};
+    use jokers_ls_mod::models::status::game::game::Game;
+    use jokers_ls_mod::store::{Store, StoreTrait};
 
-    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::tests::setup::{
+    use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_ls_mod::tests::setup::{
         setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
     };
-    use jokers_of_neon::tests::utils::{mock_game, mock_special_cards};
-    use jokers_of_neon::utils::shop::get_current_special_cards;
+    use jokers_ls_mod::tests::utils::{mock_game, mock_special_cards};
+    use jokers_ls_mod::utils::shop::get_current_special_cards;
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {
@@ -118,12 +118,12 @@ mod test_discard_special_card {
 
 mod test_discard_special_card_validations {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::store::{Store, StoreTrait};
+    use jokers_ls_mod::store::{Store, StoreTrait};
 
-    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
 
-    use jokers_of_neon::tests::setup::{setup, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
-    use jokers_of_neon::tests::utils::mock_game;
+    use jokers_ls_mod::tests::setup::{setup, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
+    use jokers_ls_mod::tests::utils::mock_game;
     use starknet::testing::set_contract_address;
 
     fn PLAYER() -> starknet::ContractAddress {

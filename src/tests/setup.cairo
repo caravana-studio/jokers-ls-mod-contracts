@@ -2,16 +2,16 @@ mod setup {
     use dojo::utils::test::{spawn_test_world, deploy_contract};
 
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::models::data::beast::{game_mode_beast, beast, player_beast};
-    use jokers_of_neon::models::data::challenge::{challenge, challenge_player};
-    use jokers_of_neon::models::data::game_deck::{game_deck, deck_card};
-    use jokers_of_neon::models::status::game::game::{game, current_special_cards};
-    use jokers_of_neon::models::status::game::rage::rage_round;
-    use jokers_of_neon::models::status::round::current_hand_card::current_hand_card;
+    use jokers_ls_mod::models::data::beast::{game_mode_beast, beast, player_beast};
+    use jokers_ls_mod::models::data::challenge::{challenge, challenge_player};
+    use jokers_ls_mod::models::data::game_deck::{game_deck, deck_card};
+    use jokers_ls_mod::models::status::game::game::{game, current_special_cards};
+    use jokers_ls_mod::models::status::game::rage::rage_round;
+    use jokers_ls_mod::models::status::round::current_hand_card::current_hand_card;
 
-    use jokers_of_neon::models::status::shop::shop::{card_item, blister_pack_item, blister_pack_result};
-    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::systems::rage_system::{rage_system, IRageSystemDispatcher, IRageSystemDispatcherTrait};
+    use jokers_ls_mod::models::status::shop::shop::{card_item, blister_pack_item, blister_pack_result};
+    use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_ls_mod::systems::rage_system::{rage_system, IRageSystemDispatcher, IRageSystemDispatcherTrait};
     use starknet::ContractAddress;
     use starknet::testing::set_contract_address;
 
@@ -47,7 +47,7 @@ mod setup {
             beast::TEST_CLASS_HASH,
             player_beast::TEST_CLASS_HASH,
         ];
-        let world = spawn_test_world(array!["jokers_of_neon"].span(), models.span());
+        let world = spawn_test_world(array!["jokers_ls_mod"].span(), models.span());
         let systems = Systems {
             game_system: IGameSystemDispatcher {
                 contract_address: world
@@ -59,8 +59,8 @@ mod setup {
             },
         };
 
-        world.grant_writer(dojo::utils::bytearray_hash(@"jokers_of_neon"), systems.game_system.contract_address);
-        world.grant_writer(dojo::utils::bytearray_hash(@"jokers_of_neon"), systems.rage_system.contract_address);
+        world.grant_writer(dojo::utils::bytearray_hash(@"jokers_ls_mod"), systems.game_system.contract_address);
+        world.grant_writer(dojo::utils::bytearray_hash(@"jokers_ls_mod"), systems.rage_system.contract_address);
         set_contract_address(OWNER());
         (world, systems)
     }

@@ -6,7 +6,7 @@ abi = "manifests/dev/deployment/abis/dojo-world.json"
 address = "0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88"
 transaction_hash = "0x244541a1180fd75745c73a9a013978c29a6b2f06df19582c4945cfeeedd768c"
 block_number = 3
-seed = "jokers_of_neon"
+seed = "jokers_ls_mod"
 manifest_name = "dojo-world"
 
 [world.metadata]
@@ -27,11 +27,11 @@ address = "0x6a41badee85305fa1aac33488860360c66b60d7f3b204d6e2cd84071dc3c394"
 class_hash = "0x6064cd42481d56780719611f314fd168f59da3e319e4fdaf3606c3483563db0"
 original_class_hash = "0x6064cd42481d56780719611f314fd168f59da3e319e4fdaf3606c3483563db0"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-game_system-7a205bbc.json"
+abi = "manifests/dev/deployment/abis/contracts/jokers_ls_mod-game_system-7a205bbc.json"
 reads = []
-writes = ["ns:jokers_of_neon"]
+writes = ["ns:jokers_ls_mod"]
 init_calldata = []
-tag = "jokers_of_neon-game_system"
+tag = "jokers_ls_mod-game_system"
 systems = [
     "create_level",
     "play",
@@ -46,7 +46,7 @@ systems = [
     "discard_effect_card",
     "discard_special_card",
 ]
-manifest_name = "jokers_of_neon-game_system-7a205bbc"
+manifest_name = "jokers_ls_mod-game_system-7a205bbc"
 
 [[contracts]]
 kind = "DojoContract"
@@ -54,13 +54,13 @@ address = "0x45ed4ad6100e3b485c3e861207aea139910d5cca5518e3dea72ab182746d5bf"
 class_hash = "0x617cb79f23e9aa7d56c7787d7205f0618b09f3b424f032b92a0b1f5282752a7"
 original_class_hash = "0x617cb79f23e9aa7d56c7787d7205f0618b09f3b424f032b92a0b1f5282752a7"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-poker_hand_system-25bae3ed.json"
+abi = "manifests/dev/deployment/abis/contracts/jokers_ls_mod-poker_hand_system-25bae3ed.json"
 reads = []
-writes = ["ns:jokers_of_neon"]
+writes = ["ns:jokers_ls_mod"]
 init_calldata = []
-tag = "jokers_of_neon-poker_hand_system"
+tag = "jokers_ls_mod-poker_hand_system"
 systems = []
-manifest_name = "jokers_of_neon-poker_hand_system-25bae3ed"
+manifest_name = "jokers_ls_mod-poker_hand_system-25bae3ed"
 
 [[contracts]]
 kind = "DojoContract"
@@ -68,22 +68,22 @@ address = "0x75602558fd679c49be1a6ccb73e3d6d842f0558e1f41c4013ce109d05a5790f"
 class_hash = "0x4da1956c768854cdfddd16b65b34b7ce24c2c44a2acf60b1f2592475b503fa2"
 original_class_hash = "0x4da1956c768854cdfddd16b65b34b7ce24c2c44a2acf60b1f2592475b503fa2"
 base_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
-abi = "manifests/dev/deployment/abis/contracts/jokers_of_neon-rage_system-601fc835.json"
+abi = "manifests/dev/deployment/abis/contracts/jokers_ls_mod-rage_system-601fc835.json"
 reads = []
-writes = ["ns:jokers_of_neon"]
+writes = ["ns:jokers_ls_mod"]
 init_calldata = []
-tag = "jokers_of_neon-rage_system"
+tag = "jokers_ls_mod-rage_system"
 systems = ["calculate"]
-manifest_name = "jokers_of_neon-rage_system-601fc835"
+manifest_name = "jokers_ls_mod-rage_system-601fc835"
 
 [[models]]
 kind = "DojoModel"
 class_hash = "0x79045f9b971b4009a1822c5471f5b54365f86045fbf1ca4745a441195ec8c40"
 original_class_hash = "0x79045f9b971b4009a1822c5471f5b54365f86045fbf1ca4745a441195ec8c40"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-AdventurerConsumed-5d6c7696.json"
-tag = "jokers_of_neon-AdventurerConsumed"
-qualified_path = "jokers_of_neon::models::data::adventurer::adventurer_consumed"
-manifest_name = "jokers_of_neon-AdventurerConsumed-5d6c7696"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-AdventurerConsumed-5d6c7696.json"
+tag = "jokers_ls_mod-AdventurerConsumed"
+qualified_path = "jokers_ls_mod::models::data::adventurer::adventurer_consumed"
+manifest_name = "jokers_ls_mod-AdventurerConsumed-5d6c7696"
 
 [[models.members]]
 name = "adventurer_id"
@@ -104,10 +104,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x138b1cf753d19f46b39fc7eebc67b9cdea0ce30ef41c961bf150392837796bf"
 original_class_hash = "0x138b1cf753d19f46b39fc7eebc67b9cdea0ce30ef41c961bf150392837796bf"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Beast-35a29cda.json"
-tag = "jokers_of_neon-Beast"
-qualified_path = "jokers_of_neon::models::data::beast::beast"
-manifest_name = "jokers_of_neon-Beast-35a29cda"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-Beast-35a29cda.json"
+tag = "jokers_ls_mod-Beast"
+qualified_path = "jokers_ls_mod::models::data::beast::beast"
+manifest_name = "jokers_ls_mod-Beast-35a29cda"
 
 [[models.members]]
 name = "game_id"
@@ -153,10 +153,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x5af087ffc9c3c2437a78b8884eb1bd53eaeb3207a4a68c35fc0c8c4744d12ef"
 original_class_hash = "0x5af087ffc9c3c2437a78b8884eb1bd53eaeb3207a4a68c35fc0c8c4744d12ef"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BeastAttack-46464e29.json"
-tag = "jokers_of_neon-BeastAttack"
-qualified_path = "jokers_of_neon::models::data::events::beast_attack"
-manifest_name = "jokers_of_neon-BeastAttack-46464e29"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BeastAttack-46464e29.json"
+tag = "jokers_ls_mod-BeastAttack"
+qualified_path = "jokers_ls_mod::models::data::events::beast_attack"
+manifest_name = "jokers_ls_mod-BeastAttack-46464e29"
 
 [[models.members]]
 name = "player"
@@ -172,10 +172,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x5c83fb072bedb835ecfd14432d82495c086e5f2089f390dcf8613da319d7f8e"
 original_class_hash = "0x5c83fb072bedb835ecfd14432d82495c086e5f2089f390dcf8613da319d7f8e"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BlisterPackItem-57733b8c.json"
-tag = "jokers_of_neon-BlisterPackItem"
-qualified_path = "jokers_of_neon::models::status::shop::shop::blister_pack_item"
-manifest_name = "jokers_of_neon-BlisterPackItem-57733b8c"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BlisterPackItem-57733b8c.json"
+tag = "jokers_ls_mod-BlisterPackItem"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::blister_pack_item"
+manifest_name = "jokers_ls_mod-BlisterPackItem-57733b8c"
 
 [[models.members]]
 name = "game_id"
@@ -206,10 +206,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x23d3777b1da18fb7a80a94e5960d6a8cfce27155a0f1d96f579c165524d1e70"
 original_class_hash = "0x23d3777b1da18fb7a80a94e5960d6a8cfce27155a0f1d96f579c165524d1e70"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BlisterPackResult-2fcefd2c.json"
-tag = "jokers_of_neon-BlisterPackResult"
-qualified_path = "jokers_of_neon::models::status::shop::shop::blister_pack_result"
-manifest_name = "jokers_of_neon-BlisterPackResult-2fcefd2c"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BlisterPackResult-2fcefd2c.json"
+tag = "jokers_ls_mod-BlisterPackResult"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::blister_pack_result"
+manifest_name = "jokers_ls_mod-BlisterPackResult-2fcefd2c"
 
 [[models.members]]
 name = "game_id"
@@ -230,10 +230,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x7adba2677583267bfddbb599ea6dfbd67c8e62437e8db6696d61c59c34548a0"
 original_class_hash = "0x7adba2677583267bfddbb599ea6dfbd67c8e62437e8db6696d61c59c34548a0"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BuyBlisterPackEvent-4b403c73.json"
-tag = "jokers_of_neon-BuyBlisterPackEvent"
-qualified_path = "jokers_of_neon::models::data::events::buy_blister_pack_event"
-manifest_name = "jokers_of_neon-BuyBlisterPackEvent-4b403c73"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BuyBlisterPackEvent-4b403c73.json"
+tag = "jokers_ls_mod-BuyBlisterPackEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_blister_pack_event"
+manifest_name = "jokers_ls_mod-BuyBlisterPackEvent-4b403c73"
 
 [[models.members]]
 name = "game_id"
@@ -259,10 +259,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x538c2d365f659f08347a9366549a66e77bd8a892e963997ac5f1819221c1f08"
 original_class_hash = "0x538c2d365f659f08347a9366549a66e77bd8a892e963997ac5f1819221c1f08"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BuyCardEvent-2f7801e2.json"
-tag = "jokers_of_neon-BuyCardEvent"
-qualified_path = "jokers_of_neon::models::data::events::buy_card_event"
-manifest_name = "jokers_of_neon-BuyCardEvent-2f7801e2"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BuyCardEvent-2f7801e2.json"
+tag = "jokers_ls_mod-BuyCardEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_card_event"
+manifest_name = "jokers_ls_mod-BuyCardEvent-2f7801e2"
 
 [[models.members]]
 name = "game_id"
@@ -298,10 +298,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x2ef016c9f8776fc5004cf0b7ae709d6ad9c5dbda8903d4fea6cdd6d92d9b1e5"
 original_class_hash = "0x2ef016c9f8776fc5004cf0b7ae709d6ad9c5dbda8903d4fea6cdd6d92d9b1e5"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BuyPokerHandEvent-271c3d94.json"
-tag = "jokers_of_neon-BuyPokerHandEvent"
-qualified_path = "jokers_of_neon::models::data::events::buy_poker_hand_event"
-manifest_name = "jokers_of_neon-BuyPokerHandEvent-271c3d94"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BuyPokerHandEvent-271c3d94.json"
+tag = "jokers_ls_mod-BuyPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_poker_hand_event"
+manifest_name = "jokers_ls_mod-BuyPokerHandEvent-271c3d94"
 
 [[models.members]]
 name = "game_id"
@@ -332,10 +332,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x48551f3cb2ee84945746d10494f3b28eb0ef23121f09861f07e234a1e257ef9"
 original_class_hash = "0x48551f3cb2ee84945746d10494f3b28eb0ef23121f09861f07e234a1e257ef9"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-BuyRerollEvent-5231a152.json"
-tag = "jokers_of_neon-BuyRerollEvent"
-qualified_path = "jokers_of_neon::models::data::events::buy_reroll_event"
-manifest_name = "jokers_of_neon-BuyRerollEvent-5231a152"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-BuyRerollEvent-5231a152.json"
+tag = "jokers_ls_mod-BuyRerollEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_reroll_event"
+manifest_name = "jokers_ls_mod-BuyRerollEvent-5231a152"
 
 [[models.members]]
 name = "game_id"
@@ -361,10 +361,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x70dd3b72cb71dae628531a5f9634320e7800766f1018852b373281ad9f381bd"
 original_class_hash = "0x70dd3b72cb71dae628531a5f9634320e7800766f1018852b373281ad9f381bd"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-CardItem-1a854299.json"
-tag = "jokers_of_neon-CardItem"
-qualified_path = "jokers_of_neon::models::status::shop::shop::card_item"
-manifest_name = "jokers_of_neon-CardItem-1a854299"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-CardItem-1a854299.json"
+tag = "jokers_ls_mod-CardItem"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::card_item"
+manifest_name = "jokers_ls_mod-CardItem-1a854299"
 
 [[models.members]]
 name = "game_id"
@@ -405,10 +405,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x25edae79ec31b503664c1ad9da2104d3b0dc4b4611bc3cd7bd613a438ce80b3"
 original_class_hash = "0x25edae79ec31b503664c1ad9da2104d3b0dc4b4611bc3cd7bd613a438ce80b3"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-CardScoreEvent-5e073648.json"
-tag = "jokers_of_neon-CardScoreEvent"
-qualified_path = "jokers_of_neon::models::data::events::card_score_event"
-manifest_name = "jokers_of_neon-CardScoreEvent-5e073648"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-CardScoreEvent-5e073648.json"
+tag = "jokers_ls_mod-CardScoreEvent"
+qualified_path = "jokers_ls_mod::models::data::events::card_score_event"
+manifest_name = "jokers_ls_mod-CardScoreEvent-5e073648"
 
 [[models.members]]
 name = "player"
@@ -434,10 +434,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x100656d30bb4f9835d1f7c5f04cbffa556d5b6cec46818209426c90fd1ad41d"
 original_class_hash = "0x100656d30bb4f9835d1f7c5f04cbffa556d5b6cec46818209426c90fd1ad41d"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Challenge-61873cc7.json"
-tag = "jokers_of_neon-Challenge"
-qualified_path = "jokers_of_neon::models::data::challenge::challenge"
-manifest_name = "jokers_of_neon-Challenge-61873cc7"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-Challenge-61873cc7.json"
+tag = "jokers_ls_mod-Challenge"
+qualified_path = "jokers_ls_mod::models::data::challenge::challenge"
+manifest_name = "jokers_ls_mod-Challenge-61873cc7"
 
 [[models.members]]
 name = "game_id"
@@ -453,10 +453,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x21c6b6495f7bb89f6e79396f221ce4a47c8eab4f678e55d51248219648a003c"
 original_class_hash = "0x21c6b6495f7bb89f6e79396f221ce4a47c8eab4f678e55d51248219648a003c"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-ChallengeCompleted-510bb1ff.json"
-tag = "jokers_of_neon-ChallengeCompleted"
-qualified_path = "jokers_of_neon::models::data::events::challenge_completed"
-manifest_name = "jokers_of_neon-ChallengeCompleted-510bb1ff"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-ChallengeCompleted-510bb1ff.json"
+tag = "jokers_ls_mod-ChallengeCompleted"
+qualified_path = "jokers_ls_mod::models::data::events::challenge_completed"
+manifest_name = "jokers_ls_mod-ChallengeCompleted-510bb1ff"
 
 [[models.members]]
 name = "player"
@@ -477,10 +477,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x60b252cd03fc19cedc1fb08e6295aa77daa96bf9d2ddb405282359f11bee54d"
 original_class_hash = "0x60b252cd03fc19cedc1fb08e6295aa77daa96bf9d2ddb405282359f11bee54d"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-ChallengePlayer-7d4feee6.json"
-tag = "jokers_of_neon-ChallengePlayer"
-qualified_path = "jokers_of_neon::models::data::challenge::challenge_player"
-manifest_name = "jokers_of_neon-ChallengePlayer-7d4feee6"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-ChallengePlayer-7d4feee6.json"
+tag = "jokers_ls_mod-ChallengePlayer"
+qualified_path = "jokers_ls_mod::models::data::challenge::challenge_player"
+manifest_name = "jokers_ls_mod-ChallengePlayer-7d4feee6"
 
 [[models.members]]
 name = "game_id"
@@ -501,10 +501,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x101deece771f5cbf115831a78e13c3e68fcf8a6220ea0f86b9177799a610dd1"
 original_class_hash = "0x101deece771f5cbf115831a78e13c3e68fcf8a6220ea0f86b9177799a610dd1"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-CreateGameEvent-17f86ee2.json"
-tag = "jokers_of_neon-CreateGameEvent"
-qualified_path = "jokers_of_neon::models::data::events::create_game_event"
-manifest_name = "jokers_of_neon-CreateGameEvent-17f86ee2"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-CreateGameEvent-17f86ee2.json"
+tag = "jokers_ls_mod-CreateGameEvent"
+qualified_path = "jokers_ls_mod::models::data::events::create_game_event"
+manifest_name = "jokers_ls_mod-CreateGameEvent-17f86ee2"
 
 [[models.members]]
 name = "player"
@@ -520,10 +520,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x6214acf8fa0a427d8d2712413c586866a023b5d256e7c5acd3ccfaade2db633"
 original_class_hash = "0x6214acf8fa0a427d8d2712413c586866a023b5d256e7c5acd3ccfaade2db633"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-CurrentHandCard-29753f22.json"
-tag = "jokers_of_neon-CurrentHandCard"
-qualified_path = "jokers_of_neon::models::status::round::current_hand_card::current_hand_card"
-manifest_name = "jokers_of_neon-CurrentHandCard-29753f22"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-CurrentHandCard-29753f22.json"
+tag = "jokers_ls_mod-CurrentHandCard"
+qualified_path = "jokers_ls_mod::models::status::round::current_hand_card::current_hand_card"
+manifest_name = "jokers_ls_mod-CurrentHandCard-29753f22"
 
 [[models.members]]
 name = "game_id"
@@ -544,10 +544,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x3888b285bfb37fed4b852e2056f5fc8cce5d379014cbcf81ea4496a9269c7fd"
 original_class_hash = "0x3888b285bfb37fed4b852e2056f5fc8cce5d379014cbcf81ea4496a9269c7fd"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-CurrentSpecialCards-11ae0174.json"
-tag = "jokers_of_neon-CurrentSpecialCards"
-qualified_path = "jokers_of_neon::models::status::game::game::current_special_cards"
-manifest_name = "jokers_of_neon-CurrentSpecialCards-11ae0174"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-CurrentSpecialCards-11ae0174.json"
+tag = "jokers_ls_mod-CurrentSpecialCards"
+qualified_path = "jokers_ls_mod::models::status::game::game::current_special_cards"
+manifest_name = "jokers_ls_mod-CurrentSpecialCards-11ae0174"
 
 [[models.members]]
 name = "game_id"
@@ -578,10 +578,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x5e1f44f133a6951fe33a0c0084ce584ee4fd4e5498a3208e6f561096f751ea8"
 original_class_hash = "0x5e1f44f133a6951fe33a0c0084ce584ee4fd4e5498a3208e6f561096f751ea8"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-DeckCard-4e65fb96.json"
-tag = "jokers_of_neon-DeckCard"
-qualified_path = "jokers_of_neon::models::data::game_deck::deck_card"
-manifest_name = "jokers_of_neon-DeckCard-4e65fb96"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-DeckCard-4e65fb96.json"
+tag = "jokers_ls_mod-DeckCard"
+qualified_path = "jokers_ls_mod::models::data::game_deck::deck_card"
+manifest_name = "jokers_ls_mod-DeckCard-4e65fb96"
 
 [[models.members]]
 name = "game_id"
@@ -602,10 +602,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x5a8e5e18e43d39e182e079e0bcc67056e5a2a4bae237350d15e51fee36a5355"
 original_class_hash = "0x5a8e5e18e43d39e182e079e0bcc67056e5a2a4bae237350d15e51fee36a5355"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-DetailEarnedEvent-40f670e5.json"
-tag = "jokers_of_neon-DetailEarnedEvent"
-qualified_path = "jokers_of_neon::models::data::events::detail_earned_event"
-manifest_name = "jokers_of_neon-DetailEarnedEvent-40f670e5"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-DetailEarnedEvent-40f670e5.json"
+tag = "jokers_ls_mod-DetailEarnedEvent"
+qualified_path = "jokers_ls_mod::models::data::events::detail_earned_event"
+manifest_name = "jokers_ls_mod-DetailEarnedEvent-40f670e5"
 
 [[models.members]]
 name = "player"
@@ -666,10 +666,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x25c9eb7813071767dcf7069b422a5b8a3895c51346932209f389a63ba62ecae"
 original_class_hash = "0x25c9eb7813071767dcf7069b422a5b8a3895c51346932209f389a63ba62ecae"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Game-162de85b.json"
-tag = "jokers_of_neon-Game"
-qualified_path = "jokers_of_neon::models::status::game::game::game"
-manifest_name = "jokers_of_neon-Game-162de85b"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-Game-162de85b.json"
+tag = "jokers_ls_mod-Game"
+qualified_path = "jokers_ls_mod::models::status::game::game::game"
+manifest_name = "jokers_ls_mod-Game-162de85b"
 
 [[models.members]]
 name = "id"
@@ -760,10 +760,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x165c5bd99b1100a2e1a2faaf9a2443d6ca12bc310e2ec39d1ac64eac3555f31"
 original_class_hash = "0x165c5bd99b1100a2e1a2faaf9a2443d6ca12bc310e2ec39d1ac64eac3555f31"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-GameDeck-481bbebe.json"
-tag = "jokers_of_neon-GameDeck"
-qualified_path = "jokers_of_neon::models::data::game_deck::game_deck"
-manifest_name = "jokers_of_neon-GameDeck-481bbebe"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-GameDeck-481bbebe.json"
+tag = "jokers_ls_mod-GameDeck"
+qualified_path = "jokers_ls_mod::models::data::game_deck::game_deck"
+manifest_name = "jokers_ls_mod-GameDeck-481bbebe"
 
 [[models.members]]
 name = "game_id"
@@ -784,10 +784,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x4c5166033b50fa2dcbe8dca20d4c219aaf3b4944657affccd16cb08405bf8b5"
 original_class_hash = "0x4c5166033b50fa2dcbe8dca20d4c219aaf3b4944657affccd16cb08405bf8b5"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-GameModeBeast-2eece866.json"
-tag = "jokers_of_neon-GameModeBeast"
-qualified_path = "jokers_of_neon::models::data::beast::game_mode_beast"
-manifest_name = "jokers_of_neon-GameModeBeast-2eece866"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-GameModeBeast-2eece866.json"
+tag = "jokers_ls_mod-GameModeBeast"
+qualified_path = "jokers_ls_mod::models::data::beast::game_mode_beast"
+manifest_name = "jokers_ls_mod-GameModeBeast-2eece866"
 
 [[models.members]]
 name = "game_id"
@@ -813,10 +813,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x40f2a16a814460d5105e655f240e0ef22171fdbb3f04fdf727511d5703316e2"
 original_class_hash = "0x40f2a16a814460d5105e655f240e0ef22171fdbb3f04fdf727511d5703316e2"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-ItemChallengeCompleted-2cb0f253.json"
-tag = "jokers_of_neon-ItemChallengeCompleted"
-qualified_path = "jokers_of_neon::models::data::events::item_challenge_completed"
-manifest_name = "jokers_of_neon-ItemChallengeCompleted-2cb0f253"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-ItemChallengeCompleted-2cb0f253.json"
+tag = "jokers_ls_mod-ItemChallengeCompleted"
+qualified_path = "jokers_ls_mod::models::data::events::item_challenge_completed"
+manifest_name = "jokers_ls_mod-ItemChallengeCompleted-2cb0f253"
 
 [[models.members]]
 name = "game_id"
@@ -832,10 +832,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x2cdd0f8efcd582eb49fd33a9bc2c466d96bda4d2b7739b48258842fdb18984d"
 original_class_hash = "0x2cdd0f8efcd582eb49fd33a9bc2c466d96bda4d2b7739b48258842fdb18984d"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-LastBeastLevel-ce77bf82.json"
-tag = "jokers_of_neon-LastBeastLevel"
-qualified_path = "jokers_of_neon::models::data::last_beast_level::last_beast_level"
-manifest_name = "jokers_of_neon-LastBeastLevel-ce77bf82"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-LastBeastLevel-ce77bf82.json"
+tag = "jokers_ls_mod-LastBeastLevel"
+qualified_path = "jokers_ls_mod::models::data::last_beast_level::last_beast_level"
+manifest_name = "jokers_ls_mod-LastBeastLevel-ce77bf82"
 
 [[models.members]]
 name = "game_id"
@@ -856,10 +856,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x42cf1e65c45e0ef0b7c53dce92420243d76e261a51da744de4b1edb51937625"
 original_class_hash = "0x42cf1e65c45e0ef0b7c53dce92420243d76e261a51da744de4b1edb51937625"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-ModifierCardSuitEvent-3733fa1c.json"
-tag = "jokers_of_neon-ModifierCardSuitEvent"
-qualified_path = "jokers_of_neon::models::data::events::modifier_card_suit_event"
-manifest_name = "jokers_of_neon-ModifierCardSuitEvent-3733fa1c"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-ModifierCardSuitEvent-3733fa1c.json"
+tag = "jokers_ls_mod-ModifierCardSuitEvent"
+qualified_path = "jokers_ls_mod::models::data::events::modifier_card_suit_event"
+manifest_name = "jokers_ls_mod-ModifierCardSuitEvent-3733fa1c"
 
 [[models.members]]
 name = "player"
@@ -890,10 +890,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0xbe315d2950f462aaeedaa3e80ef97234c5f7c5bd89fdab048ccbc8dfb8f5b0"
 original_class_hash = "0xbe315d2950f462aaeedaa3e80ef97234c5f7c5bd89fdab048ccbc8dfb8f5b0"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-NeonPokerHandEvent-319c54d1.json"
-tag = "jokers_of_neon-NeonPokerHandEvent"
-qualified_path = "jokers_of_neon::models::data::events::neon_poker_hand_event"
-manifest_name = "jokers_of_neon-NeonPokerHandEvent-319c54d1"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-NeonPokerHandEvent-319c54d1.json"
+tag = "jokers_ls_mod-NeonPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::neon_poker_hand_event"
+manifest_name = "jokers_ls_mod-NeonPokerHandEvent-319c54d1"
 
 [[models.members]]
 name = "player"
@@ -924,10 +924,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x5e27fb6ecdbdf2838b159f5ead821c0f4e5205a16cc9914cd9faf4e8c049b1d"
 original_class_hash = "0x5e27fb6ecdbdf2838b159f5ead821c0f4e5205a16cc9914cd9faf4e8c049b1d"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayGameOverEvent-12f13b9f.json"
-tag = "jokers_of_neon-PlayGameOverEvent"
-qualified_path = "jokers_of_neon::models::data::events::play_game_over_event"
-manifest_name = "jokers_of_neon-PlayGameOverEvent-12f13b9f"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PlayGameOverEvent-12f13b9f.json"
+tag = "jokers_ls_mod-PlayGameOverEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_game_over_event"
+manifest_name = "jokers_ls_mod-PlayGameOverEvent-12f13b9f"
 
 [[models.members]]
 name = "player"
@@ -943,10 +943,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x7ec2ab66ac5a8131c5c548884c92ec43a63fd5f87578b60de734ad47df0c2d8"
 original_class_hash = "0x7ec2ab66ac5a8131c5c548884c92ec43a63fd5f87578b60de734ad47df0c2d8"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayPokerHandEvent-6abe67fd.json"
-tag = "jokers_of_neon-PlayPokerHandEvent"
-qualified_path = "jokers_of_neon::models::data::events::play_poker_hand_event"
-manifest_name = "jokers_of_neon-PlayPokerHandEvent-6abe67fd"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PlayPokerHandEvent-6abe67fd.json"
+tag = "jokers_ls_mod-PlayPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_poker_hand_event"
+manifest_name = "jokers_ls_mod-PlayPokerHandEvent-6abe67fd"
 
 [[models.members]]
 name = "game_id"
@@ -972,10 +972,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x4b527a3a0fb4eded9951158550a045ed3d53144d3221d4ed66521b534daeb61"
 original_class_hash = "0x4b527a3a0fb4eded9951158550a045ed3d53144d3221d4ed66521b534daeb61"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayWinGameEvent-c57c8fde.json"
-tag = "jokers_of_neon-PlayWinGameEvent"
-qualified_path = "jokers_of_neon::models::data::events::play_win_game_event"
-manifest_name = "jokers_of_neon-PlayWinGameEvent-c57c8fde"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PlayWinGameEvent-c57c8fde.json"
+tag = "jokers_ls_mod-PlayWinGameEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_win_game_event"
+manifest_name = "jokers_ls_mod-PlayWinGameEvent-c57c8fde"
 
 [[models.members]]
 name = "player"
@@ -1001,10 +1001,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x148cef5976cbfa98709e064fce8879c0f48cc22bab54cd29df7bdd6a9cb3e0"
 original_class_hash = "0x148cef5976cbfa98709e064fce8879c0f48cc22bab54cd29df7bdd6a9cb3e0"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayerAttack-3b7323b8.json"
-tag = "jokers_of_neon-PlayerAttack"
-qualified_path = "jokers_of_neon::models::data::events::player_attack"
-manifest_name = "jokers_of_neon-PlayerAttack-3b7323b8"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PlayerAttack-3b7323b8.json"
+tag = "jokers_ls_mod-PlayerAttack"
+qualified_path = "jokers_ls_mod::models::data::events::player_attack"
+manifest_name = "jokers_ls_mod-PlayerAttack-3b7323b8"
 
 [[models.members]]
 name = "player"
@@ -1020,10 +1020,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x789bb9f5c507a42d96c6d34cf48fa3ecff060db297695716c62b3f8129bcf49"
 original_class_hash = "0x789bb9f5c507a42d96c6d34cf48fa3ecff060db297695716c62b3f8129bcf49"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayerBeast-22d6f7af.json"
-tag = "jokers_of_neon-PlayerBeast"
-qualified_path = "jokers_of_neon::models::data::beast::player_beast"
-manifest_name = "jokers_of_neon-PlayerBeast-22d6f7af"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PlayerBeast-22d6f7af.json"
+tag = "jokers_ls_mod-PlayerBeast"
+qualified_path = "jokers_ls_mod::models::data::beast::player_beast"
+manifest_name = "jokers_ls_mod-PlayerBeast-22d6f7af"
 
 [[models.members]]
 name = "game_id"
@@ -1039,10 +1039,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0xc08b898bbf24211a37fbdccc3bc3bf615954fe0c821a9de3e6e8151eaa3871"
 original_class_hash = "0xc08b898bbf24211a37fbdccc3bc3bf615954fe0c821a9de3e6e8151eaa3871"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PlayerHealed-3cdab4ab.json"
-tag = "jokers_of_neon-PlayerHealed"
-qualified_path = "jokers_of_neon::models::data::events::player_healed"
-manifest_name = "jokers_of_neon-PlayerHealed-3cdab4ab"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PlayerHealed-3cdab4ab.json"
+tag = "jokers_ls_mod-PlayerHealed"
+qualified_path = "jokers_ls_mod::models::data::events::player_healed"
+manifest_name = "jokers_ls_mod-PlayerHealed-3cdab4ab"
 
 [[models.members]]
 name = "game_id"
@@ -1063,10 +1063,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x34c07816aa25e5daadc2370bd4793af7dbd786de2c1e99d74e7347680ffa281"
 original_class_hash = "0x34c07816aa25e5daadc2370bd4793af7dbd786de2c1e99d74e7347680ffa281"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-PokerHandEvent-2ca11749.json"
-tag = "jokers_of_neon-PokerHandEvent"
-qualified_path = "jokers_of_neon::models::data::events::poker_hand_event"
-manifest_name = "jokers_of_neon-PokerHandEvent-2ca11749"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-PokerHandEvent-2ca11749.json"
+tag = "jokers_ls_mod-PokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::poker_hand_event"
+manifest_name = "jokers_ls_mod-PokerHandEvent-2ca11749"
 
 [[models.members]]
 name = "player"
@@ -1092,10 +1092,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x7732ec110c4cfe77b29c39aa5115b1e4f5a547a42ef2e36c8b96ff5382a63fa"
 original_class_hash = "0x7732ec110c4cfe77b29c39aa5115b1e4f5a547a42ef2e36c8b96ff5382a63fa"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-RageRound-625525ca.json"
-tag = "jokers_of_neon-RageRound"
-qualified_path = "jokers_of_neon::models::status::game::rage::rage_round"
-manifest_name = "jokers_of_neon-RageRound-625525ca"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-RageRound-625525ca.json"
+tag = "jokers_ls_mod-RageRound"
+qualified_path = "jokers_ls_mod::models::status::game::rage::rage_round"
+manifest_name = "jokers_ls_mod-RageRound-625525ca"
 
 [[models.members]]
 name = "game_id"
@@ -1126,10 +1126,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x315761eb593391eaf1293fa2f5b43903a93c31ded0a925f9d31077fbd8ccc5a"
 original_class_hash = "0x315761eb593391eaf1293fa2f5b43903a93c31ded0a925f9d31077fbd8ccc5a"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-Reward-1ffe01c2.json"
-tag = "jokers_of_neon-Reward"
-qualified_path = "jokers_of_neon::models::data::reward::reward"
-manifest_name = "jokers_of_neon-Reward-1ffe01c2"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-Reward-1ffe01c2.json"
+tag = "jokers_ls_mod-Reward"
+qualified_path = "jokers_ls_mod::models::data::reward::reward"
+manifest_name = "jokers_ls_mod-Reward-1ffe01c2"
 
 [[models.members]]
 name = "game_id"
@@ -1145,10 +1145,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x58fe22073d9dc0c2cf86d7a19fa3d32e90e1eac8b3b057c20a9477c88565134"
 original_class_hash = "0x58fe22073d9dc0c2cf86d7a19fa3d32e90e1eac8b3b057c20a9477c88565134"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-RoundScoreEvent-58b51501.json"
-tag = "jokers_of_neon-RoundScoreEvent"
-qualified_path = "jokers_of_neon::models::data::events::round_score_event"
-manifest_name = "jokers_of_neon-RoundScoreEvent-58b51501"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-RoundScoreEvent-58b51501.json"
+tag = "jokers_ls_mod-RoundScoreEvent"
+qualified_path = "jokers_ls_mod::models::data::events::round_score_event"
+manifest_name = "jokers_ls_mod-RoundScoreEvent-58b51501"
 
 [[models.members]]
 name = "player"
@@ -1169,10 +1169,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x645f7a01115362448aa2d806f5684d2b086e2fddc4ea314e3815322ef8b3156"
 original_class_hash = "0x645f7a01115362448aa2d806f5684d2b086e2fddc4ea314e3815322ef8b3156"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-SpecialCashEvent-40bd0e93.json"
-tag = "jokers_of_neon-SpecialCashEvent"
-qualified_path = "jokers_of_neon::models::data::events::special_cash_event"
-manifest_name = "jokers_of_neon-SpecialCashEvent-40bd0e93"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-SpecialCashEvent-40bd0e93.json"
+tag = "jokers_ls_mod-SpecialCashEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_cash_event"
+manifest_name = "jokers_ls_mod-SpecialCashEvent-40bd0e93"
 
 [[models.members]]
 name = "player"
@@ -1198,10 +1198,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x362b71c444c95ea315b743531f1b449d3080f15168a1f5d430df31109b45e6d"
 original_class_hash = "0x362b71c444c95ea315b743531f1b449d3080f15168a1f5d430df31109b45e6d"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-SpecialGlobalEvent-80244645.json"
-tag = "jokers_of_neon-SpecialGlobalEvent"
-qualified_path = "jokers_of_neon::models::data::events::special_global_event"
-manifest_name = "jokers_of_neon-SpecialGlobalEvent-80244645"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-SpecialGlobalEvent-80244645.json"
+tag = "jokers_ls_mod-SpecialGlobalEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_global_event"
+manifest_name = "jokers_ls_mod-SpecialGlobalEvent-80244645"
 
 [[models.members]]
 name = "player"
@@ -1232,10 +1232,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x6e477897593e14f8bab31aa2f68014b3f3b12b64ad5e6503d6d66f60e6ff9d5"
 original_class_hash = "0x6e477897593e14f8bab31aa2f68014b3f3b12b64ad5e6503d6d66f60e6ff9d5"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-SpecialModifierMultiEvent-a1caec57.json"
-tag = "jokers_of_neon-SpecialModifierMultiEvent"
-qualified_path = "jokers_of_neon::models::data::events::special_modifier_multi_event"
-manifest_name = "jokers_of_neon-SpecialModifierMultiEvent-a1caec57"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-SpecialModifierMultiEvent-a1caec57.json"
+tag = "jokers_ls_mod-SpecialModifierMultiEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_multi_event"
+manifest_name = "jokers_ls_mod-SpecialModifierMultiEvent-a1caec57"
 
 [[models.members]]
 name = "player"
@@ -1266,10 +1266,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x69ad270796ea4e1c1794fa280b14fcd2f35d9dc143e299e0ad1706dc6af6e25"
 original_class_hash = "0x69ad270796ea4e1c1794fa280b14fcd2f35d9dc143e299e0ad1706dc6af6e25"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-SpecialModifierPointsEvent-3ab9ac06.json"
-tag = "jokers_of_neon-SpecialModifierPointsEvent"
-qualified_path = "jokers_of_neon::models::data::events::special_modifier_points_event"
-manifest_name = "jokers_of_neon-SpecialModifierPointsEvent-3ab9ac06"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-SpecialModifierPointsEvent-3ab9ac06.json"
+tag = "jokers_ls_mod-SpecialModifierPointsEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_points_event"
+manifest_name = "jokers_ls_mod-SpecialModifierPointsEvent-3ab9ac06"
 
 [[models.members]]
 name = "player"
@@ -1300,10 +1300,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x76bd0c0734f7cb867fce858d1627443dcd44bd64a01f70bfecfc605e8732309"
 original_class_hash = "0x76bd0c0734f7cb867fce858d1627443dcd44bd64a01f70bfecfc605e8732309"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-SpecialModifierSuitEvent-527fb756.json"
-tag = "jokers_of_neon-SpecialModifierSuitEvent"
-qualified_path = "jokers_of_neon::models::data::events::special_modifier_suit_event"
-manifest_name = "jokers_of_neon-SpecialModifierSuitEvent-527fb756"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-SpecialModifierSuitEvent-527fb756.json"
+tag = "jokers_ls_mod-SpecialModifierSuitEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_suit_event"
+manifest_name = "jokers_ls_mod-SpecialModifierSuitEvent-527fb756"
 
 [[models.members]]
 name = "player"
@@ -1334,10 +1334,10 @@ key = false
 kind = "DojoModel"
 class_hash = "0x7680d36f6abff3ec9d3935c812dbf8be58c14f20d7b876a4cad07582c53e39e"
 original_class_hash = "0x7680d36f6abff3ec9d3935c812dbf8be58c14f20d7b876a4cad07582c53e39e"
-abi = "manifests/dev/deployment/abis/models/jokers_of_neon-SpecialPokerHandEvent-2b45fe2e.json"
-tag = "jokers_of_neon-SpecialPokerHandEvent"
-qualified_path = "jokers_of_neon::models::data::events::special_poker_hand_event"
-manifest_name = "jokers_of_neon-SpecialPokerHandEvent-2b45fe2e"
+abi = "manifests/dev/deployment/abis/models/jokers_ls_mod-SpecialPokerHandEvent-2b45fe2e.json"
+tag = "jokers_ls_mod-SpecialPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_poker_hand_event"
+manifest_name = "jokers_ls_mod-SpecialPokerHandEvent-2b45fe2e"
 
 [[models.members]]
 name = "player"

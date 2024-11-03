@@ -1,10 +1,10 @@
 [world]
 description = "jokers of neon"
-name = "jokers_of_neon"
-seed = "jokers_of_neon"
+name = "jokers_ls_mod"
+seed = "jokers_ls_mod"
 
 [namespace]
-default = "jokers_of_neon"
+default = "jokers_ls_mod"
 mappings = { }
 
 [env]

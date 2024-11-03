@@ -1,4 +1,4 @@
-use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
+use jokers_ls_mod::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
 
 // poker_hands
 const POKER_HAND_ROYAL_FLUSH: u32 = 1;

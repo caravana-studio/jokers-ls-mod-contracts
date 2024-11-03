@@ -1,6 +1,6 @@
-use jokers_of_neon::models::data::card::Suit;
-use jokers_of_neon::models::data::poker_hand::PokerHand;
-use jokers_of_neon::models::status::shop::shop::CardItemType;
+use jokers_ls_mod::models::data::card::Suit;
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::models::status::shop::shop::CardItemType;
 use starknet::ContractAddress;
 
 #[derive(Copy, Drop, Serde)]

@@ -1,10 +1,10 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::card::{
+use jokers_ls_mod::constants::card::{
     ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, SCRIBE_DECK, WARRIOR_DECK,
     traditional_cards_all
 };
-use jokers_of_neon::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
-use jokers_of_neon::store::{Store, StoreTrait};
+use jokers_ls_mod::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
+use jokers_ls_mod::store::{Store, StoreTrait};
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::model]

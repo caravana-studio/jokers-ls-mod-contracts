@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define el archivo de entrada y el archivo de salida
-NAME_SPACE="jokers_of_neon-"
+NAME_SPACE="jokers_ls_mod-"
 INPUT_FILE="src/models/data/events.cairo"
 OUTPUT_FILE="dojoEventKeys.ts"
 
