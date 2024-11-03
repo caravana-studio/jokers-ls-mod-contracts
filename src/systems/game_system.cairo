@@ -50,7 +50,7 @@ mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
     use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
-    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID};
+    use jokers_of_neon::constants::packs::{SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, SPECIALS_BLISTER_PACK};
     use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
     use jokers_of_neon::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID,
@@ -310,7 +310,7 @@ mod game_system {
             game.substate = GameSubState::DRAFT_ADVENTURER_CARDS;
             store.set_game(game);
 
-            let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
+            let cards = open_blister_pack(world, ref store, game, SPECIALS_BLISTER_PACK);
             let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
             emit!(world, (blister_pack_result));
             store.set_blister_pack_result(blister_pack_result);
