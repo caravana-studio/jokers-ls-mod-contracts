@@ -3,6 +3,11 @@ sozo execute game_system create_game -c 1 --wait --world 0x37578f01e123327fb366f
 sleep 3
 echo -e "\n[INFO] Game created successfully. Waiting 3 seconds before selecting deck..."
 
+echo -e "\n[INFO] Selecting aventurer for the game..."
+sozo execute game_system use_adventurer -c 1,1 --wait --world 0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88
+sleep 3
+echo -e "\n[INFO] Aventurer selected successfully. Waiting 3 seconds before selecting deck..."
+
 echo -e "\n[INFO] Selecting deck for the game..."
 sozo execute game_system select_deck -c 1,0 --wait --world 0x37578f01e123327fb366fc6e2224f4be4e44234d682855e1326363b57444b88
 sleep 3

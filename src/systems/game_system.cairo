@@ -16,6 +16,9 @@ trait IGameSystem {
     fn end_turn(ref world: IWorldDispatcher, game_id: u32);
     fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32);
     fn discard_special_card(ref world: IWorldDispatcher, game_id: u32, special_card_index: u32);
+    fn use_adventurer(ref world: IWorldDispatcher, game_id: u32, adventurer_id: u32);
+    fn skip_adventurer(ref world: IWorldDispatcher, game_id: u32);
+    fn select_aventurer_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
 }
 
 mod errors {
@@ -38,6 +41,8 @@ mod errors {
     const WRONG_SUBSTATE_DRAFT_MODIFIERS: felt252 = 'Wrong substate DRAFT_MODIFIERS';
     const WRONG_SUBSTATE_DRAFT_SPECIALS: felt252 = 'Wrong substate DRAFT_SPECIALS';
     const WRONG_SUBSTATE_SELECT_REWARD: felt252 = 'Wrong substate SELECT_REWARD';
+    const WRONG_SUBSTATE_DRAFT_ADVENTURER: felt252 = 'Wrong substate SELECT_ADVENTURE';
+    const WRONG_SUBSTATE_ADVENTURER_CARDS: felt252 = 'Wrong substate SELECT_ADV_CARDS';
 }
 
 #[dojo::contract]
@@ -69,6 +74,7 @@ mod game_system {
     use jokers_of_neon::models::data::reward::{Reward, RewardType, RewardStore};
     use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
+    use jokers_of_neon::models::status::round::adventurer::AdventurerTrait;
     use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
@@ -284,6 +290,69 @@ mod game_system {
             store.set_blister_pack_result(blister_pack_result);
         }
 
+        fn use_adventurer(ref world: IWorldDispatcher, game_id: u32, adventurer_id: u32) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.substate == GameSubState::DRAFT_ADVENTURER, errors::WRONG_SUBSTATE_DRAFT_ADVENTURER);
+            
+            AdventurerTrait::use_adventurer(world, adventurer_id, ref game);
+
+            game.substate = GameSubState::DRAFT_ADVENTURER_CARDS;
+            store.set_game(game);
+
+            let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
+            let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
+            emit!(world, (blister_pack_result));
+            store.set_blister_pack_result(blister_pack_result);
+        }
+
+        fn skip_adventurer(ref world: IWorldDispatcher, game_id: u32) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.substate == GameSubState::DRAFT_ADVENTURER, errors::WRONG_SUBSTATE_DRAFT_ADVENTURER);
+            
+            game.substate = GameSubState::CREATE_LEVEL;
+            store.set_game(game);
+        }
+
+        fn select_aventurer_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
+            let mut store: Store = StoreTrait::new(world);
+
+            let mut game = store.get_game(game_id);
+            // Check that the game exists (if the game has no owner means it does not exists)
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+
+            // Check that the owner of the game is the caller
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+
+            // Check that the status of the game
+            assert(game.substate == GameSubState::DRAFT_ADVENTURER_CARDS, errors::WRONG_SUBSTATE_ADVENTURER_CARDS);
+
+            let mut blister_pack_result = store.get_blister_pack_result(game.id);
+            assert(cards_index.len() <= 2, errors::INVALID_CARD_INDEX_LEN);
+
+            select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
+
+            game.substate = GameSubState::CREATE_LEVEL;
+            store.set_game(game);
+        }
+
         fn select_special_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
             let mut store: Store = StoreTrait::new(world);
 
@@ -332,7 +401,7 @@ mod game_system {
             blister_pack_result.cards_picked = true;
             store.set_blister_pack_result(blister_pack_result);
 
-            game.substate = GameSubState::CREATE_LEVEL;
+            game.substate = GameSubState::DRAFT_ADVENTURER;
             store.set_game(game);
             // self.create_level(game_id)
         }
