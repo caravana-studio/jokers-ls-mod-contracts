@@ -109,9 +109,9 @@ mod game_system {
                 id: game_id,
                 owner: player_id,
                 player_name,
-                player_hp: 500, // TODO: Obtain HP from adventurer
+                player_hp: 100,
                 player_level: 1,
-                current_player_hp: 500,
+                current_player_hp: 100,
                 obstacles_cleared: 0,
                 beasts_defeated: 0,
                 max_hands: 5,
