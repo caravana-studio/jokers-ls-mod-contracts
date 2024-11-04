@@ -1,11 +1,9 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
 use jokers_of_neon::constants::specials::{SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID};
+use jokers_of_neon::models::data::beast::{GameModeBeast, GameModeBeastStore};
 use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, CurrentSpecialCardsStore, GameState};
-use jokers_of_neon::models::data::beast::{
-    GameModeBeast, GameModeBeastStore
-};
 use jokers_of_neon::store::{Store, StoreTrait};
 use jokers_of_neon::utils::constants::{is_special_card, is_modifier_card};
 use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};

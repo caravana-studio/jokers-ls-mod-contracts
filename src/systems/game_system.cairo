@@ -51,7 +51,8 @@ mod game_system {
     use dojo::world::Resource::Contract;
     use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
     use jokers_of_neon::constants::packs::{
-        SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, SPECIALS_BLISTER_PACK_ID
+        SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, REWARD_SPECIAL_CARDS_PACK_ID,
+        SPECIALS_BLISTER_PACK_ID
     };
     use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
     use jokers_of_neon::constants::specials::{
@@ -62,6 +63,7 @@ mod game_system {
         SPECIAL_ALL_CARDS_TO_HEARTS_ID, SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID, SPECIAL_LUCKY_SEVEN_ID,
         SPECIAL_NEON_BONUS_ID, SPECIAL_DEADLINE_ID, SPECIAL_INITIAL_ADVANTAGE_ID, SPECIAL_LUCKY_HAND_ID
     };
+    use jokers_of_neon::models::data::beast::{GameModeBeast, GameModeBeastStore};
     use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
     use jokers_of_neon::models::data::effect_card::Effect;
     use jokers_of_neon::models::data::events::{
@@ -77,9 +79,6 @@ mod game_system {
     use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::adventurer::AdventurerTrait;
-    use jokers_of_neon::models::data::beast::{
-        GameModeBeast, GameModeBeastStore
-    };
     use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
@@ -161,7 +160,7 @@ mod game_system {
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
             assert(game.substate == GameSubState::CREATE_LEVEL, errors::WRONG_SUBSTATE_CREATE_LEVEL);
 
-            game.substate = LevelTrait::calculate(world, game_id);
+            game.substate = GameSubState::BEAST;
             match game.substate {
                 GameSubState::BEAST => { BeastTrait::create(world, ref store, game_id); },
                 GameSubState::OBSTACLE => { ChallengeTrait::create(world, ref store, game_id); },
@@ -243,7 +242,7 @@ mod game_system {
                     game.substate = GameSubState::REWARD_SPECIALS;
 
                     let mut store = StoreTrait::new(world);
-                    let cards = open_blister_pack(world, ref store, game, SPECIAL_CARDS_PACK_ID);
+                    let cards = open_blister_pack(world, ref store, game, REWARD_SPECIAL_CARDS_PACK_ID);
                     let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
                     emit!(world, (blister_pack_result));
                     store.set_blister_pack_result(blister_pack_result);

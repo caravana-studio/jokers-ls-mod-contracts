@@ -23,6 +23,8 @@ const EMPTY_PACK_ID: u32 = 999;
 const SPECIAL_CARDS_PACK_ID: u32 = 20;
 const MODIFIER_CARDS_PACK_ID: u32 = 21;
 const REWARD_CARDS_PACK_ID: u32 = 22;
+const REWARD_SPECIAL_CARDS_PACK_ID: u32 = 23;
+
 
 fn blister_packs_ids_all() -> Array<u32> {
     array![
@@ -34,7 +36,8 @@ fn blister_packs_ids_all() -> Array<u32> {
         FIGURES_BLISTER_PACK_ID,
         DECEITFUL_JOKER_BLISTER_PACK_ID,
         LOVERS_BLISTER_PACK_ID,
-        SPECIAL_BET_BLISTER_PACK_ID
+        SPECIAL_BET_BLISTER_PACK_ID,
+        REWARD_SPECIAL_CARDS_PACK_ID
     ]
 }
 
@@ -235,6 +238,26 @@ fn SPECIAL_CARDS_PACK() -> BlisterPack {
     }
 }
 
+fn REWARD_SPECIAL_CARDS_PACK() -> BlisterPack {
+    BlisterPack {
+        id: SPECIAL_CARDS_PACK_ID,
+        cost: 0,
+        name: 'special_cards_pack',
+        probability: 100,
+        size: 3,
+        cards: array![
+            array![].span(),
+            legendary_specials_ids().span(),
+            epic_specials_ids().span(),
+            rare_specials_ids().span(),
+            uncommon_specials_ids().span(),
+            common_specials_ids().span()
+        ]
+            .span(),
+        probs: array![100, 5, 10, 15, 25, 45].span(),
+    }
+}
+
 fn MODIFIER_CARDS_PACK() -> BlisterPack {
     BlisterPack {
         id: MODIFIER_CARDS_PACK_ID,
@@ -248,19 +271,14 @@ fn MODIFIER_CARDS_PACK() -> BlisterPack {
 }
 
 fn REWARD_PACK() -> BlisterPack {
-    
     BlisterPack {
         id: REWARD_CARDS_PACK_ID,
         cost: 0,
         name: 'reward_cards_pack',
         probability: 100,
         size: 8,
-        cards: array![
-                array![].span(),
-                common_cards_all().span(),
-                array![JOKER_CARD].span(), 
-                modifiers_ids_all().span()
-            ].span(),
+        cards: array![array![].span(), common_cards_all().span(), array![JOKER_CARD].span(), modifiers_ids_all().span()]
+            .span(),
         probs: array![100, 75, 5, 20].span(),
     }
 }
