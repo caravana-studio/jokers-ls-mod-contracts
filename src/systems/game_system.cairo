@@ -398,7 +398,7 @@ mod game_system {
             assert(game.substate == GameSubState::DRAFT_MODIFIERS, errors::WRONG_SUBSTATE_DRAFT_MODIFIERS);
 
             let mut blister_pack_result = store.get_blister_pack_result(game.id);
-            assert(cards_index.len() <= 5, errors::INVALID_CARD_INDEX_LEN);
+            assert(cards_index.len() <= 3, errors::INVALID_CARD_INDEX_LEN);
 
             select_cards_from_blister(world, ref game, blister_pack_result.cards, cards_index);
 

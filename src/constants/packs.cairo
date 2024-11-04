@@ -241,7 +241,7 @@ fn MODIFIER_CARDS_PACK() -> BlisterPack {
         cost: 0,
         name: 'modifier_cards_pack',
         probability: 100,
-        size: 10,
+        size: 6,
         cards: array![array![].span(), modifiers_ids_all().span()].span(),
         probs: array![100, 100].span(),
     }
