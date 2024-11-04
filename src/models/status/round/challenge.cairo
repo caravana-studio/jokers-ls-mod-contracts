@@ -93,6 +93,7 @@ impl ChallengeImpl of ChallengeTrait {
         } else {
             challenge_player.plays -= 1;
             emit!(world, (challenge_player));
+            ChallengePlayerStore::set(@challenge_player, world);
             if challenge_player.plays.is_zero() {
                 game
                     .current_player_hp =
@@ -145,7 +146,6 @@ impl ChallengeImpl of ChallengeTrait {
                 let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                 emit!(world, (play_game_over_event));
                 game.state = GameState::FINISHED;
-                GameStore::set(@game, world);
             }
         }
     }
