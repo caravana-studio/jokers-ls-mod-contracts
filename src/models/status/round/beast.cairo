@@ -280,7 +280,7 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     } else {
         *all_beast()[randomizer.between::<u32>(0, all_beast().len() - 1)]
     };
-    let (tier, health, attack) = _generate_stats(level);
+    let (tier, health, attack) = _generate_stats(level, beast_id);
     let type_beast = if is_loot_survivor_beast(beast_id) {
         TypeBeast::LOOT_SURVIVOR
     } else {
@@ -291,32 +291,41 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     emit!(world, (beast));
 }
 
-fn _generate_stats(level: u8) -> (u8, u32, u32) { // tier, health, attack
+// tier, health, attack
+fn _generate_stats(level: u8, beast_id: u32) -> (u8, u32, u32) {
+    let mut stats = (0, 0, 0);
     if level <= 4 {
-        (0, _calculate_beast_hp(level), 10)
+        stats = (0, _calculate_beast_hp(level), 10)
     } else if level <= 8 {
-        (2, _calculate_beast_hp(level), 20)
+        stats = (2, _calculate_beast_hp(level), 20)
     } else if level <= 12 {
-        (3, _calculate_beast_hp(level), 30)
+        stats = (3, _calculate_beast_hp(level), 30)
     } else if level <= 16 {
-        (4, _calculate_beast_hp(level), 40)
+        stats = (4, _calculate_beast_hp(level), 40)
     } else {
-        (5, _calculate_beast_hp(level), 50)
+        stats = (5, _calculate_beast_hp(level), 50)
+    }
+
+    if beast_id >= 101 && beast_id <= 108 {
+        let (tier, health, attack) = stats;
+        (tier, health + (health / 10), attack + 20)
+    } else {
+        stats
     }
 }
 
 fn _calculate_beast_hp(level: u8) -> u32 {
     if level <= 2 {
-        300 * level
+        300 * level.into()
     } else if level <= 10 {
-        600 * level - 600
+        600 * level.into() - 600
     } else if level <= 20 {
-        1200 * level - 6600
+        1200 * level.into() - 6600
     } else if level <= 25 {
-        3000 * level - 42600
+        3000 * level.into() - 42600
     } else if level <= 30 {
-        7000 * level - 142600
+        7000 * level.into() - 142600
     } else {
-        20000 * level - 532600
+        20000 * level.into() - 532600
     }
 }
