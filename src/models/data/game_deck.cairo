@@ -1,6 +1,6 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::card::{
-    ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, SCRIBE_DECK, WARRIOR_DECK,
+    ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, OVERLORD_DECK, WARRIOR_DECK,
     traditional_cards_all
 };
 use jokers_of_neon::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
@@ -29,29 +29,26 @@ struct DeckCard {
 impl GameDeckImpl of IGameDeck {
     fn init(ref store: Store, game_id: u32, deck_id: u8) {
         // Traditional Deck
+        let mut game = store.get_game(game_id);
         let mut cards = traditional_cards_all();
         cards.append(JOKER_CARD);
         cards.append(JOKER_CARD);
 
-        if deck_id == SCRIBE_DECK {
-            cards.append(JOKER_CARD);
-            cards.append(JOKER_CARD);
-            cards.append(JOKER_CARD);
-            cards.append(JOKER_CARD);
-        } else if deck_id == WARRIOR_DECK {
-            cards.append(JOKER_CARD);
+        if deck_id == WARRIOR_DECK {
+            game.player_hp = 120;
+            cards.append(MULTI_MODIFIER_4_ID);
+        } else if deck_id == OVERLORD_DECK {
+            game.player_hp = 100;
             cards.append(POINTS_MODIFIER_4_ID);
             cards.append(POINTS_MODIFIER_4_ID);
             cards.append(MULTI_MODIFIER_4_ID);
             cards.append(MULTI_MODIFIER_4_ID);
         } else { // WIZARD_DECK
+            game.player_hp = 80;
             cards.append(JOKER_CARD);
             cards.append(JOKER_CARD);
-            cards.append(ACE_CLUBS_ID);
-            cards.append(ACE_DIAMONDS_ID);
-            cards.append(ACE_HEARTS_ID);
-            cards.append(ACE_SPADES_ID);
         }
+        store.set_game(game);
         store.create_deck(game_id, cards);
     }
 
