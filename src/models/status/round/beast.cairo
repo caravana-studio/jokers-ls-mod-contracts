@@ -252,7 +252,7 @@ fn _attack_beast(
 ) {
     let mut randomizer = RandomImpl::new(world);
     let beast_dmg = randomizer.between::<u32>(0, 5 * game.level) + beast.attack;
-    
+
     game.current_player_hp = if beast_dmg > game.current_player_hp {
         0
     } else {
@@ -302,16 +302,16 @@ fn _generate_stats(level: u8) -> (u8, u32, u32) { // tier, health, attack
 
 fn _calculate_beast_hp(level: u8) -> u32 {
     if level <= 2 {
-        300 * level
+        300 * level.into()
     } else if level <= 10 {
-        600 * level - 600
+        600 * level.into() - 600
     } else if level <= 20 {
-        1200 * level - 6600
+        1200 * level.into() - 6600
     } else if level <= 25 {
-        3000 * level - 42600
+        3000 * level.into() - 42600
     } else if level <= 30 {
-        7000 * level - 142600
+        7000 * level.into() - 142600
     } else {
-        20000 * level - 532600
+        20000 * level.into() - 532600
     }
 }
