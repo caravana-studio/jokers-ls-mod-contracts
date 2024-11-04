@@ -294,17 +294,17 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
 fn _generate_stats(level: u8, beast_id: u32) -> (u8, u32, u32) {
     let mut stats = (0, 0, 0);
     if level <= 4 {
-        (5, _calculate_beast_hp(level), 10)
+        stats = (5, _calculate_beast_hp(level), 10);
     } else if level <= 8 {
-        (4, _calculate_beast_hp(level), 20)
+        stats = (4, _calculate_beast_hp(level), 20);
     } else if level <= 12 {
-        stats = (3, _calculate_beast_hp(level), 30)
+        stats = (3, _calculate_beast_hp(level), 30);
     } else if level <= 16 {
-        (2, _calculate_beast_hp(level), 40)
+        stats = (2, _calculate_beast_hp(level), 40);
     } else {
-        (1, _calculate_beast_hp(level), 50)
+        stats = (1, _calculate_beast_hp(level), 50);
     }
-    
+
     if beast_id >= 101 && beast_id <= 108 {
         let (tier, health, attack) = stats;
         (tier, health + (health / 10), attack + 20)
