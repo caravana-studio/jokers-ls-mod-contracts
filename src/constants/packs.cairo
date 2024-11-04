@@ -99,7 +99,7 @@ fn SPECIALS_BLISTER_PACK() -> BlisterPack {
         cost: 2000,
         name: 'specials_pack',
         probability: 50,
-        size: 3,
+        size: 5,
         cards: array![array![].span(), specials_ids_all().span(), modifiers_ids_all().span(), common_cards_all().span()]
             .span(),
         probs: array![100, 20, 15, 65].span(),

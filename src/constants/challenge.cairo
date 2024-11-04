@@ -66,7 +66,6 @@ fn challenges_all() -> Array<u32> {
         CHALLENGE_QUEEN,
         CHALLENGE_KING,
         CHALLENGE_ACE,
-        CHALLENGE_JOKER,
         CHALLENGE_500_POINTS,
         CHALLENGE_1000_POINTS,
         CHALLENGE_2000_POINTS,
