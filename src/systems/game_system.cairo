@@ -77,6 +77,9 @@ mod game_system {
     use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
     use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
     use jokers_of_neon::models::status::round::adventurer::AdventurerTrait;
+    use jokers_of_neon::models::data::beast::{
+        GameModeBeast, GameModeBeastStore
+    };
     use jokers_of_neon::models::status::round::beast::BeastTrait;
     use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
     use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
@@ -141,6 +144,9 @@ mod game_system {
                 },
                 world
             );
+
+            let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
+            GameModeBeastStore::set(@game_mode_beast, world);
 
             let create_game_event = CreateGameEvent { player: get_caller_address(), game_id };
             emit!(world, (create_game_event));
@@ -447,6 +453,9 @@ mod game_system {
                     if remove_special_card.effect_card_id == SPECIAL_HAND_THIEF_ID {
                         game.max_hands -= 1;
                         game.max_discard -= 1;
+                        let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+                        game_mode_beast.energy_max_player += 1;
+                        GameModeBeastStore::set(@game_mode_beast, world);
                     }
                     if remove_special_card.effect_card_id == SPECIAL_EXTRA_HELP_ID {
                         game.len_hand -= 2;
