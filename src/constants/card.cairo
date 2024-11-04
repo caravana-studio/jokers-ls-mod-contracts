@@ -58,7 +58,7 @@ const JOKER_CARD: u32 = 52;
 const NEON_JOKER_CARD: u32 = 53;
 const INVALID_CARD: u32 = 9999;
 
-const SCRIBE_DECK: u8 = 0;
+const OVERLORD_DECK: u8 = 0;
 const WARRIOR_DECK: u8 = 1;
 const WIZARD_DECK: u8 = 2;
 

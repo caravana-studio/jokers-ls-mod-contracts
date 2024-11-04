@@ -1,7 +1,7 @@
 mod test_select_deck {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
     use jokers_of_neon::constants::card::{
-        ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, SCRIBE_DECK,
+        ACE_CLUBS_ID, ACE_DIAMONDS_ID, ACE_HEARTS_ID, ACE_SPADES_ID, JOKER_CARD, INVALID_CARD, OVERLORD_DECK,
         WARRIOR_DECK, WIZARD_DECK, traditional_cards_all
     };
     use jokers_of_neon::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
@@ -21,7 +21,7 @@ mod test_select_deck {
 
     #[test]
     #[available_gas(30000000000000000)]
-    fn test_scribe_deck() {
+    fn test_OVERLORD_DECK() {
         let (world, systems) = setup::spawn_game();
         let mut store = StoreTrait::new(world);
         let mut game = mock_game(ref store, PLAYER());
@@ -29,7 +29,7 @@ mod test_select_deck {
         store.set_game(game);
 
         set_contract_address(PLAYER());
-        systems.game_system.select_deck(game.id, SCRIBE_DECK);
+        systems.game_system.select_deck(game.id, OVERLORD_DECK);
 
         let game_deck = GameDeckStore::get(world, game.id);
         assert(game_deck.len == 58, 'wrong len_deck_cards');
