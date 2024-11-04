@@ -1,7 +1,7 @@
 use core::nullable::NullableTrait;
 use dojo::world::Resource::Contract;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::beast::{all_beast, is_loot_survivor_beast};
+use jokers_of_neon::constants::beast::{all_beast, beast_loot_survivor, is_loot_survivor_beast};
 use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
@@ -115,9 +115,6 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-        // create_level(world, ref store, game); TODO:
-        } else if player_beast.energy.is_zero() {
-            _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
             let mut cards = array![];
             let mut idx = 0;
@@ -152,6 +149,9 @@ impl BeastImpl of BeastTrait {
             }
         }
         store.set_game(game);
+        if player_beast.energy.is_zero() && game.substate != GameSubState::CREATE_REWARD {
+            Self::end_turn(world, game_id);
+        }
     }
 
     fn discard(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
@@ -207,8 +207,7 @@ impl BeastImpl of BeastTrait {
         }
 
         if player_beast.energy.is_zero() {
-            let mut beast = BeastStore::get(world, game.id);
-            _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
+            Self::end_turn(world, game_id);
         }
     }
 
@@ -274,8 +273,13 @@ fn _attack_beast(
 
 fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     let mut randomizer = RandomImpl::new(world);
-    let beast_id = randomizer.between::<u32>(0, all_beast().len() - 1);
-    let (tier, health, attack) = _generate_stats(level);
+
+    let beast_id = if level < 10 {
+        *beast_loot_survivor()[randomizer.between::<u32>(0, beast_loot_survivor().len() - 1)]
+    } else {
+        *all_beast()[randomizer.between::<u32>(0, all_beast().len() - 1)]
+    };
+    let (tier, health, attack) = _generate_stats(level, beast_id);
     let type_beast = if is_loot_survivor_beast(beast_id) {
         TypeBeast::LOOT_SURVIVOR
     } else {
@@ -286,17 +290,26 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     emit!(world, (beast));
 }
 
-fn _generate_stats(level: u8) -> (u8, u32, u32) { // tier, health, attack
+// tier, health, attack
+fn _generate_stats(level: u8, beast_id: u32) -> (u8, u32, u32) {
+    let mut stats = (0, 0, 0);
     if level <= 4 {
         (5, _calculate_beast_hp(level), 10)
     } else if level <= 8 {
         (4, _calculate_beast_hp(level), 20)
     } else if level <= 12 {
-        (3, _calculate_beast_hp(level), 30)
+        stats = (3, _calculate_beast_hp(level), 30)
     } else if level <= 16 {
         (2, _calculate_beast_hp(level), 40)
     } else {
         (1, _calculate_beast_hp(level), 50)
+    }
+    
+    if beast_id >= 101 && beast_id <= 108 {
+        let (tier, health, attack) = stats;
+        (tier, health + (health / 10), attack + 20)
+    } else {
+        stats
     }
 }
 
