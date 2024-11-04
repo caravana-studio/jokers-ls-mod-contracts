@@ -252,7 +252,7 @@ fn _attack_beast(
 ) {
     let mut randomizer = RandomImpl::new(world);
     let beast_dmg = randomizer.between::<u32>(0, 5 * game.level) + beast.attack;
-    
+
     game.current_player_hp = if beast_dmg > game.current_player_hp {
         0
     } else {
