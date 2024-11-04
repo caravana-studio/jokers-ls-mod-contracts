@@ -160,7 +160,7 @@ mod game_system {
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
             assert(game.substate == GameSubState::CREATE_LEVEL, errors::WRONG_SUBSTATE_CREATE_LEVEL);
 
-            game.substate = GameSubState::BEAST;
+            game.substate = LevelTrait::calculate(world, game_id);
             match game.substate {
                 GameSubState::BEAST => { BeastTrait::create(world, ref store, game_id); },
                 GameSubState::OBSTACLE => { ChallengeTrait::create(world, ref store, game_id); },
