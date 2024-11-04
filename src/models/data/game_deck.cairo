@@ -36,15 +36,18 @@ impl GameDeckImpl of IGameDeck {
 
         if deck_id == WARRIOR_DECK {
             game.player_hp = 120;
+            game.current_player_hp = 120;
             cards.append(MULTI_MODIFIER_4_ID);
         } else if deck_id == OVERLORD_DECK {
             game.player_hp = 100;
+            game.current_player_hp = 100;
             cards.append(POINTS_MODIFIER_4_ID);
             cards.append(POINTS_MODIFIER_4_ID);
             cards.append(MULTI_MODIFIER_4_ID);
             cards.append(MULTI_MODIFIER_4_ID);
         } else { // WIZARD_DECK
             game.player_hp = 80;
+            game.current_player_hp = 80;
             cards.append(JOKER_CARD);
             cards.append(JOKER_CARD);
         }
