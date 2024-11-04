@@ -94,6 +94,7 @@ impl ChallengeImpl of ChallengeTrait {
             challenge_player.plays -= 1;
             ChallengePlayerStore::set(@challenge_player, world);
             emit!(world, (challenge_player));
+            ChallengePlayerStore::set(@challenge_player, world);
             if challenge_player.plays.is_zero() {
                 game
                     .current_player_hp =
