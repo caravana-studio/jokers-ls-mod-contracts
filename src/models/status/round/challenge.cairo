@@ -146,6 +146,7 @@ impl ChallengeImpl of ChallengeTrait {
                 let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                 emit!(world, (play_game_over_event));
                 game.state = GameState::FINISHED;
+                GameStore::set(@game, world);
             }
         }
     }
