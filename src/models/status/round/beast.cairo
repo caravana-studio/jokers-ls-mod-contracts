@@ -49,8 +49,7 @@ impl BeastImpl of BeastTrait {
         }
         store.set_game(game);
 
-        let game_mode_beast = GameModeBeast { game_id, cost_discard: 1, cost_play: 2, energy_max_player: 3 };
-        GameModeBeastStore::set(@game_mode_beast, world);
+        let game_mode_beast = GameModeBeastStore::get(world, game.id);
 
         _create_beast(world, game_id, game.level.try_into().unwrap());
 

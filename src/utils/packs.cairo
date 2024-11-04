@@ -3,6 +3,9 @@ use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
 use jokers_of_neon::constants::specials::{SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID};
 use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
 use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, CurrentSpecialCardsStore, GameState};
+use jokers_of_neon::models::data::beast::{
+    GameModeBeast, GameModeBeastStore
+};
 use jokers_of_neon::store::{Store, StoreTrait};
 use jokers_of_neon::utils::constants::{is_special_card, is_modifier_card};
 use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
@@ -78,6 +81,9 @@ fn select_cards_from_blister(
             if card_id == SPECIAL_HAND_THIEF_ID {
                 game.max_hands += 1;
                 game.max_discard += 1;
+                let mut game_mode_beast = GameModeBeastStore::get(world, game.id);
+                game_mode_beast.energy_max_player += 1;
+                GameModeBeastStore::set(@game_mode_beast, world);
             }
             if card_id == SPECIAL_EXTRA_HELP_ID {
                 game.len_hand += 2;
