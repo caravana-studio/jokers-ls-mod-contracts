@@ -19,6 +19,7 @@ trait IGameSystem {
     fn use_adventurer(ref world: IWorldDispatcher, game_id: u32, adventurer_id: u32);
     fn skip_adventurer(ref world: IWorldDispatcher, game_id: u32);
     fn select_aventurer_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
+    fn skip_unpassed_obstacle(ref world: IWorldDispatcher, game_id: u32);
 }
 
 mod errors {
@@ -43,6 +44,7 @@ mod errors {
     const WRONG_SUBSTATE_SELECT_REWARD: felt252 = 'Wrong substate SELECT_REWARD';
     const WRONG_SUBSTATE_DRAFT_ADVENTURER: felt252 = 'Wrong substate SELECT_ADVENTURE';
     const WRONG_SUBSTATE_ADVENTURER_CARDS: felt252 = 'Wrong substate SELECT_ADV_CARDS';
+    const WRONG_SUBSTATE_UNPASSED_OBSTABLE: felt252 = 'Wrong substate UNPASSED_OBST';
 }
 
 #[dojo::contract]
@@ -412,6 +414,19 @@ mod game_system {
 
             game.substate = GameSubState::DRAFT_ADVENTURER;
             store.set_game(game);
+        }
+
+        fn skip_unpassed_obstacle(ref world: IWorldDispatcher, game_id: u32) {
+            let mut game = GameStore::get(world, game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(
+                game.substate == GameSubState::UNPASSED_OBSTACLE,
+                errors::WRONG_SUBSTATE_UNPASSED_OBSTABLE
+            );
+            let mut store = StoreTrait::new(world);
+            game.substate = GameSubState::CREATE_LEVEL;
+            store.set_game(game);
+            self.create_level(game_id)
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {
