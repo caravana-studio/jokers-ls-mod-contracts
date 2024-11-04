@@ -159,6 +159,7 @@ mod game_system {
             let mut game = store.get_game(game_id);
 
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
             assert(game.substate == GameSubState::CREATE_LEVEL, errors::WRONG_SUBSTATE_CREATE_LEVEL);
 
@@ -177,6 +178,7 @@ mod game_system {
 
             let game = store.get_game(game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
 
             match game.substate {
@@ -191,6 +193,7 @@ mod game_system {
 
             let game = store.get_game(game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
 
             match game.substate {
@@ -205,6 +208,7 @@ mod game_system {
 
             let game = store.get_game(game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.substate == GameSubState::BEAST, errors::WRONG_SUBSTATE_BEAST);
 
             BeastTrait::end_turn(world, game_id);
@@ -213,6 +217,7 @@ mod game_system {
         fn create_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8) {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.substate == GameSubState::CREATE_REWARD, errors::WRONG_SUBSTATE_REWARD);
 
             let reward: RewardType = (*RewardStore::get(world, game_id).rewards_ids.at(reward_index.into())).into();
@@ -257,6 +262,7 @@ mod game_system {
         fn select_reward(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(
                 game.substate == GameSubState::REWARD_SPECIALS || game.substate == GameSubState::REWARD_CARDS_PACK,
                 errors::WRONG_SUBSTATE_SELECT_REWARD
@@ -419,6 +425,7 @@ mod game_system {
         fn skip_unpassed_obstacle(ref world: IWorldDispatcher, game_id: u32) {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(
                 game.substate == GameSubState::UNPASSED_OBSTACLE,
                 errors::WRONG_SUBSTATE_UNPASSED_OBSTABLE
