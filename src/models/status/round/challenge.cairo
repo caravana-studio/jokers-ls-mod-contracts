@@ -92,6 +92,7 @@ impl ChallengeImpl of ChallengeTrait {
             GameStore::set(@game, world);
         } else {
             challenge_player.plays -= 1;
+            ChallengePlayerStore::set(@challenge_player, world);
             emit!(world, (challenge_player));
             if challenge_player.plays.is_zero() {
                 game
