@@ -121,7 +121,7 @@ mod game_system {
                 max_discard: 5,
                 max_jokers: 5,
                 player_score: 0,
-                level: 1,
+                level: 0,
                 len_hand: 8,
                 len_max_current_special_cards: 5,
                 len_current_special_cards: 0,

@@ -248,13 +248,19 @@ fn MODIFIER_CARDS_PACK() -> BlisterPack {
 }
 
 fn REWARD_PACK() -> BlisterPack {
+    
     BlisterPack {
         id: REWARD_CARDS_PACK_ID,
         cost: 0,
         name: 'reward_cards_pack',
         probability: 100,
-        size: 5,
-        cards: array![array![].span(), array![JOKER_CARD].span(), modifiers_ids_all().span()].span(),
-        probs: array![100, 20, 80].span(),
+        size: 8,
+        cards: array![
+                array![].span(),
+                common_cards_all().span(),
+                array![JOKER_CARD].span(), 
+                modifiers_ids_all().span()
+            ].span(),
+        probs: array![100, 75, 5, 20].span(),
     }
 }
