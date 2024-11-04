@@ -115,9 +115,6 @@ impl BeastImpl of BeastTrait {
                 _ => Option::None
             }.unwrap();
             IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
-        // create_level(world, ref store, game); TODO:
-        } else if player_beast.energy.is_zero() {
-            _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
         } else {
             let mut cards = array![];
             let mut idx = 0;
@@ -152,6 +149,9 @@ impl BeastImpl of BeastTrait {
             }
         }
         store.set_game(game);
+        if player_beast.energy.is_zero() && game.substate != GameSubState::CREATE_REWARD {
+            Self::end_turn(world, game_id);
+        }
     }
 
     fn discard(world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>, modifiers_index: Array<u32>) {
@@ -207,8 +207,7 @@ impl BeastImpl of BeastTrait {
         }
 
         if player_beast.energy.is_zero() {
-            let mut beast = BeastStore::get(world, game.id);
-            _attack_beast(world, ref store, ref game, ref player_beast, ref beast, ref game_mode_beast);
+            Self::end_turn(world, game_id);
         }
     }
 
