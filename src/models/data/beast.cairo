@@ -37,3 +37,10 @@ struct PlayerBeast {
     game_id: u32,
     energy: u8
 }
+
+#[derive(Copy, Drop, Serde)]
+struct BeastStats {
+    tier: u8,
+    level: u8,
+    beast_id: u8
+}
