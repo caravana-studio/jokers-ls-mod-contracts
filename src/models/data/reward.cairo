@@ -1,6 +1,8 @@
+use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
 
 #[derive(Copy, Drop, Serde)]
+#[dojo::event]
 #[dojo::model]
 struct Reward {
     #[key]
@@ -14,6 +16,20 @@ enum RewardType {
     BLISTER_PACK,
     SPECIAL_CARDS,
     NONE
+}
+#[generate_trait]
+impl RewardImpl of RewardTrait {
+    fn challenge(world: IWorldDispatcher, game_id: u32) {
+        let reward = Reward { game_id, rewards_ids: array![REWARD_HP_POTION, REWARD_BLISTER_PACK].span() };
+        RewardStore::set(@reward, world);
+        emit!(world, (reward))
+    }
+
+    fn beast(world: IWorldDispatcher, game_id: u32) {
+        let reward = Reward { game_id, rewards_ids: array![REWARD_HP_POTION, REWARD_SPECIAL_CARDS].span() };
+        RewardStore::set(@reward, world);
+        emit!(world, (reward))
+    }
 }
 
 impl u32IntoRewardType of Into<u32, RewardType> {

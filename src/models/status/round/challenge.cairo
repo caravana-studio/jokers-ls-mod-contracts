@@ -21,7 +21,7 @@ use jokers_of_neon::{
                 ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
                 SpecialModifierSuitEvent
             },
-            poker_hand::PokerHand
+            poker_hand::PokerHand, reward::RewardTrait
         },
         status::{
             game::game::{Game, GameState, GameSubState, GameStore},
@@ -85,9 +85,10 @@ impl ChallengeImpl of ChallengeTrait {
 
         if Self::is_completed(world, game_id) {
             emit!(world, ChallengeCompleted { player: game.owner, player_name: game.player_name, game_id });
-            game.substate = GameSubState::CREATE_REWARD;
             game.player_score += challenge.active_ids.len() * 100;
             game.obstacles_cleared += 1;
+            game.substate = GameSubState::CREATE_REWARD;
+            RewardTrait::challenge(world, game_id);
 
             GameStore::set(@game, world);
         } else {

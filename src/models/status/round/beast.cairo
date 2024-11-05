@@ -3,11 +3,13 @@ use dojo::world::Resource::Contract;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::beast::{all_beast, beast_loot_survivor, is_loot_survivor_beast};
 use jokers_of_neon::constants::card::INVALID_CARD;
+use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_SPECIAL_CARDS};
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
 };
 use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
+use jokers_of_neon::models::data::reward::RewardTrait;
 use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
 use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
@@ -17,6 +19,7 @@ use jokers_of_neon::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
+
 use jokers_of_neon::utils::game::play;
 use jokers_of_neon::utils::level::create_level;
 use jokers_of_neon::utils::rage::is_rage_card_active;
@@ -104,6 +107,7 @@ impl BeastImpl of BeastTrait {
             game.current_player_hp += 10;
 
             game.substate = GameSubState::CREATE_REWARD;
+            RewardTrait::beast(world, game_id);
 
             if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
                 // return the cards to the deck
