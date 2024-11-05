@@ -19,7 +19,7 @@ use jokers_of_neon::{
             game_deck::{GameDeckStore, GameDeckImpl},
             events::{
                 ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
-                SpecialModifierSuitEvent
+                SpecialModifierSuitEvent, ObstacleAttack
             },
             poker_hand::PokerHand
         },
@@ -96,12 +96,13 @@ impl ChallengeImpl of ChallengeTrait {
             emit!(world, (challenge_player));
             ChallengePlayerStore::set(@challenge_player, world);
             if challenge_player.plays.is_zero() {
+                let challenge_attack = 5 * game.level;
                 game
                     .current_player_hp =
-                        if game.current_player_hp <= 5 * game.level {
+                        if game.current_player_hp <= challenge_attack {
                             0
                         } else {
-                            game.current_player_hp - 5 * game.level
+                            game.current_player_hp - challenge_attack
                         };
 
                 if game.current_player_hp.is_zero() {
@@ -110,12 +111,11 @@ impl ChallengeImpl of ChallengeTrait {
                     game.state = GameState::FINISHED;
                     return;
                 }
-                challenge_player.discards = game.max_discard;
-                challenge_player.plays = game.max_hands;
 
-                ChallengePlayerStore::set(@challenge_player, world);
-                emit!(world, (challenge_player));
+                emit!(world, ObstacleAttack { player: game.owner, attack: challenge_attack });
+                game.substate = GameSubState::UNPASSED_OBSTACLE;
                 GameStore::set(@game, world);
+                return;
             }
 
             let mut cards = array![];
@@ -144,10 +144,26 @@ impl ChallengeImpl of ChallengeTrait {
 
             let game_deck = GameDeckStore::get(world, game_id);
             if game_deck.round_len.is_zero() && _player_has_empty_hand(ref store, @game) {
-                let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
-                emit!(world, (play_game_over_event));
-                game.state = GameState::FINISHED;
+                let challenge_attack = 5 * game.level;
+                game
+                    .current_player_hp =
+                        if game.current_player_hp <= challenge_attack {
+                            0
+                        } else {
+                            game.current_player_hp - challenge_attack
+                        };
+
+                if game.current_player_hp.is_zero() {
+                    let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
+                    emit!(world, (play_game_over_event));
+                    game.state = GameState::FINISHED;
+                    return;
+                }
+
+                emit!(world, ObstacleAttack { player: game.owner, attack: challenge_attack });
+                game.substate = GameSubState::UNPASSED_OBSTACLE;
                 GameStore::set(@game, world);
+                return;
             }
         }
     }

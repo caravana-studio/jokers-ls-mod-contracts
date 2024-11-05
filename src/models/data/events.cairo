@@ -292,3 +292,11 @@ struct PlayerHealed {
     current_hp: u32,
 }
 
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct ObstacleAttack {
+    #[key]
+    player: ContractAddress,
+    attack: u32
+}

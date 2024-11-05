@@ -19,6 +19,7 @@ trait IGameSystem {
     fn use_adventurer(ref world: IWorldDispatcher, game_id: u32, adventurer_id: u32);
     fn skip_adventurer(ref world: IWorldDispatcher, game_id: u32);
     fn select_aventurer_cards(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>);
+    fn skip_unpassed_obstacle(ref world: IWorldDispatcher, game_id: u32);
 }
 
 mod errors {
@@ -43,6 +44,7 @@ mod errors {
     const WRONG_SUBSTATE_SELECT_REWARD: felt252 = 'Wrong substate SELECT_REWARD';
     const WRONG_SUBSTATE_DRAFT_ADVENTURER: felt252 = 'Wrong substate SELECT_ADVENTURE';
     const WRONG_SUBSTATE_ADVENTURER_CARDS: felt252 = 'Wrong substate SELECT_ADV_CARDS';
+    const WRONG_SUBSTATE_UNPASSED_OBSTABLE: felt252 = 'Wrong substate UNPASSED_OBST';
 }
 
 #[dojo::contract]
@@ -157,6 +159,7 @@ mod game_system {
             let mut game = store.get_game(game_id);
 
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
             assert(game.substate == GameSubState::CREATE_LEVEL, errors::WRONG_SUBSTATE_CREATE_LEVEL);
 
@@ -175,6 +178,7 @@ mod game_system {
 
             let game = store.get_game(game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
 
             match game.substate {
@@ -189,6 +193,7 @@ mod game_system {
 
             let game = store.get_game(game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.state == GameState::IN_GAME, errors::GAME_NOT_IN_GAME);
 
             match game.substate {
@@ -203,6 +208,7 @@ mod game_system {
 
             let game = store.get_game(game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.substate == GameSubState::BEAST, errors::WRONG_SUBSTATE_BEAST);
 
             BeastTrait::end_turn(world, game_id);
@@ -211,6 +217,7 @@ mod game_system {
         fn create_reward(ref world: IWorldDispatcher, game_id: u32, reward_index: u8) {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(game.substate == GameSubState::CREATE_REWARD, errors::WRONG_SUBSTATE_REWARD);
 
             let reward: RewardType = (*RewardStore::get(world, game_id).rewards_ids.at(reward_index.into())).into();
@@ -255,6 +262,7 @@ mod game_system {
         fn select_reward(ref world: IWorldDispatcher, game_id: u32, cards_index: Array<u32>) {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
             assert(
                 game.substate == GameSubState::REWARD_SPECIALS || game.substate == GameSubState::REWARD_CARDS_PACK,
                 errors::WRONG_SUBSTATE_SELECT_REWARD
@@ -412,6 +420,20 @@ mod game_system {
 
             game.substate = GameSubState::DRAFT_ADVENTURER;
             store.set_game(game);
+        }
+
+        fn skip_unpassed_obstacle(ref world: IWorldDispatcher, game_id: u32) {
+            let mut game = GameStore::get(world, game_id);
+            assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
+            assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
+            assert(
+                game.substate == GameSubState::UNPASSED_OBSTACLE,
+                errors::WRONG_SUBSTATE_UNPASSED_OBSTABLE
+            );
+            let mut store = StoreTrait::new(world);
+            game.substate = GameSubState::CREATE_LEVEL;
+            store.set_game(game);
+            self.create_level(game_id)
         }
 
         fn discard_effect_card(ref world: IWorldDispatcher, game_id: u32, card_index: u32) {
