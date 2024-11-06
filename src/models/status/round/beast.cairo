@@ -4,6 +4,7 @@ use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
 use jokers_of_neon::constants::beast::{all_beast, beast_loot_survivor, is_loot_survivor_beast};
 use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_SPECIAL_CARDS};
+use jokers_of_neon::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast, BeastStats
 };
@@ -15,12 +16,11 @@ use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::store::{Store, StoreTrait};
 use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
-use jokers_of_neon::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
+use jokers_of_neon::utils::adventurer::{is_mainnet, NFT_ADDRESS_MAINNET};
 use jokers_of_neon::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
-use jokers_of_neon::utils::adventurer::{is_mainnet, NFT_ADDRESS_MAINNET};
 
 use jokers_of_neon::utils::game::play;
 use jokers_of_neon::utils::level::create_level;
@@ -109,13 +109,10 @@ impl BeastImpl of BeastTrait {
             game.substate = GameSubState::CREATE_REWARD;
             RewardTrait::beast(world, game_id);
 
-
             if is_mainnet(get_tx_info().unbox().chain_id) {
                 if !is_loot_survivor_beast(beast.beast_id) {
                     let beast_stats = BeastStats {
-                        tier: beast.tier,
-                        level: beast.level,
-                        beast_id: beast.beast_id.try_into().unwrap()
+                        tier: beast.tier, level: beast.level, beast_id: beast.beast_id.try_into().unwrap()
                     };
                     let erc721_dispatcher = IERC721SystemDispatcher { contract_address: NFT_ADDRESS_MAINNET() };
                     let owner = erc721_dispatcher.get_owner(beast_stats);
@@ -288,7 +285,7 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     } else {
         *all_beast()[randomizer.between::<u32>(0, all_beast().len() - 1)]
     };
-    let (tier, health, attack) = _generate_stats(level, beast_id);
+    let (tier, health, attack) = _generate_stats(level, beast_id, ref randomizer);
     let type_beast = if is_loot_survivor_beast(beast_id) {
         TypeBeast::LOOT_SURVIVOR
     } else {
@@ -300,18 +297,19 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
 }
 
 // tier, health, attack
-fn _generate_stats(level: u8, beast_id: u32) -> (u8, u32, u32) {
+fn _generate_stats(level: u8, beast_id: u32, ref randomizer: Random) -> (u8, u32, u32) {
+    let random_tier = randomizer.between::<u8>(1, 5);
     let mut stats = (0, 0, 0);
     if level <= 4 {
-        stats = (5, _calculate_beast_hp(level), 10);
+        stats = (random_tier, _calculate_beast_hp(level), 10);
     } else if level <= 8 {
-        stats = (4, _calculate_beast_hp(level), 20);
+        stats = (random_tier, _calculate_beast_hp(level), 20);
     } else if level <= 12 {
-        stats = (3, _calculate_beast_hp(level), 30);
+        stats = (random_tier, _calculate_beast_hp(level), 30);
     } else if level <= 16 {
-        stats = (2, _calculate_beast_hp(level), 40);
+        stats = (random_tier, _calculate_beast_hp(level), 40);
     } else {
-        stats = (1, _calculate_beast_hp(level), 50);
+        stats = (random_tier, _calculate_beast_hp(level), 50);
     }
 
     if beast_id >= 101 && beast_id <= 108 {

@@ -426,10 +426,7 @@ mod game_system {
             let mut game = GameStore::get(world, game_id);
             assert(game.owner.is_non_zero(), errors::GAME_NOT_FOUND);
             assert(game.owner == get_caller_address(), errors::CALLER_NOT_OWNER);
-            assert(
-                game.substate == GameSubState::UNPASSED_OBSTACLE,
-                errors::WRONG_SUBSTATE_UNPASSED_OBSTABLE
-            );
+            assert(game.substate == GameSubState::UNPASSED_OBSTACLE, errors::WRONG_SUBSTATE_UNPASSED_OBSTABLE);
             let mut store = StoreTrait::new(world);
             game.substate = GameSubState::CREATE_LEVEL;
             store.set_game(game);
