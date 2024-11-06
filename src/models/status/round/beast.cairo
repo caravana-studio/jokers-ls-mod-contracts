@@ -298,7 +298,7 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
 
 // tier, health, attack
 fn _generate_stats(level: u8, beast_id: u32, ref randomizer: Random) -> (u8, u32, u32) {
-    let random_tier = randomizer.between::<u8>(1, 5);
+    let random_tier = _obtain_random_tier(ref randomizer);
     let mut stats = (0, 0, 0);
     if level <= 4 {
         stats = (random_tier, _calculate_beast_hp(level), 10);
@@ -317,6 +317,26 @@ fn _generate_stats(level: u8, beast_id: u32, ref randomizer: Random) -> (u8, u32
         (tier, health + (health / 10), attack + 20)
     } else {
         stats
+    }
+}
+
+// Tier 1: 00 - 40
+// Tier 2: 41 - 70
+// Tier 3: 71 - 85
+// Tier 4: 86 - 95
+// Tier 5: 96 - 100
+fn _obtain_random_tier(ref randomizer: Random) -> u8 {
+    let random = randomizer.between::<u32>(1, 100);
+    if random <= 40 {
+        1
+    } else if random <= 70 {
+        2
+    } else if random <= 85 {
+        3
+    } else if random <= 95 {
+        4
+    } else {
+        5
     }
 }
 
