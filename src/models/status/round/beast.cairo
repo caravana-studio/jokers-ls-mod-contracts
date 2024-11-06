@@ -5,7 +5,7 @@ use jokers_of_neon::constants::beast::{all_beast, beast_loot_survivor, is_loot_s
 use jokers_of_neon::constants::card::INVALID_CARD;
 use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_SPECIAL_CARDS};
 use jokers_of_neon::models::data::beast::{
-    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
+    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast, BeastStats
 };
 use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
@@ -15,16 +15,18 @@ use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
 use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
 use jokers_of_neon::store::{Store, StoreTrait};
 use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
+use jokers_of_neon::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
 use jokers_of_neon::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
+use jokers_of_neon::utils::adventurer::{is_mainnet, NFT_ADDRESS_MAINNET};
 
 use jokers_of_neon::utils::game::play;
 use jokers_of_neon::utils::level::create_level;
 use jokers_of_neon::utils::rage::is_rage_card_active;
 use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
-use starknet::{ContractAddress, get_caller_address, ClassHash};
+use starknet::{ContractAddress, get_caller_address, ClassHash, get_tx_info};
 
 mod errors {
     const GAME_NOT_FOUND: felt252 = 'Game: game not found';
@@ -79,8 +81,6 @@ impl BeastImpl of BeastTrait {
 
         assert(player_beast.energy >= game_mode_beast.cost_play, errors::PLAYER_WITHOUT_ENERGY);
 
-        let rage_round = RageRoundStore::get(world, game_id);
-
         let attack = play(world, ref game, @cards_index, @modifiers_index);
         emit!(world, (PlayerAttack { player: get_caller_address(), attack }));
 
@@ -109,15 +109,21 @@ impl BeastImpl of BeastTrait {
             game.substate = GameSubState::CREATE_REWARD;
             RewardTrait::beast(world, game_id);
 
-            if is_rage_card_active(@rage_round, RAGE_CARD_DIMINISHED_HOLD) {
-                // return the cards to the deck
-                game.len_hand += 2;
+
+            if is_mainnet(get_tx_info().unbox().chain_id) {
+                if !is_loot_survivor_beast(beast.beast_id) {
+                    let beast_stats = BeastStats {
+                        tier: beast.tier,
+                        level: beast.level,
+                        beast_id: beast.beast_id.try_into().unwrap()
+                    };
+                    let erc721_dispatcher = IERC721SystemDispatcher { contract_address: NFT_ADDRESS_MAINNET() };
+                    let owner = erc721_dispatcher.get_owner(beast_stats);
+                    if owner.is_zero() {
+                        erc721_dispatcher.safe_mint(get_caller_address(), beast_stats);
+                    }
+                }
             }
-            let (_, rage_system_address) = match world.resource(selector_from_tag!("jokers_of_neon-rage_system")) {
-                Contract((class_hash, contract_address)) => Option::Some((class_hash, contract_address)),
-                _ => Option::None
-            }.unwrap();
-            IRageSystemDispatcher { contract_address: rage_system_address.try_into().unwrap() }.calculate(game.id);
         } else {
             let mut cards = array![];
             let mut idx = 0;
