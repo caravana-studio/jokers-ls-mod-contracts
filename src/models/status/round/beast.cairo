@@ -328,15 +328,15 @@ fn _generate_stats(level: u8, beast_id: u32, ref randomizer: Random) -> (u8, u32
 fn _obtain_random_tier(ref randomizer: Random) -> u8 {
     let random = randomizer.between::<u32>(1, 100);
     if random <= 40 {
-        1
+        5
     } else if random <= 70 {
-        2
+        4
     } else if random <= 85 {
         3
     } else if random <= 95 {
-        4
+        2
     } else {
-        5
+        1
     }
 }
 
