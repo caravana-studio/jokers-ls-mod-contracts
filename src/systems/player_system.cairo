@@ -37,7 +37,8 @@ mod player_system {
                 reward::{Reward, RewardStore},
             },
             status::{
-                game::game::{Game, GameStore, CurrentSpecialCards, CurrentSpecialCardsStore}, shop::shop::{BlisterPackResult, BlisterPackResultStore},
+                game::game::{Game, GameStore, CurrentSpecialCards, CurrentSpecialCardsStore},
+                shop::shop::{BlisterPackResult, BlisterPackResultStore},
                 round::current_hand_card::{CurrentHandCard, CurrentHandCardStore}
             }
         }
