@@ -324,3 +324,12 @@ struct BeastNFT {
     beast_id: u8,
     token_id: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct ObstacleHandScore {
+    #[key]
+    player: ContractAddress,
+    hand_score: u32
+}

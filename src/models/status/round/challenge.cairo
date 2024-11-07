@@ -19,7 +19,7 @@ use jokers_of_neon::{
             game_deck::{GameDeckStore, GameDeckImpl},
             events::{
                 ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
-                SpecialModifierSuitEvent, ObstacleAttack
+                SpecialModifierSuitEvent, ObstacleAttack, ObstacleHandScore
             },
             poker_hand::PokerHand, reward::RewardTrait
         },
@@ -78,6 +78,11 @@ impl ChallengeImpl of ChallengeTrait {
         );
         let (result_hand, mut hit_cards) = calculate_hand(@cards, ref current_special_cards_index);
         let hand_score = calculate_hand_score(world, ref game, @cards_index, @modifiers_index);
+
+        emit!(world, (ObstacleHandScore {
+            player: get_caller_address(),
+            hand_score
+        }));
 
         let mut challenge = ChallengeStore::get(world, game_id);
         _resolve_challenges(world, ref challenge, result_hand, ref hit_cards, @cards, hand_score);
