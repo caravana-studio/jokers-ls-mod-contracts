@@ -338,31 +338,28 @@ fn apply_modifiers(
 ) {
     let mut idx = 0;
     loop {
-        if cards_index.len() == idx {
+        if modifiers_index.len() == idx {
             break;
         }
-        let hit = hit_cards.get(idx.into());
-        if hit {
-            let effect_card_id_1 = *effect_id_cards_1.at(idx);
-            if effect_card_id_1 != 100 { // TODO: Invalid
-                let effect = store.get_effect(effect_card_id_1);
-                if effect.suit == Suit::None {
-                    let (points, multi_add) = if !(current_special_cards_index
-                        .get(SPECIAL_MODIFIER_BOOSTER_ID.into())
-                        .is_null()) {
-                        (effect.points * 2, effect.multi_add * 2)
-                    } else {
-                        (effect.points, effect.multi_add)
-                    };
-                    points_acum += points;
-                    multi_acum += multi_add;
-                    emit!(
-                        world,
-                        (CardScoreEvent {
-                            player: get_caller_address(), index: *modifiers_index.at(idx), multi: multi_add, points
-                        })
-                    );
-                }
+        let effect_card_id_1 = *effect_id_cards_1.at(idx);
+        if effect_card_id_1 != 100 { // TODO: Invalid
+            let effect = store.get_effect(effect_card_id_1);
+            if effect.suit == Suit::None {
+                let (points, multi_add) = if !(current_special_cards_index
+                    .get(SPECIAL_MODIFIER_BOOSTER_ID.into())
+                    .is_null()) {
+                    (effect.points * 2, effect.multi_add * 2)
+                } else {
+                    (effect.points, effect.multi_add)
+                };
+                points_acum += points;
+                multi_acum += multi_add;
+                emit!(
+                    world,
+                    (CardScoreEvent {
+                        player: get_caller_address(), index: *modifiers_index.at(idx), multi: multi_add, points
+                    })
+                );
             }
         }
         idx += 1;
