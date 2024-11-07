@@ -51,7 +51,10 @@ mod errors {
 mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
-    use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
+    use jokers_of_neon::constants::card::{
+        JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD, OVERLORD_DECK, WIZARD_DECK, WARRIOR_DECK
+    };
+    use jokers_of_neon::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
     use jokers_of_neon::constants::packs::{
         SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, REWARD_SPECIAL_CARDS_PACK_ID,
         SPECIALS_BLISTER_PACK_ID
@@ -65,6 +68,7 @@ mod game_system {
         SPECIAL_ALL_CARDS_TO_HEARTS_ID, SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID, SPECIAL_LUCKY_SEVEN_ID,
         SPECIAL_NEON_BONUS_ID, SPECIAL_DEADLINE_ID, SPECIAL_INITIAL_ADVANTAGE_ID, SPECIAL_LUCKY_HAND_ID
     };
+
     use jokers_of_neon::models::data::beast::{GameModeBeast, GameModeBeastStore};
     use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
     use jokers_of_neon::models::data::effect_card::Effect;
@@ -297,7 +301,26 @@ mod game_system {
             assert(game.substate == GameSubState::DRAFT_DECK, errors::WRONG_SUBSTATE_DRAFT_DECK);
             assert(deck_id < 3, errors::INVALID_DECK_ID);
 
-            GameDeckImpl::init(ref store, game_id, deck_id);
+            let mut deck_extra_cards = array![];
+            if deck_id == WARRIOR_DECK {
+                game.player_hp = 120;
+                game.current_player_hp = 120;
+                deck_extra_cards.append(MULTI_MODIFIER_4_ID);
+            } else if deck_id == OVERLORD_DECK {
+                game.player_hp = 100;
+                game.current_player_hp = 100;
+                deck_extra_cards.append(POINTS_MODIFIER_4_ID);
+                deck_extra_cards.append(POINTS_MODIFIER_4_ID);
+                deck_extra_cards.append(MULTI_MODIFIER_4_ID);
+                deck_extra_cards.append(MULTI_MODIFIER_4_ID);
+            } else { // WIZARD_DECK
+                game.player_hp = 80;
+                game.current_player_hp = 80;
+                deck_extra_cards.append(JOKER_CARD);
+                deck_extra_cards.append(JOKER_CARD);
+            }
+
+            GameDeckImpl::init(ref store, game_id, deck_id, deck_extra_cards);
             game.substate = GameSubState::DRAFT_SPECIALS;
             store.set_game(game);
 
