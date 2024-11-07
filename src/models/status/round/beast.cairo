@@ -59,23 +59,6 @@ impl BeastImpl of BeastTrait {
         let game_mode_beast = GameModeBeastStore::get(world, game.id);
 
         _create_beast(world, game_id, game.level.try_into().unwrap());
-        // let (beast, beast_stats) = _create_beast(world, game_id, game.level.try_into().unwrap());
-        
-        // BeastStore::set(@beast, world);
-        // emit!(world, (beast));
-
-        // let erc721_dispatcher = IERC721SystemDispatcher { contract_address: NFT_ADDRESS_MAINNET() };
-        // let owner = erc721_dispatcher.get_owner(beast_stats);
-        // emit!(
-        //     world,
-        //     (BeastIsMintable {
-        //         player: get_caller_address(),
-        //         tier: beast_stats.tier,
-        //         level: beast_stats.level,
-        //         beast_id: beast_stats.beast_id,
-        //         is_mintable: owner.is_zero()
-        //     })
-        // );
 
         let player_beast = PlayerBeast { game_id, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);
@@ -336,7 +319,35 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
         attack: attack,
         type_beast: type_beast
     }, world);
-    // BeastStats { tier, level, beast_id: beast_id.try_into().unwrap() }
+
+    emit!(world, (Beast {
+        game_id: game_id,
+        beast_id: beast_id,
+        tier: tier,
+        level: level,
+        health: health,
+        current_health: health,
+        attack: attack,
+        type_beast: type_beast
+    },));
+
+    match type_beast {
+        TypeBeast::JOKERS_OF_NEON => {
+            let beast_stats = BeastStats { tier, level, beast_id: beast_id.try_into().unwrap() };
+            let erc721_dispatcher = IERC721SystemDispatcher { contract_address: NFT_ADDRESS_MAINNET() };
+            let owner = erc721_dispatcher.get_owner(beast_stats);
+            emit!(
+                world,
+                (BeastIsMintable {
+                    player: get_caller_address(),
+                    tier: beast_stats.tier,
+                    level: beast_stats.level,
+                    beast_id: beast_stats.beast_id,
+                    is_mintable: owner.is_zero()
+                },)
+            );
+        }, _ => {}
+    };
 }
 
 // tier, health, attack

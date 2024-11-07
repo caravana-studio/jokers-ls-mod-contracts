@@ -14,7 +14,7 @@ enum TypeBeast {
     JOKERS_OF_NEON
 }
 
-#[derive(Copy, Drop, IntrospectPacked, Serde)]
+#[derive(Copy, Drop, Serde)]
 #[dojo::event]
 #[dojo::model]
 struct Beast {
