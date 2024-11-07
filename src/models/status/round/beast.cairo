@@ -8,7 +8,7 @@ use jokers_of_neon::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemD
 use jokers_of_neon::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast, BeastStats
 };
-use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
+use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack, BeastIsMintable, BeastNFT};
 use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
 use jokers_of_neon::models::data::reward::RewardTrait;
 use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
@@ -118,6 +118,15 @@ impl BeastImpl of BeastTrait {
                     let owner = erc721_dispatcher.get_owner(beast_stats);
                     if owner.is_zero() {
                         erc721_dispatcher.safe_mint(get_caller_address(), beast_stats);
+                        
+                        let token_id = erc721_dispatcher.total_supply();
+                        emit!(world, (BeastNFT {
+                            player: get_caller_address(),
+                            tier: beast.tier,
+                            level: beast.level,
+                            beast_id: beast.beast_id.try_into().unwrap(),
+                            token_id: token_id.try_into().unwrap()
+                        }));
                     }
                 }
             }
@@ -294,6 +303,20 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     let beast = Beast { game_id, beast_id, tier, level, health, current_health: health, attack, type_beast };
     BeastStore::set(@beast, world);
     emit!(world, (beast));
+
+    let beast_stats = BeastStats {
+        tier: beast.tier, level: beast.level, beast_id: beast.beast_id.try_into().unwrap()
+    };
+    let erc721_dispatcher = IERC721SystemDispatcher { contract_address: NFT_ADDRESS_MAINNET() };
+    let owner = erc721_dispatcher.get_owner(beast_stats);
+    emit!(world, (BeastIsMintable {
+        player: get_caller_address(),
+        tier: beast.tier,
+        level: beast.level,
+        beast_id: beast.beast_id.try_into().unwrap(),
+        is_mintable: owner.is_zero()
+    }
+    ));
 }
 
 // tier, health, attack
