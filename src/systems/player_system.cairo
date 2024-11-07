@@ -1,13 +1,20 @@
 use jokers_of_neon::{
     models::{
-        data::{beast::{GameModeBeast, Beast, PlayerBeast}, challenge::{Challenge, ChallengePlayer}, reward::Reward,},
-        status::{game::game::Game, shop::shop::BlisterPackResult, round::current_hand_card::CurrentHandCard}
+        data::{
+            adventurer::AdventurerConsumed, beast::{GameModeBeast, Beast, PlayerBeast},
+            challenge::{Challenge, ChallengePlayer}, reward::Reward,
+        },
+        status::{
+            game::game::{Game, CurrentSpecialCards}, shop::shop::BlisterPackResult,
+            round::current_hand_card::CurrentHandCard
+        }
     }
 };
 
 #[dojo::interface]
 trait IPlayerSystem {
     fn get_game(world: @IWorldDispatcher, game_id: u32) -> Game;
+    fn get_adventurer(world: @IWorldDispatcher, adventurer_id: u32) -> AdventurerConsumed;
     fn get_player_current_hand(world: @IWorldDispatcher, game_id: u32) -> Array<CurrentHandCard>;
     fn get_game_mode_beast(world: @IWorldDispatcher, game_id: u32) -> GameModeBeast;
     fn get_beast(world: @IWorldDispatcher, game_id: u32) -> Beast;
@@ -16,6 +23,7 @@ trait IPlayerSystem {
     fn get_challenge_player(world: @IWorldDispatcher, game_id: u32) -> ChallengePlayer;
     fn get_reward(world: @IWorldDispatcher, game_id: u32) -> Reward;
     fn get_blister_pack_result(world: @IWorldDispatcher, game_id: u32) -> BlisterPackResult;
+    fn get_current_special_cards(world: @IWorldDispatcher, game_id: u32) -> Array<CurrentSpecialCards>;
 }
 
 #[dojo::contract]
@@ -23,12 +31,13 @@ mod player_system {
     use jokers_of_neon::{
         models::{
             data::{
+                adventurer::{AdventurerConsumed, AdventurerConsumedStore},
                 beast::{Beast, BeastStore, GameModeBeast, GameModeBeastStore, PlayerBeast, PlayerBeastStore},
                 challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore},
                 reward::{Reward, RewardStore},
             },
             status::{
-                game::game::{Game, GameStore}, shop::shop::{BlisterPackResult, BlisterPackResultStore},
+                game::game::{Game, GameStore, CurrentSpecialCards, CurrentSpecialCardsStore}, shop::shop::{BlisterPackResult, BlisterPackResultStore},
                 round::current_hand_card::{CurrentHandCard, CurrentHandCardStore}
             }
         }
@@ -38,6 +47,10 @@ mod player_system {
     impl PokerHandSystem of super::IPlayerSystem<ContractState> {
         fn get_game(world: @IWorldDispatcher, game_id: u32) -> Game {
             GameStore::get(world, game_id)
+        }
+
+        fn get_adventurer(world: @IWorldDispatcher, adventurer_id: u32) -> AdventurerConsumed {
+            AdventurerConsumedStore::get(world, adventurer_id)
         }
 
         fn get_player_current_hand(world: @IWorldDispatcher, game_id: u32) -> Array<CurrentHandCard> {
@@ -81,6 +94,21 @@ mod player_system {
 
         fn get_blister_pack_result(world: @IWorldDispatcher, game_id: u32) -> BlisterPackResult {
             BlisterPackResultStore::get(world, game_id)
+        }
+
+        fn get_current_special_cards(world: @IWorldDispatcher, game_id: u32) -> Array<CurrentSpecialCards> {
+            let mut special_cards = array![];
+            let game = GameStore::get(world, game_id);
+
+            let mut i = 0;
+            loop {
+                if i == game.len_current_special_cards {
+                    break;
+                }
+                special_cards.append(CurrentSpecialCardsStore::get(world, game_id, i));
+                i += 1;
+            };
+            special_cards
         }
     }
 }
