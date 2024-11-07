@@ -300,3 +300,27 @@ struct ObstacleAttack {
     player: ContractAddress,
     attack: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct BeastIsMintable {
+    #[key]
+    player: ContractAddress,
+    tier: u8,
+    level: u8,
+    beast_id: u8,
+    is_mintable: bool
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct BeastNFT {
+    #[key]
+    player: ContractAddress,
+    tier: u8,
+    level: u8,
+    beast_id: u8,
+    token_id: u32
+}
