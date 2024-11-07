@@ -1,4 +1,4 @@
-use jokers_of_neon::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 #[dojo::model]

@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x17ca1fc5cb6d572535dd00b59e72503f9fdcd4e4dff5fadc19d43bbe6042d7b"
+original_class_hash = "0x17ca1fc5cb6d572535dd00b59e72503f9fdcd4e4dff5fadc19d43bbe6042d7b"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-ObstacleAttack-48ba594b.json"
+tag = "jokers_ls_mod-ObstacleAttack"
+qualified_path = "jokers_ls_mod::models::data::events::obstacle_attack"
+manifest_name = "jokers_ls_mod-ObstacleAttack-48ba594b"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "attack"
+type = "u32"
+key = false

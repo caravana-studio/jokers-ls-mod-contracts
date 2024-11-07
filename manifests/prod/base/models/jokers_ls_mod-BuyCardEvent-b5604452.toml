@@ -1,0 +1,37 @@
+kind = "DojoModel"
+class_hash = "0x4f7aa0ce51c3fb71f57ad52b007be80c9aab90a8dab77cf1f54c076ea7d59ba"
+original_class_hash = "0x4f7aa0ce51c3fb71f57ad52b007be80c9aab90a8dab77cf1f54c076ea7d59ba"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BuyCardEvent-b5604452.json"
+tag = "jokers_ls_mod-BuyCardEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_card_event"
+manifest_name = "jokers_ls_mod-BuyCardEvent-b5604452"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "level"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "item_type"
+type = "CardItemType"
+key = true
+
+[[members]]
+name = "card_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "temporary"
+type = "bool"
+key = false

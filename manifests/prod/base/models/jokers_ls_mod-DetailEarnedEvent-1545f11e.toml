@@ -1,0 +1,62 @@
+kind = "DojoModel"
+class_hash = "0x413a71df99e8eff4b5efdb79b4f833c5e86e217e7ded9ebf8d21178a8f13aa4"
+original_class_hash = "0x413a71df99e8eff4b5efdb79b4f833c5e86e217e7ded9ebf8d21178a8f13aa4"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-DetailEarnedEvent-1545f11e.json"
+tag = "jokers_ls_mod-DetailEarnedEvent"
+qualified_path = "jokers_ls_mod::models::data::events::detail_earned_event"
+manifest_name = "jokers_ls_mod-DetailEarnedEvent-1545f11e"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "round_defeat"
+type = "u32"
+key = false
+
+[[members]]
+name = "level_bonus"
+type = "u32"
+key = false
+
+[[members]]
+name = "hands_left"
+type = "u32"
+key = false
+
+[[members]]
+name = "hands_left_cash"
+type = "u32"
+key = false
+
+[[members]]
+name = "discard_left"
+type = "u32"
+key = false
+
+[[members]]
+name = "discard_left_cash"
+type = "u32"
+key = false
+
+[[members]]
+name = "rage_card_defeated"
+type = "u32"
+key = false
+
+[[members]]
+name = "rage_card_defeated_cash"
+type = "u32"
+key = false
+
+[[members]]
+name = "total"
+type = "u32"
+key = false

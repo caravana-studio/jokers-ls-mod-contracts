@@ -1,6 +1,6 @@
 [package]
 cairo-version = "=2.7.0"
-name = "jokers_of_neon"
+name = "jokers_ls_mod"
 version = "0.0.1"
 
 [cairo]

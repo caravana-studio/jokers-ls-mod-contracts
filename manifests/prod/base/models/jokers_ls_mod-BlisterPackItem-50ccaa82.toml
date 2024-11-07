@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x306f85e9e0bf2e8a94bf938a5ee63c9c5cbba981f86c303188f40e07669fd9e"
+original_class_hash = "0x306f85e9e0bf2e8a94bf938a5ee63c9c5cbba981f86c303188f40e07669fd9e"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BlisterPackItem-50ccaa82.json"
+tag = "jokers_ls_mod-BlisterPackItem"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::blister_pack_item"
+manifest_name = "jokers_ls_mod-BlisterPackItem-50ccaa82"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "blister_pack_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "cost"
+type = "u32"
+key = false
+
+[[members]]
+name = "purchased"
+type = "bool"
+key = false

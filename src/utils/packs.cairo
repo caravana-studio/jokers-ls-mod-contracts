@@ -1,13 +1,13 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
-use jokers_of_neon::constants::specials::{SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID};
-use jokers_of_neon::models::data::beast::{GameModeBeast, GameModeBeastStore};
-use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
-use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards, CurrentSpecialCardsStore, GameState};
-use jokers_of_neon::store::{Store, StoreTrait};
-use jokers_of_neon::utils::constants::{is_special_card, is_modifier_card};
-use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
-use jokers_of_neon::utils::shop::{get_current_special_cards, item_in_array};
+use jokers_ls_mod::constants::card::{JOKER_CARD, NEON_JOKER_CARD};
+use jokers_ls_mod::constants::specials::{SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID};
+use jokers_ls_mod::models::data::beast::{GameModeBeast, GameModeBeastStore};
+use jokers_ls_mod::models::data::game_deck::{GameDeckStore, GameDeckImpl};
+use jokers_ls_mod::models::status::game::game::{Game, CurrentSpecialCards, CurrentSpecialCardsStore, GameState};
+use jokers_ls_mod::store::{Store, StoreTrait};
+use jokers_ls_mod::utils::constants::{is_special_card, is_modifier_card};
+use jokers_ls_mod::utils::random::{Random, RandomImpl, RandomTrait};
+use jokers_ls_mod::utils::shop::{get_current_special_cards, item_in_array};
 
 fn open_blister_pack(world: IWorldDispatcher, ref store: Store, game: Game, blister_pack_id: u32) -> Span<u32> {
     let mut ret = array![];

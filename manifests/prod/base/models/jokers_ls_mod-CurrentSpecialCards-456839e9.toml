@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x5a9e87f2a7b4b144057e58a51047e235ddf468b175b5d0be412396c4b779907"
+original_class_hash = "0x5a9e87f2a7b4b144057e58a51047e235ddf468b175b5d0be412396c4b779907"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-CurrentSpecialCards-456839e9.json"
+tag = "jokers_ls_mod-CurrentSpecialCards"
+qualified_path = "jokers_ls_mod::models::status::game::game::current_special_cards"
+manifest_name = "jokers_ls_mod-CurrentSpecialCards-456839e9"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "effect_card_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "is_temporary"
+type = "bool"
+key = false
+
+[[members]]
+name = "remaining"
+type = "u32"
+key = false

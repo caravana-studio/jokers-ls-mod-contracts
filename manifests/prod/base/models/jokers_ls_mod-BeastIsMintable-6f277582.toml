@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x7f409401d94b3ddb61c2206606d1d531de5d6eab61dd87230955292a98b5240"
+original_class_hash = "0x7f409401d94b3ddb61c2206606d1d531de5d6eab61dd87230955292a98b5240"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BeastIsMintable-6f277582.json"
+tag = "jokers_ls_mod-BeastIsMintable"
+qualified_path = "jokers_ls_mod::models::data::events::beast_is_mintable"
+manifest_name = "jokers_ls_mod-BeastIsMintable-6f277582"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "tier"
+type = "u8"
+key = false
+
+[[members]]
+name = "level"
+type = "u8"
+key = false
+
+[[members]]
+name = "beast_id"
+type = "u8"
+key = false
+
+[[members]]
+name = "is_mintable"
+type = "bool"
+key = false

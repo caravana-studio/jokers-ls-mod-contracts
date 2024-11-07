@@ -1,5 +1,5 @@
 use dojo::world::{IWorld, IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::{
+use jokers_ls_mod::constants::{
     card::INVALID_CARD,
     challenge::{
         CHALLENGE_ROYAL_FLUSH, CHALLENGE_STRAIGHT_FLUSH, CHALLENGE_FIVE_OF_A_KIND, CHALLENGE_FOUR_OF_A_KIND,
@@ -12,14 +12,14 @@ use jokers_of_neon::constants::{
     specials::SPECIAL_ALL_CARDS_TO_HEARTS_ID,
 };
 
-use jokers_of_neon::{
+use jokers_ls_mod::{
     models::{
         data::{
             challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore}, card::{Card, Suit, Value},
             game_deck::{GameDeckStore, GameDeckImpl},
             events::{
                 ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
-                SpecialModifierSuitEvent, ObstacleAttack
+                SpecialModifierSuitEvent, ObstacleAttack, ObstacleHandScore
             },
             poker_hand::PokerHand, reward::RewardTrait
         },
@@ -78,6 +78,8 @@ impl ChallengeImpl of ChallengeTrait {
         );
         let (result_hand, mut hit_cards) = calculate_hand(@cards, ref current_special_cards_index);
         let hand_score = calculate_hand_score(world, ref game, @cards_index, @modifiers_index);
+
+        emit!(world, (ObstacleHandScore { player: get_caller_address(), hand_score }));
 
         let mut challenge = ChallengeStore::get(world, game_id);
         _resolve_challenges(world, ref challenge, result_hand, ref hit_cards, @cards, hand_score);

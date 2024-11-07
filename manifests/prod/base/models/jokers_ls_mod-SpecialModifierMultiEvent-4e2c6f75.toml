@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x6884397cf0a66538a711fdb4442183c83f5eee3fd89de746d61e09cd6ed2701"
+original_class_hash = "0x6884397cf0a66538a711fdb4442183c83f5eee3fd89de746d61e09cd6ed2701"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-SpecialModifierMultiEvent-4e2c6f75.json"
+tag = "jokers_ls_mod-SpecialModifierMultiEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_multi_event"
+manifest_name = "jokers_ls_mod-SpecialModifierMultiEvent-4e2c6f75"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_hand_card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "multi"
+type = "u32"
+key = false

@@ -1,13 +1,13 @@
 use core::num::traits::{Sqrt};
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
-use jokers_of_neon::interfaces::loot_survivor::{
+use jokers_ls_mod::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
+use jokers_ls_mod::interfaces::loot_survivor::{
     ILootSurvivorSystemDispatcher, ILootSurvivorSystemDispatcherTrait, Adventurer
 };
-use jokers_of_neon::models::data::adventurer::{AdventurerConsumed, AdventurerConsumedStore};
+use jokers_ls_mod::models::data::adventurer::{AdventurerConsumed, AdventurerConsumedStore};
 
-use jokers_of_neon::models::status::game::game::Game;
-use jokers_of_neon::utils::adventurer::{is_mainnet, ADVENTURER_ADDRESS_MAINNET};
+use jokers_ls_mod::models::status::game::game::Game;
+use jokers_ls_mod::utils::adventurer::{is_mainnet, ADVENTURER_ADDRESS_MAINNET};
 use starknet::{ContractAddress, get_caller_address, get_tx_info};
 
 mod errors {

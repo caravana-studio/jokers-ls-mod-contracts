@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x59fda2b34c90b3d6d46a625ef0f49170d151b31b7c4d988b541c4392ed83050"
+original_class_hash = "0x59fda2b34c90b3d6d46a625ef0f49170d151b31b7c4d988b541c4392ed83050"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-SpecialCashEvent-64f53895.json"
+tag = "jokers_ls_mod-SpecialCashEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_cash_event"
+manifest_name = "jokers_ls_mod-SpecialCashEvent-64f53895"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "cash"
+type = "u32"
+key = false
+
+[[members]]
+name = "card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "special_idx"
+type = "u32"
+key = false

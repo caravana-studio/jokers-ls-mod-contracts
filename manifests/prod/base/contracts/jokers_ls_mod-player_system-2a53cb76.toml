@@ -1,0 +1,11 @@
+kind = "DojoContract"
+class_hash = "0x6f1b31f46da7545be8f0b1ba8cb84836d4e7369b9021f7d30205ccf1dc053e1"
+original_class_hash = "0x6f1b31f46da7545be8f0b1ba8cb84836d4e7369b9021f7d30205ccf1dc053e1"
+base_class_hash = "0x0"
+abi = "manifests/prod/base/abis/contracts/jokers_ls_mod-player_system-2a53cb76.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "jokers_ls_mod-player_system"
+systems = []
+manifest_name = "jokers_ls_mod-player_system-2a53cb76"

@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x71ddc1d7255c582ef119cc88ff9afd37d1f535cd9dd6511434a561b17e1bb7c"
+original_class_hash = "0x71ddc1d7255c582ef119cc88ff9afd37d1f535cd9dd6511434a561b17e1bb7c"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-CreateGameEvent-2ef780da.json"
+tag = "jokers_ls_mod-CreateGameEvent"
+qualified_path = "jokers_ls_mod::models::data::events::create_game_event"
+manifest_name = "jokers_ls_mod-CreateGameEvent-2ef780da"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false

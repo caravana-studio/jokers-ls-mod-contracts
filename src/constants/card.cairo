@@ -1,4 +1,4 @@
-use jokers_of_neon::models::data::card::{Card, Suit, Value};
+use jokers_ls_mod::models::data::card::{Card, Suit, Value};
 
 // Traditional cards
 const TWO_CLUBS_ID: u32 = 0;

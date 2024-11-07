@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x78c4d42a765aa2c737c93ef082426d70fab025b2fbc03b6f6b2eb50e2d1af54"
+original_class_hash = "0x78c4d42a765aa2c737c93ef082426d70fab025b2fbc03b6f6b2eb50e2d1af54"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-GameModeBeast-485495a6.json"
+tag = "jokers_ls_mod-GameModeBeast"
+qualified_path = "jokers_ls_mod::models::data::beast::game_mode_beast"
+manifest_name = "jokers_ls_mod-GameModeBeast-485495a6"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "cost_discard"
+type = "u8"
+key = false
+
+[[members]]
+name = "cost_play"
+type = "u8"
+key = false
+
+[[members]]
+name = "energy_max_player"
+type = "u8"
+key = false

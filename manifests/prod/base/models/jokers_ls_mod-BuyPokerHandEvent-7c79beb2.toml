@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x27136701b501b92e283d084ecba6cf677ac183dc0677447b073e9bb635c16e7"
+original_class_hash = "0x27136701b501b92e283d084ecba6cf677ac183dc0677447b073e9bb635c16e7"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BuyPokerHandEvent-7c79beb2.json"
+tag = "jokers_ls_mod-BuyPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_poker_hand_event"
+manifest_name = "jokers_ls_mod-BuyPokerHandEvent-7c79beb2"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "level"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "poker_hand"
+type = "PokerHand"
+key = false
+
+[[members]]
+name = "level_hand"
+type = "u8"
+key = false

@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x53f759a72cef3a4c3beff4f9c1ed96ccaa44d3493d431a9acb46f16538eb7bd"
+original_class_hash = "0x53f759a72cef3a4c3beff4f9c1ed96ccaa44d3493d431a9acb46f16538eb7bd"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-ChallengeCompleted-7aa80550.json"
+tag = "jokers_ls_mod-ChallengeCompleted"
+qualified_path = "jokers_ls_mod::models::data::events::challenge_completed"
+manifest_name = "jokers_ls_mod-ChallengeCompleted-7aa80550"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "player_name"
+type = "felt252"
+key = false
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false

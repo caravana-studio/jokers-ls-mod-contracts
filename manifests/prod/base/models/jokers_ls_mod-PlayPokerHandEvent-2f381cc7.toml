@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x195cb3b368f9e350ae410171d8609dbfc740416d0379c91a2b2354195462116"
+original_class_hash = "0x195cb3b368f9e350ae410171d8609dbfc740416d0379c91a2b2354195462116"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-PlayPokerHandEvent-2f381cc7.json"
+tag = "jokers_ls_mod-PlayPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_poker_hand_event"
+manifest_name = "jokers_ls_mod-PlayPokerHandEvent-2f381cc7"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "level"
+type = "u32"
+key = true
+
+[[members]]
+name = "count_hand"
+type = "u8"
+key = true
+
+[[members]]
+name = "poker_hand"
+type = "PokerHand"
+key = false

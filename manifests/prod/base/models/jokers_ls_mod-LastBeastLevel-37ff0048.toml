@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x65edc2f17b255546d60d3db2c8303e6aec5c374eb931d9de93e53c6395f8345"
+original_class_hash = "0x65edc2f17b255546d60d3db2c8303e6aec5c374eb931d9de93e53c6395f8345"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-LastBeastLevel-37ff0048.json"
+tag = "jokers_ls_mod-LastBeastLevel"
+qualified_path = "jokers_ls_mod::models::data::last_beast_level::last_beast_level"
+manifest_name = "jokers_ls_mod-LastBeastLevel-37ff0048"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "current_probability"
+type = "u16"
+key = false
+
+[[members]]
+name = "level"
+type = "u8"
+key = false

@@ -1,0 +1,4 @@
+tag = "jokers_ls_mod-player_system"
+writes = [
+    "ns:jokers_ls_mod"
+]

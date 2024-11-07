@@ -1,4 +1,4 @@
-use jokers_of_neon::models::data::poker_hand::LevelPokerHand;
+use jokers_ls_mod::models::data::poker_hand::LevelPokerHand;
 
 #[dojo::interface]
 trait IPokerHandSystem {
@@ -7,9 +7,9 @@ trait IPokerHandSystem {
 
 #[dojo::contract]
 mod poker_hand_system {
-    use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
-    use jokers_of_neon::store::StoreTrait;
-    use jokers_of_neon::utils::constants::poker_hands_all;
+    use jokers_ls_mod::models::data::poker_hand::{LevelPokerHand, PokerHand};
+    use jokers_ls_mod::store::StoreTrait;
+    use jokers_ls_mod::utils::constants::poker_hands_all;
 
     #[abi(embed_v0)]
     impl PokerHandSystem of super::IPokerHandSystem<ContractState> {

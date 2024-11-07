@@ -955,7 +955,7 @@ const TWO_POW_255: u256 = 0x8000000000000000000000000000000000000000000000000000
 
 #[cfg(test)]
 mod tests {
-    use jokers_of_neon::constants::two_pow::{
+    use jokers_ls_mod::constants::two_pow::{
         two_pow, TWO_POW_8, TWO_POW_16, TWO_POW_24, TWO_POW_32, TWO_POW_40, TWO_POW_48, TWO_POW_56, TWO_POW_64,
         TWO_POW_72, TWO_POW_80, TWO_POW_88, TWO_POW_96, TWO_POW_104, TWO_POW_112, TWO_POW_120, TWO_POW_128, TWO_POW_136,
         TWO_POW_144, TWO_POW_152, TWO_POW_160, TWO_POW_168, TWO_POW_176, TWO_POW_184, TWO_POW_192, TWO_POW_200,

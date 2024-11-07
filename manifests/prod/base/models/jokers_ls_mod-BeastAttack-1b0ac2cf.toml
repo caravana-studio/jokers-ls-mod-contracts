@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x79b3b6389134768ccf7a567df166588340eb446c307b3e5a01f309193a0ee8b"
+original_class_hash = "0x79b3b6389134768ccf7a567df166588340eb446c307b3e5a01f309193a0ee8b"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BeastAttack-1b0ac2cf.json"
+tag = "jokers_ls_mod-BeastAttack"
+qualified_path = "jokers_ls_mod::models::data::events::beast_attack"
+manifest_name = "jokers_ls_mod-BeastAttack-1b0ac2cf"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "attack"
+type = "u32"
+key = false

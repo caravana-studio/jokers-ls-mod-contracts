@@ -1,6 +1,6 @@
-use jokers_of_neon::models::data::card::Suit;
-use jokers_of_neon::models::data::effect_card::Effect;
-use jokers_of_neon::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::models::data::card::Suit;
+use jokers_ls_mod::models::data::effect_card::Effect;
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
 
 const SPECIAL_MULTI_FOR_HEARTS_EFFECT_ID: u32 = 1;
 const SPECIAL_MULTI_FOR_DIAMONDS_EFFECT_ID: u32 = 2;

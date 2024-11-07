@@ -1,0 +1,27 @@
+kind = "DojoContract"
+class_hash = "0x7bb0dd12b6d8f22c626ff0fc3c559d747e2d900f81ddfef6a2b0fe1d618ee20"
+original_class_hash = "0x7bb0dd12b6d8f22c626ff0fc3c559d747e2d900f81ddfef6a2b0fe1d618ee20"
+base_class_hash = "0x0"
+abi = "manifests/prod/base/abis/contracts/jokers_ls_mod-game_system-5f7fc91f.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "jokers_ls_mod-game_system"
+systems = [
+    "create_level",
+    "play",
+    "discard",
+    "end_turn",
+    "create_reward",
+    "select_reward",
+    "select_deck",
+    "use_adventurer",
+    "skip_adventurer",
+    "select_aventurer_cards",
+    "select_special_cards",
+    "select_modifier_cards",
+    "skip_unpassed_obstacle",
+    "discard_effect_card",
+    "discard_special_card",
+]
+manifest_name = "jokers_ls_mod-game_system-5f7fc91f"

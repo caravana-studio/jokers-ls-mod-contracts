@@ -1,0 +1,1493 @@
+[world]
+kind = "WorldContract"
+class_hash = "0x6f38d5d9507c5d9546290e1a27e309efe5a9af3770b6cc1627db4a1b90a7dce"
+original_class_hash = "0x6f38d5d9507c5d9546290e1a27e309efe5a9af3770b6cc1627db4a1b90a7dce"
+abi = "manifests/prod/deployment/abis/dojo-world.json"
+address = "0x2c5dab047c12c6f4eb49debee9398b9fb5fab5d60d5a86fbd150f19997109d6"
+transaction_hash = "0x2bbc8436fe5258c5bf7b7649c8cfa8011c38c836255c3ae35630d8197f21cc1"
+seed = "jokers_ls_mod"
+manifest_name = "dojo-world"
+
+[world.metadata]
+profile_name = "prod"
+rpc_url = "https://api.cartridge.gg/x/starknet/mainnet"
+
+[base]
+kind = "Class"
+class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+original_class_hash = "0x2427dd10a58850ac9a5ca6ce04b7771b05330fd18f2e481831ad903b969e6b2"
+abi = "manifests/prod/deployment/abis/dojo-base.json"
+tag = "dojo-base"
+manifest_name = "dojo-base"
+
+[[contracts]]
+kind = "DojoContract"
+class_hash = "0x7bb0dd12b6d8f22c626ff0fc3c559d747e2d900f81ddfef6a2b0fe1d618ee20"
+original_class_hash = "0x7bb0dd12b6d8f22c626ff0fc3c559d747e2d900f81ddfef6a2b0fe1d618ee20"
+base_class_hash = "0x0"
+abi = "manifests/prod/deployment/abis/contracts/jokers_ls_mod-game_system-5f7fc91f.json"
+reads = []
+writes = ["ns:jokers_ls_mod"]
+init_calldata = []
+tag = "jokers_ls_mod-game_system"
+systems = [
+    "create_level",
+    "play",
+    "discard",
+    "end_turn",
+    "create_reward",
+    "select_reward",
+    "select_deck",
+    "use_adventurer",
+    "skip_adventurer",
+    "select_aventurer_cards",
+    "select_special_cards",
+    "select_modifier_cards",
+    "skip_unpassed_obstacle",
+    "discard_effect_card",
+    "discard_special_card",
+]
+manifest_name = "jokers_ls_mod-game_system-5f7fc91f"
+
+[[contracts]]
+kind = "DojoContract"
+class_hash = "0x6f1b31f46da7545be8f0b1ba8cb84836d4e7369b9021f7d30205ccf1dc053e1"
+original_class_hash = "0x6f1b31f46da7545be8f0b1ba8cb84836d4e7369b9021f7d30205ccf1dc053e1"
+base_class_hash = "0x0"
+abi = "manifests/prod/deployment/abis/contracts/jokers_ls_mod-player_system-2a53cb76.json"
+reads = []
+writes = ["ns:jokers_ls_mod"]
+init_calldata = []
+tag = "jokers_ls_mod-player_system"
+systems = []
+manifest_name = "jokers_ls_mod-player_system-2a53cb76"
+
+[[contracts]]
+kind = "DojoContract"
+class_hash = "0x2ef4e6561d794801c4881af414ce81466ba116a3f962193912198971043cf46"
+original_class_hash = "0x2ef4e6561d794801c4881af414ce81466ba116a3f962193912198971043cf46"
+base_class_hash = "0x0"
+abi = "manifests/prod/deployment/abis/contracts/jokers_ls_mod-poker_hand_system-42b29f2d.json"
+reads = []
+writes = ["ns:jokers_ls_mod"]
+init_calldata = []
+tag = "jokers_ls_mod-poker_hand_system"
+systems = []
+manifest_name = "jokers_ls_mod-poker_hand_system-42b29f2d"
+
+[[contracts]]
+kind = "DojoContract"
+class_hash = "0x1dc17a707e202cdca89be28feb97105a4a303e97be760e2374a9efd9f6b5b51"
+original_class_hash = "0x1dc17a707e202cdca89be28feb97105a4a303e97be760e2374a9efd9f6b5b51"
+base_class_hash = "0x0"
+abi = "manifests/prod/deployment/abis/contracts/jokers_ls_mod-rage_system-1b5f5049.json"
+reads = []
+writes = ["ns:jokers_ls_mod"]
+init_calldata = []
+tag = "jokers_ls_mod-rage_system"
+systems = ["calculate"]
+manifest_name = "jokers_ls_mod-rage_system-1b5f5049"
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1b743b0bcd9a9c515effd38b3faa77a1cd51aca400f27a38d4b8738b28de7b6"
+original_class_hash = "0x1b743b0bcd9a9c515effd38b3faa77a1cd51aca400f27a38d4b8738b28de7b6"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-AdventurerConsumed-f2e33c1c.json"
+tag = "jokers_ls_mod-AdventurerConsumed"
+qualified_path = "jokers_ls_mod::models::data::adventurer::adventurer_consumed"
+manifest_name = "jokers_ls_mod-AdventurerConsumed-f2e33c1c"
+
+[[models.members]]
+name = "adventurer_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "consumed"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x399007aacf575adf49227dd511af139ccbaf36c3fdee10210c6add0c714e322"
+original_class_hash = "0x399007aacf575adf49227dd511af139ccbaf36c3fdee10210c6add0c714e322"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-Beast-44ab404a.json"
+tag = "jokers_ls_mod-Beast"
+qualified_path = "jokers_ls_mod::models::data::beast::beast"
+manifest_name = "jokers_ls_mod-Beast-44ab404a"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "beast_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "tier"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "level"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "health"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_health"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "attack"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "type_beast"
+type = "TypeBeast"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x79b3b6389134768ccf7a567df166588340eb446c307b3e5a01f309193a0ee8b"
+original_class_hash = "0x79b3b6389134768ccf7a567df166588340eb446c307b3e5a01f309193a0ee8b"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BeastAttack-1b0ac2cf.json"
+tag = "jokers_ls_mod-BeastAttack"
+qualified_path = "jokers_ls_mod::models::data::events::beast_attack"
+manifest_name = "jokers_ls_mod-BeastAttack-1b0ac2cf"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "attack"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7f409401d94b3ddb61c2206606d1d531de5d6eab61dd87230955292a98b5240"
+original_class_hash = "0x7f409401d94b3ddb61c2206606d1d531de5d6eab61dd87230955292a98b5240"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BeastIsMintable-6f277582.json"
+tag = "jokers_ls_mod-BeastIsMintable"
+qualified_path = "jokers_ls_mod::models::data::events::beast_is_mintable"
+manifest_name = "jokers_ls_mod-BeastIsMintable-6f277582"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "tier"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "level"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "beast_id"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "is_mintable"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x66246017c0041055c713ffceabdc27b5ff7e09fcbb5056476165adb0895529d"
+original_class_hash = "0x66246017c0041055c713ffceabdc27b5ff7e09fcbb5056476165adb0895529d"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BeastNFT-60ea427e.json"
+tag = "jokers_ls_mod-BeastNFT"
+qualified_path = "jokers_ls_mod::models::data::events::beast_nft"
+manifest_name = "jokers_ls_mod-BeastNFT-60ea427e"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "tier"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "level"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "beast_id"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "token_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x306f85e9e0bf2e8a94bf938a5ee63c9c5cbba981f86c303188f40e07669fd9e"
+original_class_hash = "0x306f85e9e0bf2e8a94bf938a5ee63c9c5cbba981f86c303188f40e07669fd9e"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BlisterPackItem-50ccaa82.json"
+tag = "jokers_ls_mod-BlisterPackItem"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::blister_pack_item"
+manifest_name = "jokers_ls_mod-BlisterPackItem-50ccaa82"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "blister_pack_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "cost"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "purchased"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x50bcfaad20a5d5024ceab9327ebb6ea203c6bd8835026b194930a813a0cde43"
+original_class_hash = "0x50bcfaad20a5d5024ceab9327ebb6ea203c6bd8835026b194930a813a0cde43"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BlisterPackResult-aaa11a07.json"
+tag = "jokers_ls_mod-BlisterPackResult"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::blister_pack_result"
+manifest_name = "jokers_ls_mod-BlisterPackResult-aaa11a07"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "cards_picked"
+type = "bool"
+key = false
+
+[[models.members]]
+name = "cards"
+type = "Span<u32>"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1d1db5fe314b7f28b9f50c457dcfdda7f8b48064ef3be0bde827272a90c2bcc"
+original_class_hash = "0x1d1db5fe314b7f28b9f50c457dcfdda7f8b48064ef3be0bde827272a90c2bcc"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BuyBlisterPackEvent-5cfb00bb.json"
+tag = "jokers_ls_mod-BuyBlisterPackEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_blister_pack_event"
+manifest_name = "jokers_ls_mod-BuyBlisterPackEvent-5cfb00bb"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "blister_pack_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x4f7aa0ce51c3fb71f57ad52b007be80c9aab90a8dab77cf1f54c076ea7d59ba"
+original_class_hash = "0x4f7aa0ce51c3fb71f57ad52b007be80c9aab90a8dab77cf1f54c076ea7d59ba"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BuyCardEvent-b5604452.json"
+tag = "jokers_ls_mod-BuyCardEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_card_event"
+manifest_name = "jokers_ls_mod-BuyCardEvent-b5604452"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "item_type"
+type = "CardItemType"
+key = true
+
+[[models.members]]
+name = "card_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "temporary"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x27136701b501b92e283d084ecba6cf677ac183dc0677447b073e9bb635c16e7"
+original_class_hash = "0x27136701b501b92e283d084ecba6cf677ac183dc0677447b073e9bb635c16e7"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BuyPokerHandEvent-7c79beb2.json"
+tag = "jokers_ls_mod-BuyPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_poker_hand_event"
+manifest_name = "jokers_ls_mod-BuyPokerHandEvent-7c79beb2"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "poker_hand"
+type = "PokerHand"
+key = false
+
+[[models.members]]
+name = "level_hand"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2091c1b2908669b8538ffd2267c77294a586bf04d15a13a2afb70711e943f23"
+original_class_hash = "0x2091c1b2908669b8538ffd2267c77294a586bf04d15a13a2afb70711e943f23"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-BuyRerollEvent-5069b7ca.json"
+tag = "jokers_ls_mod-BuyRerollEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_reroll_event"
+manifest_name = "jokers_ls_mod-BuyRerollEvent-5069b7ca"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "reroll_cost"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "reroll_executed"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x6a5804b7b816ea729026f2d51649d9acac6ef8660396857927a8a3a482c3164"
+original_class_hash = "0x6a5804b7b816ea729026f2d51649d9acac6ef8660396857927a8a3a482c3164"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-CardItem-1e2a6fe9.json"
+tag = "jokers_ls_mod-CardItem"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::card_item"
+manifest_name = "jokers_ls_mod-CardItem-1e2a6fe9"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "item_type"
+type = "CardItemType"
+key = true
+
+[[models.members]]
+name = "card_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "cost"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "purchased"
+type = "bool"
+key = false
+
+[[models.members]]
+name = "temporary"
+type = "bool"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x35ed4fec0c9b80b1beca1b9eef0663f18d8b97c34f47fab698dd09e84841c4"
+original_class_hash = "0x35ed4fec0c9b80b1beca1b9eef0663f18d8b97c34f47fab698dd09e84841c4"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-CardScoreEvent-6cfeceaa.json"
+tag = "jokers_ls_mod-CardScoreEvent"
+qualified_path = "jokers_ls_mod::models::data::events::card_score_event"
+manifest_name = "jokers_ls_mod-CardScoreEvent-6cfeceaa"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "index"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x165171ffc98aa184506cbb942059506140909f6f1071c23496693b652d8cac3"
+original_class_hash = "0x165171ffc98aa184506cbb942059506140909f6f1071c23496693b652d8cac3"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-Challenge-5bac0afb.json"
+tag = "jokers_ls_mod-Challenge"
+qualified_path = "jokers_ls_mod::models::data::challenge::challenge"
+manifest_name = "jokers_ls_mod-Challenge-5bac0afb"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "active_ids"
+type = "Span<(u32, bool)>"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x53f759a72cef3a4c3beff4f9c1ed96ccaa44d3493d431a9acb46f16538eb7bd"
+original_class_hash = "0x53f759a72cef3a4c3beff4f9c1ed96ccaa44d3493d431a9acb46f16538eb7bd"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-ChallengeCompleted-7aa80550.json"
+tag = "jokers_ls_mod-ChallengeCompleted"
+qualified_path = "jokers_ls_mod::models::data::events::challenge_completed"
+manifest_name = "jokers_ls_mod-ChallengeCompleted-7aa80550"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "player_name"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0xcde89947ebd6d7da058a1ddeb0ec0cb912f3493b794ecaa823c66ef969e7ae"
+original_class_hash = "0xcde89947ebd6d7da058a1ddeb0ec0cb912f3493b794ecaa823c66ef969e7ae"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-ChallengePlayer-1be1b055.json"
+tag = "jokers_ls_mod-ChallengePlayer"
+qualified_path = "jokers_ls_mod::models::data::challenge::challenge_player"
+manifest_name = "jokers_ls_mod-ChallengePlayer-1be1b055"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "discards"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "plays"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x71ddc1d7255c582ef119cc88ff9afd37d1f535cd9dd6511434a561b17e1bb7c"
+original_class_hash = "0x71ddc1d7255c582ef119cc88ff9afd37d1f535cd9dd6511434a561b17e1bb7c"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-CreateGameEvent-2ef780da.json"
+tag = "jokers_ls_mod-CreateGameEvent"
+qualified_path = "jokers_ls_mod::models::data::events::create_game_event"
+manifest_name = "jokers_ls_mod-CreateGameEvent-2ef780da"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x11154390ee059a6a5d34906e2cbc6154ce9721f3b55497e6952cd471d1a804f"
+original_class_hash = "0x11154390ee059a6a5d34906e2cbc6154ce9721f3b55497e6952cd471d1a804f"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-CurrentHandCard-ef024742.json"
+tag = "jokers_ls_mod-CurrentHandCard"
+qualified_path = "jokers_ls_mod::models::status::round::current_hand_card::current_hand_card"
+manifest_name = "jokers_ls_mod-CurrentHandCard-ef024742"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "card_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5a9e87f2a7b4b144057e58a51047e235ddf468b175b5d0be412396c4b779907"
+original_class_hash = "0x5a9e87f2a7b4b144057e58a51047e235ddf468b175b5d0be412396c4b779907"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-CurrentSpecialCards-456839e9.json"
+tag = "jokers_ls_mod-CurrentSpecialCards"
+qualified_path = "jokers_ls_mod::models::status::game::game::current_special_cards"
+manifest_name = "jokers_ls_mod-CurrentSpecialCards-456839e9"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "effect_card_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "is_temporary"
+type = "bool"
+key = false
+
+[[models.members]]
+name = "remaining"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x2dd0e1b59fec30af97426c4d00d0fe626ea36cd290ab808f08166c2bb3bb8ea"
+original_class_hash = "0x2dd0e1b59fec30af97426c4d00d0fe626ea36cd290ab808f08166c2bb3bb8ea"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-DeckCard-13191af2.json"
+tag = "jokers_ls_mod-DeckCard"
+qualified_path = "jokers_ls_mod::models::data::game_deck::deck_card"
+manifest_name = "jokers_ls_mod-DeckCard-13191af2"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "index"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "card_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x413a71df99e8eff4b5efdb79b4f833c5e86e217e7ded9ebf8d21178a8f13aa4"
+original_class_hash = "0x413a71df99e8eff4b5efdb79b4f833c5e86e217e7ded9ebf8d21178a8f13aa4"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-DetailEarnedEvent-1545f11e.json"
+tag = "jokers_ls_mod-DetailEarnedEvent"
+qualified_path = "jokers_ls_mod::models::data::events::detail_earned_event"
+manifest_name = "jokers_ls_mod-DetailEarnedEvent-1545f11e"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "round_defeat"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "level_bonus"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "hands_left"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "hands_left_cash"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "discard_left"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "discard_left_cash"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "rage_card_defeated"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "rage_card_defeated_cash"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "total"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x6aaedf036f05b36bd7a8bca7ff3237ba40952ae4679a545e5642479e59e9375"
+original_class_hash = "0x6aaedf036f05b36bd7a8bca7ff3237ba40952ae4679a545e5642479e59e9375"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-Game-d44b351e.json"
+tag = "jokers_ls_mod-Game"
+qualified_path = "jokers_ls_mod::models::status::game::game::game"
+manifest_name = "jokers_ls_mod-Game-d44b351e"
+
+[[models.members]]
+name = "id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "owner"
+type = "ContractAddress"
+key = false
+
+[[models.members]]
+name = "player_name"
+type = "felt252"
+key = false
+
+[[models.members]]
+name = "player_hp"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "player_score"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "player_level"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "obstacles_cleared"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "beasts_defeated"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_player_hp"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "max_hands"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "max_discard"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "max_jokers"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "len_hand"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "len_max_current_special_cards"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "len_current_special_cards"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_jokers"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "state"
+type = "GameState"
+key = false
+
+[[models.members]]
+name = "substate"
+type = "GameSubState"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x724ca866c35ca8ab8d7b695af04c6213a92dba4a8e545119783354ddb6f4b91"
+original_class_hash = "0x724ca866c35ca8ab8d7b695af04c6213a92dba4a8e545119783354ddb6f4b91"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-GameDeck-2bf1ba06.json"
+tag = "jokers_ls_mod-GameDeck"
+qualified_path = "jokers_ls_mod::models::data::game_deck::game_deck"
+manifest_name = "jokers_ls_mod-GameDeck-2bf1ba06"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "len"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "round_len"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x78c4d42a765aa2c737c93ef082426d70fab025b2fbc03b6f6b2eb50e2d1af54"
+original_class_hash = "0x78c4d42a765aa2c737c93ef082426d70fab025b2fbc03b6f6b2eb50e2d1af54"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-GameModeBeast-485495a6.json"
+tag = "jokers_ls_mod-GameModeBeast"
+qualified_path = "jokers_ls_mod::models::data::beast::game_mode_beast"
+manifest_name = "jokers_ls_mod-GameModeBeast-485495a6"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "cost_discard"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "cost_play"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "energy_max_player"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0xc604a085c8d0a4b65f9655ef0d33f311f4437a2cb448ef828d460cb73147c6"
+original_class_hash = "0xc604a085c8d0a4b65f9655ef0d33f311f4437a2cb448ef828d460cb73147c6"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-ItemChallengeCompleted-e42aa154.json"
+tag = "jokers_ls_mod-ItemChallengeCompleted"
+qualified_path = "jokers_ls_mod::models::data::events::item_challenge_completed"
+manifest_name = "jokers_ls_mod-ItemChallengeCompleted-e42aa154"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "challenge_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x65edc2f17b255546d60d3db2c8303e6aec5c374eb931d9de93e53c6395f8345"
+original_class_hash = "0x65edc2f17b255546d60d3db2c8303e6aec5c374eb931d9de93e53c6395f8345"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-LastBeastLevel-37ff0048.json"
+tag = "jokers_ls_mod-LastBeastLevel"
+qualified_path = "jokers_ls_mod::models::data::last_beast_level::last_beast_level"
+manifest_name = "jokers_ls_mod-LastBeastLevel-37ff0048"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "current_probability"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "level"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0xa0013335c6962212c6e68a1ef5bc8bd11d1af9e1711b5d6b7de339071f9cd8"
+original_class_hash = "0xa0013335c6962212c6e68a1ef5bc8bd11d1af9e1711b5d6b7de339071f9cd8"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-ModifierCardSuitEvent-79c4e5cc.json"
+tag = "jokers_ls_mod-ModifierCardSuitEvent"
+qualified_path = "jokers_ls_mod::models::data::events::modifier_card_suit_event"
+manifest_name = "jokers_ls_mod-ModifierCardSuitEvent-79c4e5cc"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "modifier_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_hand_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "suit"
+type = "Suit"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x583c7f27c2b6ec25cc6926b2ec436afcc37d93183c3c69e85ab1746c1a0e63e"
+original_class_hash = "0x583c7f27c2b6ec25cc6926b2ec436afcc37d93183c3c69e85ab1746c1a0e63e"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-NeonPokerHandEvent-67edbc43.json"
+tag = "jokers_ls_mod-NeonPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::neon_poker_hand_event"
+manifest_name = "jokers_ls_mod-NeonPokerHandEvent-67edbc43"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "neon_cards_idx"
+type = "Array<u32>"
+key = false
+
+[[models.members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x17ca1fc5cb6d572535dd00b59e72503f9fdcd4e4dff5fadc19d43bbe6042d7b"
+original_class_hash = "0x17ca1fc5cb6d572535dd00b59e72503f9fdcd4e4dff5fadc19d43bbe6042d7b"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-ObstacleAttack-48ba594b.json"
+tag = "jokers_ls_mod-ObstacleAttack"
+qualified_path = "jokers_ls_mod::models::data::events::obstacle_attack"
+manifest_name = "jokers_ls_mod-ObstacleAttack-48ba594b"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "attack"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x386bb1216d23f48ab9dece1025b2087076c621d20b647960434a331f2445dc0"
+original_class_hash = "0x386bb1216d23f48ab9dece1025b2087076c621d20b647960434a331f2445dc0"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-ObstacleHandScore-f74943b3.json"
+tag = "jokers_ls_mod-ObstacleHandScore"
+qualified_path = "jokers_ls_mod::models::data::events::obstacle_hand_score"
+manifest_name = "jokers_ls_mod-ObstacleHandScore-f74943b3"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "hand_score"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x6352793796ec9a57f378235e493b5f2d9092c91f30382c205c723edb72e0589"
+original_class_hash = "0x6352793796ec9a57f378235e493b5f2d9092c91f30382c205c723edb72e0589"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PlayGameOverEvent-52a082f4.json"
+tag = "jokers_ls_mod-PlayGameOverEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_game_over_event"
+manifest_name = "jokers_ls_mod-PlayGameOverEvent-52a082f4"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x195cb3b368f9e350ae410171d8609dbfc740416d0379c91a2b2354195462116"
+original_class_hash = "0x195cb3b368f9e350ae410171d8609dbfc740416d0379c91a2b2354195462116"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PlayPokerHandEvent-2f381cc7.json"
+tag = "jokers_ls_mod-PlayPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_poker_hand_event"
+manifest_name = "jokers_ls_mod-PlayPokerHandEvent-2f381cc7"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "count_hand"
+type = "u8"
+key = true
+
+[[models.members]]
+name = "poker_hand"
+type = "PokerHand"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1391e37b6e695b667899bb9c733e71a3585f5b2a21736649659f1cfbf948add"
+original_class_hash = "0x1391e37b6e695b667899bb9c733e71a3585f5b2a21736649659f1cfbf948add"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PlayWinGameEvent-71b968a1.json"
+tag = "jokers_ls_mod-PlayWinGameEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_win_game_event"
+manifest_name = "jokers_ls_mod-PlayWinGameEvent-71b968a1"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "level"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "player_score"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5fa79f9b07c48013b753dc6b78c4588c55e33485d2c88a8bc7708877d0e5185"
+original_class_hash = "0x5fa79f9b07c48013b753dc6b78c4588c55e33485d2c88a8bc7708877d0e5185"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PlayerAttack-75ee87b9.json"
+tag = "jokers_ls_mod-PlayerAttack"
+qualified_path = "jokers_ls_mod::models::data::events::player_attack"
+manifest_name = "jokers_ls_mod-PlayerAttack-75ee87b9"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "attack"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x484327111335a8fed94c92abe8e5f91372490b9574e1348031f90b586ea606b"
+original_class_hash = "0x484327111335a8fed94c92abe8e5f91372490b9574e1348031f90b586ea606b"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PlayerBeast-2719982c.json"
+tag = "jokers_ls_mod-PlayerBeast"
+qualified_path = "jokers_ls_mod::models::data::beast::player_beast"
+manifest_name = "jokers_ls_mod-PlayerBeast-2719982c"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "energy"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x4d7a2744c75338e1bd239806c61d2c3623039e8aa6dce5630c3c4c12c3a34f3"
+original_class_hash = "0x4d7a2744c75338e1bd239806c61d2c3623039e8aa6dce5630c3c4c12c3a34f3"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PlayerHealed-724c3503.json"
+tag = "jokers_ls_mod-PlayerHealed"
+qualified_path = "jokers_ls_mod::models::data::events::player_healed"
+manifest_name = "jokers_ls_mod-PlayerHealed-724c3503"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "potion_heal"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_hp"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x4f98bd4c304e28a8ad90a7f2771b0e77976d3634c0efab8f8a0fcf5d4178793"
+original_class_hash = "0x4f98bd4c304e28a8ad90a7f2771b0e77976d3634c0efab8f8a0fcf5d4178793"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-PokerHandEvent-31f0d347.json"
+tag = "jokers_ls_mod-PokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::poker_hand_event"
+manifest_name = "jokers_ls_mod-PokerHandEvent-31f0d347"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "poker_hand"
+type = "u8"
+key = false
+
+[[models.members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x5c142fae84f2b12147dd0a6d76475c950e9ff010e41a36d5d60e7cff9c127a4"
+original_class_hash = "0x5c142fae84f2b12147dd0a6d76475c950e9ff010e41a36d5d60e7cff9c127a4"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-RageRound-5d3cb743.json"
+tag = "jokers_ls_mod-RageRound"
+qualified_path = "jokers_ls_mod::models::status::game::rage::rage_round"
+manifest_name = "jokers_ls_mod-RageRound-5d3cb743"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "is_active"
+type = "bool"
+key = false
+
+[[models.members]]
+name = "current_probability"
+type = "u16"
+key = false
+
+[[models.members]]
+name = "active_rage_ids"
+type = "Span<u32>"
+key = false
+
+[[models.members]]
+name = "last_active_level"
+type = "u8"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x45f9638fadee4437e1096846df915ddf0bcecf7c2a698accc2d889499fbcfdf"
+original_class_hash = "0x45f9638fadee4437e1096846df915ddf0bcecf7c2a698accc2d889499fbcfdf"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-Reward-30df38f0.json"
+tag = "jokers_ls_mod-Reward"
+qualified_path = "jokers_ls_mod::models::data::reward::reward"
+manifest_name = "jokers_ls_mod-Reward-30df38f0"
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[models.members]]
+name = "rewards_ids"
+type = "Span<u32>"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1dae991136db008450d960bad924d96db8b07094886b010599fcfd9675cb5d0"
+original_class_hash = "0x1dae991136db008450d960bad924d96db8b07094886b010599fcfd9675cb5d0"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-RoundScoreEvent-61b0d4fb.json"
+tag = "jokers_ls_mod-RoundScoreEvent"
+qualified_path = "jokers_ls_mod::models::data::events::round_score_event"
+manifest_name = "jokers_ls_mod-RoundScoreEvent-61b0d4fb"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "player_score"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x59fda2b34c90b3d6d46a625ef0f49170d151b31b7c4d988b541c4392ed83050"
+original_class_hash = "0x59fda2b34c90b3d6d46a625ef0f49170d151b31b7c4d988b541c4392ed83050"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-SpecialCashEvent-64f53895.json"
+tag = "jokers_ls_mod-SpecialCashEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_cash_event"
+manifest_name = "jokers_ls_mod-SpecialCashEvent-64f53895"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "cash"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "special_idx"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x1ecb306acfa3dac9cfa8621edd610d6a4ff5307aa6539274d730e9689c1d2a8"
+original_class_hash = "0x1ecb306acfa3dac9cfa8621edd610d6a4ff5307aa6539274d730e9689c1d2a8"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-SpecialGlobalEvent-a75514b3.json"
+tag = "jokers_ls_mod-SpecialGlobalEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_global_event"
+manifest_name = "jokers_ls_mod-SpecialGlobalEvent-a75514b3"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x6884397cf0a66538a711fdb4442183c83f5eee3fd89de746d61e09cd6ed2701"
+original_class_hash = "0x6884397cf0a66538a711fdb4442183c83f5eee3fd89de746d61e09cd6ed2701"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-SpecialModifierMultiEvent-4e2c6f75.json"
+tag = "jokers_ls_mod-SpecialModifierMultiEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_multi_event"
+manifest_name = "jokers_ls_mod-SpecialModifierMultiEvent-4e2c6f75"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_hand_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7ba6f98ea103a86aa00359cfb9af284b9ffd7a405aa5e24ab3dfcb44f209119"
+original_class_hash = "0x7ba6f98ea103a86aa00359cfb9af284b9ffd7a405aa5e24ab3dfcb44f209119"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-SpecialModifierPointsEvent-232b27f2.json"
+tag = "jokers_ls_mod-SpecialModifierPointsEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_points_event"
+manifest_name = "jokers_ls_mod-SpecialModifierPointsEvent-232b27f2"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_hand_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u32"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x7a0829603af2c79714d6ae1ffdf41281580ef9c04a6fb95a6ffd1cb5929f08a"
+original_class_hash = "0x7a0829603af2c79714d6ae1ffdf41281580ef9c04a6fb95a6ffd1cb5929f08a"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-SpecialModifierSuitEvent-33f814d3.json"
+tag = "jokers_ls_mod-SpecialModifierSuitEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_suit_event"
+manifest_name = "jokers_ls_mod-SpecialModifierSuitEvent-33f814d3"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_hand_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "suit"
+type = "Suit"
+key = false
+
+[[models]]
+kind = "DojoModel"
+class_hash = "0x6147040272ceea1ccc767aae2ad25fc04fec90b7d6dbdae6e0fe93a0c4d6889"
+original_class_hash = "0x6147040272ceea1ccc767aae2ad25fc04fec90b7d6dbdae6e0fe93a0c4d6889"
+abi = "manifests/prod/deployment/abis/models/jokers_ls_mod-SpecialPokerHandEvent-54b34724.json"
+tag = "jokers_ls_mod-SpecialPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_poker_hand_event"
+manifest_name = "jokers_ls_mod-SpecialPokerHandEvent-54b34724"
+
+[[models.members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[models.members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[models.members]]
+name = "points"
+type = "u32"
+key = false

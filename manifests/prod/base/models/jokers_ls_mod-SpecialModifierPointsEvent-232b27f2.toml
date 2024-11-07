@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x7ba6f98ea103a86aa00359cfb9af284b9ffd7a405aa5e24ab3dfcb44f209119"
+original_class_hash = "0x7ba6f98ea103a86aa00359cfb9af284b9ffd7a405aa5e24ab3dfcb44f209119"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-SpecialModifierPointsEvent-232b27f2.json"
+tag = "jokers_ls_mod-SpecialModifierPointsEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_modifier_points_event"
+manifest_name = "jokers_ls_mod-SpecialModifierPointsEvent-232b27f2"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_hand_card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "points"
+type = "u32"
+key = false

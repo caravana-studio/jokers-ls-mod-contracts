@@ -1,0 +1,11 @@
+kind = "DojoContract"
+class_hash = "0x1dc17a707e202cdca89be28feb97105a4a303e97be760e2374a9efd9f6b5b51"
+original_class_hash = "0x1dc17a707e202cdca89be28feb97105a4a303e97be760e2374a9efd9f6b5b51"
+base_class_hash = "0x0"
+abi = "manifests/prod/base/abis/contracts/jokers_ls_mod-rage_system-1b5f5049.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "jokers_ls_mod-rage_system"
+systems = ["calculate"]
+manifest_name = "jokers_ls_mod-rage_system-1b5f5049"

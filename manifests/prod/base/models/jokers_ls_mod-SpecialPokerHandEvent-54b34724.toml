@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x6147040272ceea1ccc767aae2ad25fc04fec90b7d6dbdae6e0fe93a0c4d6889"
+original_class_hash = "0x6147040272ceea1ccc767aae2ad25fc04fec90b7d6dbdae6e0fe93a0c4d6889"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-SpecialPokerHandEvent-54b34724.json"
+tag = "jokers_ls_mod-SpecialPokerHandEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_poker_hand_event"
+manifest_name = "jokers_ls_mod-SpecialPokerHandEvent-54b34724"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[members]]
+name = "points"
+type = "u32"
+key = false

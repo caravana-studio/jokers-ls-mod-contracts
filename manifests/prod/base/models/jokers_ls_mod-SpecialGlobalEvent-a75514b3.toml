@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x1ecb306acfa3dac9cfa8621edd610d6a4ff5307aa6539274d730e9689c1d2a8"
+original_class_hash = "0x1ecb306acfa3dac9cfa8621edd610d6a4ff5307aa6539274d730e9689c1d2a8"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-SpecialGlobalEvent-a75514b3.json"
+tag = "jokers_ls_mod-SpecialGlobalEvent"
+qualified_path = "jokers_ls_mod::models::data::events::special_global_event"
+manifest_name = "jokers_ls_mod-SpecialGlobalEvent-a75514b3"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_special_card_idx"
+type = "u32"
+key = false
+
+[[members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[members]]
+name = "points"
+type = "u32"
+key = false

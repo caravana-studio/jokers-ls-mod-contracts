@@ -1,31 +1,33 @@
 use core::nullable::NullableTrait;
 use dojo::world::Resource::Contract;
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::constants::beast::{all_beast, beast_loot_survivor, is_loot_survivor_beast};
-use jokers_of_neon::constants::card::INVALID_CARD;
-use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_SPECIAL_CARDS};
-use jokers_of_neon::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
-use jokers_of_neon::models::data::beast::{
-    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast, BeastStats
+use jokers_ls_mod::constants::beast::{all_beast, beast_loot_survivor, is_loot_survivor_beast};
+use jokers_ls_mod::constants::card::INVALID_CARD;
+use jokers_ls_mod::constants::reward::{REWARD_HP_POTION, REWARD_SPECIAL_CARDS};
+use jokers_ls_mod::interfaces::erc721::{IERC721SystemDispatcher, IERC721SystemDispatcherTrait};
+use jokers_ls_mod::models::data::beast::{
+    GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast, BeastStats,
 };
-use jokers_of_neon::models::data::events::{PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack};
-use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::data::reward::RewardTrait;
-use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
-use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
-use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
-use jokers_of_neon::store::{Store, StoreTrait};
-use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
-use jokers_of_neon::utils::adventurer::{is_mainnet, NFT_ADDRESS_MAINNET};
-use jokers_of_neon::utils::constants::{
+use jokers_ls_mod::models::data::events::{
+    PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack, BeastIsMintable, BeastNFT
+};
+use jokers_ls_mod::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
+use jokers_ls_mod::models::data::reward::RewardTrait;
+use jokers_ls_mod::models::status::game::game::{Game, GameStore, GameState, GameSubState};
+use jokers_ls_mod::models::status::game::rage::{RageRound, RageRoundStore};
+use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
+use jokers_ls_mod::store::{Store, StoreTrait};
+use jokers_ls_mod::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
+use jokers_ls_mod::utils::adventurer::{is_mainnet, NFT_ADDRESS_MAINNET};
+use jokers_ls_mod::utils::constants::{
     RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
     RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
 };
 
-use jokers_of_neon::utils::game::play;
-use jokers_of_neon::utils::level::create_level;
-use jokers_of_neon::utils::rage::is_rage_card_active;
-use jokers_of_neon::utils::random::{Random, RandomImpl, RandomTrait};
+use jokers_ls_mod::utils::game::play;
+use jokers_ls_mod::utils::level::create_level;
+use jokers_ls_mod::utils::rage::is_rage_card_active;
+use jokers_ls_mod::utils::random::{Random, RandomImpl, RandomTrait};
 use starknet::{ContractAddress, get_caller_address, ClassHash, get_tx_info};
 
 mod errors {
@@ -57,6 +59,23 @@ impl BeastImpl of BeastTrait {
         let game_mode_beast = GameModeBeastStore::get(world, game.id);
 
         _create_beast(world, game_id, game.level.try_into().unwrap());
+        // let (beast, beast_stats) = _create_beast(world, game_id, game.level.try_into().unwrap());
+        
+        // BeastStore::set(@beast, world);
+        // emit!(world, (beast));
+
+        // let erc721_dispatcher = IERC721SystemDispatcher { contract_address: NFT_ADDRESS_MAINNET() };
+        // let owner = erc721_dispatcher.get_owner(beast_stats);
+        // emit!(
+        //     world,
+        //     (BeastIsMintable {
+        //         player: get_caller_address(),
+        //         tier: beast_stats.tier,
+        //         level: beast_stats.level,
+        //         beast_id: beast_stats.beast_id,
+        //         is_mintable: owner.is_zero()
+        //     })
+        // );
 
         let player_beast = PlayerBeast { game_id, energy: game_mode_beast.energy_max_player };
         PlayerBeastStore::set(@player_beast, world);
@@ -118,6 +137,17 @@ impl BeastImpl of BeastTrait {
                     let owner = erc721_dispatcher.get_owner(beast_stats);
                     if owner.is_zero() {
                         erc721_dispatcher.safe_mint(get_caller_address(), beast_stats);
+                        let token_id: u256 = erc721_dispatcher.total_supply();
+                        emit!(
+                            world,
+                            (BeastNFT {
+                                player: get_caller_address(),
+                                tier: beast.tier,
+                                level: beast.level,
+                                beast_id: beast.beast_id.try_into().unwrap(),
+                                token_id: token_id.try_into().unwrap()
+                            })
+                        );
                     }
                 }
             }
@@ -280,37 +310,51 @@ fn _attack_beast(
 fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     let mut randomizer = RandomImpl::new(world);
 
-    let beast_id = if level < 10 {
-        *beast_loot_survivor()[randomizer.between::<u32>(0, beast_loot_survivor().len() - 1)]
+    let beast_id: u32 = if level < 10 {
+        let rnd = randomizer.between::<u32>(0, beast_loot_survivor().len() - 1);
+        *beast_loot_survivor().at(rnd)
     } else {
-        *all_beast()[randomizer.between::<u32>(0, all_beast().len() - 1)]
+        let rnd = randomizer.between::<u32>(0, all_beast().len() - 1);
+        *all_beast().at(rnd)
     };
-    let (tier, health, attack) = _generate_stats(level, beast_id, ref randomizer);
-    let type_beast = if is_loot_survivor_beast(beast_id) {
+
+    let random = randomizer.between::<u32>(1, 100);
+    let (tier, health, attack): (u8, u32, u32) = _generate_stats(level, beast_id, random);
+    let type_beast: TypeBeast = if is_loot_survivor_beast(beast_id) {
         TypeBeast::LOOT_SURVIVOR
     } else {
         TypeBeast::JOKERS_OF_NEON
     };
-    let beast = Beast { game_id, beast_id, tier, level, health, current_health: health, attack, type_beast };
-    BeastStore::set(@beast, world);
-    emit!(world, (beast));
+
+    BeastStore::set(@Beast {
+        game_id: game_id,
+        beast_id: beast_id,
+        tier: tier,
+        level: level,
+        health: health,
+        current_health: health,
+        attack: attack,
+        type_beast: type_beast
+    }, world);
+    // BeastStats { tier, level, beast_id: beast_id.try_into().unwrap() }
 }
 
 // tier, health, attack
-fn _generate_stats(level: u8, beast_id: u32, ref randomizer: Random) -> (u8, u32, u32) {
-    let random_tier = _obtain_random_tier(ref randomizer);
-    let mut stats = (0, 0, 0);
-    if level <= 4 {
-        stats = (random_tier, _calculate_beast_hp(level), 10);
+fn _generate_stats(level: u8, beast_id: u32, random: u32) -> (u8, u32, u32) {
+    let random_tier: u8 = _obtain_random_tier(random);
+
+    let beast_hp: u32 = _calculate_beast_hp(level);
+    let stats: (u8, u32, u32) = if level <= 4 {
+        (random_tier, beast_hp, 10)
     } else if level <= 8 {
-        stats = (random_tier, _calculate_beast_hp(level), 20);
+        (random_tier, beast_hp, 20)
     } else if level <= 12 {
-        stats = (random_tier, _calculate_beast_hp(level), 30);
+        (random_tier, beast_hp, 30)
     } else if level <= 16 {
-        stats = (random_tier, _calculate_beast_hp(level), 40);
+        (random_tier, beast_hp, 40)
     } else {
-        stats = (random_tier, _calculate_beast_hp(level), 50);
-    }
+        (random_tier, beast_hp, 50)
+    };
 
     if beast_id >= 101 && beast_id <= 108 {
         let (tier, health, attack) = stats;
@@ -325,8 +369,7 @@ fn _generate_stats(level: u8, beast_id: u32, ref randomizer: Random) -> (u8, u32
 // Tier 3: 71 - 85
 // Tier 4: 86 - 95
 // Tier 5: 96 - 100
-fn _obtain_random_tier(ref randomizer: Random) -> u8 {
-    let random = randomizer.between::<u32>(1, 100);
+fn _obtain_random_tier(random: u32) -> u8 {
     if random <= 40 {
         5
     } else if random <= 70 {

@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x35ed4fec0c9b80b1beca1b9eef0663f18d8b97c34f47fab698dd09e84841c4"
+original_class_hash = "0x35ed4fec0c9b80b1beca1b9eef0663f18d8b97c34f47fab698dd09e84841c4"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-CardScoreEvent-6cfeceaa.json"
+tag = "jokers_ls_mod-CardScoreEvent"
+qualified_path = "jokers_ls_mod::models::data::events::card_score_event"
+manifest_name = "jokers_ls_mod-CardScoreEvent-6cfeceaa"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "index"
+type = "u32"
+key = false
+
+[[members]]
+name = "multi"
+type = "u32"
+key = false
+
+[[members]]
+name = "points"
+type = "u32"
+key = false

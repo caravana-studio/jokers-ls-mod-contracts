@@ -1,5 +1,5 @@
-use jokers_of_neon::models::status::game::rage::RageRound;
-use jokers_of_neon::utils::constants::is_rage_card;
+use jokers_ls_mod::models::status::game::rage::RageRound;
+use jokers_ls_mod::utils::constants::is_rage_card;
 
 /// Search if a specific rage card is active in the current round.
 /// # Arguments

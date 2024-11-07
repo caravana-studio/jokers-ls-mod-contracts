@@ -1,10 +1,10 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::configs::{
+use jokers_ls_mod::configs::{
     rage::RageRoundConfig, slot_special_cards::SlotSpecialCardsConfig, earning_cash::EarningCashConfig,
     level::LevelConfig
 };
 
-use jokers_of_neon::constants::card::{
+use jokers_ls_mod::constants::card::{
     TWO_CLUBS_ID, TWO_CLUBS, THREE_CLUBS_ID, THREE_CLUBS, FOUR_CLUBS_ID, FOUR_CLUBS, FIVE_CLUBS_ID, FIVE_CLUBS,
     SIX_CLUBS_ID, SIX_CLUBS, SEVEN_CLUBS_ID, SEVEN_CLUBS, EIGHT_CLUBS_ID, EIGHT_CLUBS, NINE_CLUBS_ID, NINE_CLUBS,
     TEN_CLUBS_ID, TEN_CLUBS, JACK_CLUBS_ID, JACK_CLUBS, QUEEN_CLUBS_ID, QUEEN_CLUBS, KING_CLUBS_ID, KING_CLUBS,
@@ -22,7 +22,7 @@ use jokers_of_neon::constants::card::{
     JOKER_CARD_C
 };
 
-use jokers_of_neon::constants::effect::{
+use jokers_ls_mod::constants::effect::{
     SPECIAL_MULTI_FOR_HEARTS_EFFECT_ID, SPECIAL_MULTI_FOR_HEARTS_EFFECT, SPECIAL_MULTI_FOR_DIAMONDS_EFFECT_ID,
     SPECIAL_MULTI_FOR_DIAMONDS_EFFECT, SPECIAL_MULTI_FOR_CLUBS_EFFECT_ID, SPECIAL_MULTI_FOR_CLUBS_EFFECT,
     SPECIAL_MULTI_FOR_SPADES_EFFECT_ID, SPECIAL_MULTI_FOR_SPADES_EFFECT, SPECIAL_INCREASE_LEVEL_PAIR_EFFECT_ID,
@@ -46,12 +46,12 @@ use jokers_of_neon::constants::effect::{
     SPECIAL_INITIAL_ADVANTAGE_EFFECT, EMPTY_EFFECT
 };
 
-use jokers_of_neon::constants::modifiers::{
+use jokers_ls_mod::constants::modifiers::{
     POINTS_MODIFIER_1_ID, POINTS_MODIFIER_1, POINTS_MODIFIER_2_ID, POINTS_MODIFIER_2, POINTS_MODIFIER_3_ID,
     POINTS_MODIFIER_3, POINTS_MODIFIER_4_ID, POINTS_MODIFIER_4, MULTI_MODIFIER_1_ID, MULTI_MODIFIER_1,
     MULTI_MODIFIER_2_ID, MULTI_MODIFIER_2, MULTI_MODIFIER_3_ID, MULTI_MODIFIER_3, MULTI_MODIFIER_4_ID, MULTI_MODIFIER_4,
 };
-use jokers_of_neon::constants::packs::{
+use jokers_ls_mod::constants::packs::{
     BASIC_BLISTER_PACK, ADVANCED_BLISTER_PACK, JOKER_BLISTER_PACK, SPECIALS_BLISTER_PACK, MODIFIER_BLISTER_PACK,
     FIGURES_BLISTER_PACK, DECEITFUL_JOKER_BLISTER_PACK, LOVERS_BLISTER_PACK, SPECIAL_BET_BLISTER_PACK,
     EMPTY_BLISTER_PACK, BASIC_BLISTER_PACK_ID, ADVANCED_BLISTER_PACK_ID, JOKER_BLISTER_PACK_ID,
@@ -60,11 +60,11 @@ use jokers_of_neon::constants::packs::{
     MODIFIER_CARDS_PACK_ID, MODIFIER_CARDS_PACK, REWARD_CARDS_PACK_ID, REWARD_PACK, REWARD_SPECIAL_CARDS_PACK_ID,
     REWARD_SPECIAL_CARDS_PACK
 };
-use jokers_of_neon::constants::playhand::{
+use jokers_ls_mod::constants::playhand::{
     ROYAL_FLUSH, STRAIGHT_FLUSH, FIVE_OF_A_KIND, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR,
     ONE_PAIR, HIGH_CARD, NONE
 };
-use jokers_of_neon::constants::specials::{
+use jokers_ls_mod::constants::specials::{
     SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_HEART, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_CLUB,
     SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_DIAMOND, SPECIAL_MULTI_FOR_SPADE_ID, SPECIAL_MULTI_FOR_SPADE,
     SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_INCREASE_LEVEL_PAIR, SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID,
@@ -78,18 +78,18 @@ use jokers_of_neon::constants::specials::{
     SPECIAL_NEON_BONUS, SPECIAL_DEADLINE_ID, SPECIAL_DEADLINE, SPECIAL_INITIAL_ADVANTAGE_ID, SPECIAL_INITIAL_ADVANTAGE,
     INVALID_EFFECT_CARD, SPECIAL_LUCKY_HAND_ID, SPECIAL_LUCKY_HAND
 };
-use jokers_of_neon::models::data::blister_pack::BlisterPack;
-use jokers_of_neon::models::data::card::{Card, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
-use jokers_of_neon::models::data::effect_card::{EffectCard, Effect};
-use jokers_of_neon::models::data::events::{PokerHandEvent, CreateGameEvent, CardScoreEvent};
-use jokers_of_neon::models::data::game_deck::{DeckCard, GameDeck};
-use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
+use jokers_ls_mod::models::data::blister_pack::BlisterPack;
+use jokers_ls_mod::models::data::card::{Card, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
+use jokers_ls_mod::models::data::effect_card::{EffectCard, Effect};
+use jokers_ls_mod::models::data::events::{PokerHandEvent, CreateGameEvent, CardScoreEvent};
+use jokers_ls_mod::models::data::game_deck::{DeckCard, GameDeck};
+use jokers_ls_mod::models::data::poker_hand::{LevelPokerHand, PokerHand};
 
-use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
-use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
-use jokers_of_neon::models::status::round::deck_card::{DeckCardTrait};
+use jokers_ls_mod::models::status::game::game::{Game, CurrentSpecialCards};
+use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
+use jokers_ls_mod::models::status::round::deck_card::{DeckCardTrait};
 
-use jokers_of_neon::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem, BlisterPackResult};
+use jokers_ls_mod::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem, BlisterPackResult};
 use starknet::ContractAddress;
 
 #[derive(Drop)]

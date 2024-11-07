@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x11154390ee059a6a5d34906e2cbc6154ce9721f3b55497e6952cd471d1a804f"
+original_class_hash = "0x11154390ee059a6a5d34906e2cbc6154ce9721f3b55497e6952cd471d1a804f"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-CurrentHandCard-ef024742.json"
+tag = "jokers_ls_mod-CurrentHandCard"
+qualified_path = "jokers_ls_mod::models::status::round::current_hand_card::current_hand_card"
+manifest_name = "jokers_ls_mod-CurrentHandCard-ef024742"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "card_id"
+type = "u32"
+key = false

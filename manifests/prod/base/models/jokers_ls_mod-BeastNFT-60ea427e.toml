@@ -1,0 +1,32 @@
+kind = "DojoModel"
+class_hash = "0x66246017c0041055c713ffceabdc27b5ff7e09fcbb5056476165adb0895529d"
+original_class_hash = "0x66246017c0041055c713ffceabdc27b5ff7e09fcbb5056476165adb0895529d"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BeastNFT-60ea427e.json"
+tag = "jokers_ls_mod-BeastNFT"
+qualified_path = "jokers_ls_mod::models::data::events::beast_nft"
+manifest_name = "jokers_ls_mod-BeastNFT-60ea427e"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "tier"
+type = "u8"
+key = false
+
+[[members]]
+name = "level"
+type = "u8"
+key = false
+
+[[members]]
+name = "beast_id"
+type = "u8"
+key = false
+
+[[members]]
+name = "token_id"
+type = "u32"
+key = false

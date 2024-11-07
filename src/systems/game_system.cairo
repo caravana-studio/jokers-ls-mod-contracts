@@ -1,6 +1,6 @@
 use dojo::world::{IWorld, IWorldDispatcher};
 
-use jokers_of_neon::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
 
 #[dojo::interface]
 trait IGameSystem {
@@ -51,13 +51,16 @@ mod errors {
 mod game_system {
     use core::nullable::NullableTrait;
     use dojo::world::Resource::Contract;
-    use jokers_of_neon::constants::card::{JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD};
-    use jokers_of_neon::constants::packs::{
+    use jokers_ls_mod::constants::card::{
+        JOKER_CARD, NEON_JOKER_CARD, INVALID_CARD, OVERLORD_DECK, WIZARD_DECK, WARRIOR_DECK
+    };
+    use jokers_ls_mod::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
+    use jokers_ls_mod::constants::packs::{
         SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, REWARD_SPECIAL_CARDS_PACK_ID,
         SPECIALS_BLISTER_PACK_ID
     };
-    use jokers_of_neon::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
-    use jokers_of_neon::constants::specials::{
+    use jokers_ls_mod::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
+    use jokers_ls_mod::constants::specials::{
         SPECIAL_MULTI_FOR_HEART_ID, SPECIAL_MULTI_FOR_CLUB_ID, SPECIAL_MULTI_FOR_DIAMOND_ID, SPECIAL_MULTI_FOR_SPADE_ID,
         SPECIAL_INCREASE_LEVEL_PAIR_ID, SPECIAL_INCREASE_LEVEL_DOUBLE_PAIR_ID, SPECIAL_INCREASE_LEVEL_STRAIGHT_ID,
         SPECIAL_INCREASE_LEVEL_FLUSH_ID, SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID,
@@ -65,38 +68,38 @@ mod game_system {
         SPECIAL_ALL_CARDS_TO_HEARTS_ID, SPECIAL_HAND_THIEF_ID, SPECIAL_EXTRA_HELP_ID, SPECIAL_LUCKY_SEVEN_ID,
         SPECIAL_NEON_BONUS_ID, SPECIAL_DEADLINE_ID, SPECIAL_INITIAL_ADVANTAGE_ID, SPECIAL_LUCKY_HAND_ID
     };
-    use jokers_of_neon::models::data::beast::{GameModeBeast, GameModeBeastStore};
-    use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
-    use jokers_of_neon::models::data::effect_card::Effect;
-    use jokers_of_neon::models::data::events::{
+    use jokers_ls_mod::models::data::beast::{GameModeBeast, GameModeBeastStore};
+    use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, SuitEnumerableImpl, ValueEnumerableImpl,};
+    use jokers_ls_mod::models::data::effect_card::Effect;
+    use jokers_ls_mod::models::data::events::{
         PokerHandEvent, CreateGameEvent, CardScoreEvent, PlayWinGameEvent, PlayGameOverEvent, DetailEarnedEvent,
         SpecialModifierPointsEvent, SpecialModifierMultiEvent, SpecialModifierSuitEvent, SpecialPokerHandEvent,
         SpecialGlobalEvent, ModifierCardSuitEvent, RoundScoreEvent, NeonPokerHandEvent, PlayPokerHandEvent,
         SpecialCashEvent, PlayerHealed
     };
-    use jokers_of_neon::models::data::game_deck::{GameDeckStore, GameDeckImpl};
-    use jokers_of_neon::models::data::last_beast_level::{LastBeastLevel, LastBeastLevelStore};
-    use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
-    use jokers_of_neon::models::data::reward::{Reward, RewardType, RewardStore};
-    use jokers_of_neon::models::status::game::game::{Game, GameStore, GameState, GameSubState};
-    use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
-    use jokers_of_neon::models::status::round::adventurer::AdventurerTrait;
-    use jokers_of_neon::models::status::round::beast::BeastTrait;
-    use jokers_of_neon::models::status::round::challenge::ChallengeTrait;
-    use jokers_of_neon::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
-    use jokers_of_neon::models::status::round::level::LevelTrait;
-    use jokers_of_neon::models::status::shop::shop::{BlisterPackResult};
-    use jokers_of_neon::store::{Store, StoreTrait};
-    use jokers_of_neon::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
-    use jokers_of_neon::utils::calculate_hand::calculate_hand;
-    use jokers_of_neon::utils::constants::{
+    use jokers_ls_mod::models::data::game_deck::{GameDeckStore, GameDeckImpl};
+    use jokers_ls_mod::models::data::last_beast_level::{LastBeastLevel, LastBeastLevelStore};
+    use jokers_ls_mod::models::data::poker_hand::{LevelPokerHand, PokerHand};
+    use jokers_ls_mod::models::data::reward::{Reward, RewardType, RewardStore};
+    use jokers_ls_mod::models::status::game::game::{Game, GameStore, GameState, GameSubState};
+    use jokers_ls_mod::models::status::game::rage::{RageRound, RageRoundStore};
+    use jokers_ls_mod::models::status::round::adventurer::AdventurerTrait;
+    use jokers_ls_mod::models::status::round::beast::BeastTrait;
+    use jokers_ls_mod::models::status::round::challenge::ChallengeTrait;
+    use jokers_ls_mod::models::status::round::current_hand_card::{CurrentHandCard, CurrentHandCardTrait};
+    use jokers_ls_mod::models::status::round::level::LevelTrait;
+    use jokers_ls_mod::models::status::shop::shop::{BlisterPackResult};
+    use jokers_ls_mod::store::{Store, StoreTrait};
+    use jokers_ls_mod::systems::rage_system::{IRageSystemDispatcher, IRageSystemDispatcherTrait};
+    use jokers_ls_mod::utils::calculate_hand::calculate_hand;
+    use jokers_ls_mod::utils::constants::{
         RAGE_CARD_DIMINISHED_HOLD, RAGE_CARD_SILENT_JOKERS, RAGE_CARD_SILENT_HEARTS, RAGE_CARD_SILENT_CLUBS,
         RAGE_CARD_SILENT_DIAMONDS, RAGE_CARD_SILENT_SPADES, RAGE_CARD_ZERO_WASTE, is_neon_card, is_modifier_card
     };
-    use jokers_of_neon::utils::level::create_level;
-    use jokers_of_neon::utils::packs::{open_blister_pack, select_cards_from_blister};
-    use jokers_of_neon::utils::rage::is_rage_card_active;
-    use jokers_of_neon::utils::random::RandomImpl;
+    use jokers_ls_mod::utils::level::create_level;
+    use jokers_ls_mod::utils::packs::{open_blister_pack, select_cards_from_blister};
+    use jokers_ls_mod::utils::rage::is_rage_card_active;
+    use jokers_ls_mod::utils::random::RandomImpl;
     use starknet::{ContractAddress, get_caller_address, ClassHash};
     use super::IGameSystem;
     use super::errors;
@@ -297,7 +300,26 @@ mod game_system {
             assert(game.substate == GameSubState::DRAFT_DECK, errors::WRONG_SUBSTATE_DRAFT_DECK);
             assert(deck_id < 3, errors::INVALID_DECK_ID);
 
-            GameDeckImpl::init(ref store, game_id, deck_id);
+            let mut deck_extra_cards = array![];
+            if deck_id == WARRIOR_DECK {
+                game.player_hp = 120;
+                game.current_player_hp = 120;
+                deck_extra_cards.append(MULTI_MODIFIER_4_ID);
+            } else if deck_id == OVERLORD_DECK {
+                game.player_hp = 100;
+                game.current_player_hp = 100;
+                deck_extra_cards.append(POINTS_MODIFIER_4_ID);
+                deck_extra_cards.append(POINTS_MODIFIER_4_ID);
+                deck_extra_cards.append(MULTI_MODIFIER_4_ID);
+                deck_extra_cards.append(MULTI_MODIFIER_4_ID);
+            } else { // WIZARD_DECK
+                game.player_hp = 80;
+                game.current_player_hp = 80;
+                deck_extra_cards.append(JOKER_CARD);
+                deck_extra_cards.append(JOKER_CARD);
+            }
+
+            GameDeckImpl::init(ref store, game_id, deck_id, deck_extra_cards);
             game.substate = GameSubState::DRAFT_SPECIALS;
             store.set_game(game);
 

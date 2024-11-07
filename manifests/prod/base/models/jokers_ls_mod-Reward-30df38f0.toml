@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x45f9638fadee4437e1096846df915ddf0bcecf7c2a698accc2d889499fbcfdf"
+original_class_hash = "0x45f9638fadee4437e1096846df915ddf0bcecf7c2a698accc2d889499fbcfdf"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-Reward-30df38f0.json"
+tag = "jokers_ls_mod-Reward"
+qualified_path = "jokers_ls_mod::models::data::reward::reward"
+manifest_name = "jokers_ls_mod-Reward-30df38f0"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "rewards_ids"
+type = "Span<u32>"
+key = false

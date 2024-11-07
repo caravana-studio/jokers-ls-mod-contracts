@@ -1,6 +1,6 @@
-use jokers_of_neon::models::data::card::Suit;
-use jokers_of_neon::models::data::poker_hand::PokerHand;
-use jokers_of_neon::models::status::shop::shop::CardItemType;
+use jokers_ls_mod::models::data::card::Suit;
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::models::status::shop::shop::CardItemType;
 use starknet::ContractAddress;
 
 #[derive(Copy, Drop, Serde)]
@@ -299,4 +299,36 @@ struct ObstacleAttack {
     #[key]
     player: ContractAddress,
     attack: u32
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct BeastIsMintable {
+    #[key]
+    player: ContractAddress,
+    tier: u8,
+    level: u8,
+    beast_id: u8,
+    is_mintable: bool
+}
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct BeastNFT {
+    #[key]
+    player: ContractAddress,
+    tier: u8,
+    level: u8,
+    beast_id: u8,
+    token_id: u32
+}
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct ObstacleHandScore {
+    #[key]
+    player: ContractAddress,
+    hand_score: u32
 }

@@ -1,0 +1,42 @@
+kind = "DojoModel"
+class_hash = "0x6a5804b7b816ea729026f2d51649d9acac6ef8660396857927a8a3a482c3164"
+original_class_hash = "0x6a5804b7b816ea729026f2d51649d9acac6ef8660396857927a8a3a482c3164"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-CardItem-1e2a6fe9.json"
+tag = "jokers_ls_mod-CardItem"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::card_item"
+manifest_name = "jokers_ls_mod-CardItem-1e2a6fe9"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "item_type"
+type = "CardItemType"
+key = true
+
+[[members]]
+name = "card_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "cost"
+type = "u32"
+key = false
+
+[[members]]
+name = "purchased"
+type = "bool"
+key = false
+
+[[members]]
+name = "temporary"
+type = "bool"
+key = false

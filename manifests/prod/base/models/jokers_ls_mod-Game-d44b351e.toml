@@ -1,0 +1,102 @@
+kind = "DojoModel"
+class_hash = "0x6aaedf036f05b36bd7a8bca7ff3237ba40952ae4679a545e5642479e59e9375"
+original_class_hash = "0x6aaedf036f05b36bd7a8bca7ff3237ba40952ae4679a545e5642479e59e9375"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-Game-d44b351e.json"
+tag = "jokers_ls_mod-Game"
+qualified_path = "jokers_ls_mod::models::status::game::game::game"
+manifest_name = "jokers_ls_mod-Game-d44b351e"
+
+[[members]]
+name = "id"
+type = "u32"
+key = true
+
+[[members]]
+name = "owner"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "player_name"
+type = "felt252"
+key = false
+
+[[members]]
+name = "player_hp"
+type = "u32"
+key = false
+
+[[members]]
+name = "player_score"
+type = "u32"
+key = false
+
+[[members]]
+name = "player_level"
+type = "u32"
+key = false
+
+[[members]]
+name = "obstacles_cleared"
+type = "u32"
+key = false
+
+[[members]]
+name = "beasts_defeated"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_player_hp"
+type = "u32"
+key = false
+
+[[members]]
+name = "max_hands"
+type = "u8"
+key = false
+
+[[members]]
+name = "max_discard"
+type = "u8"
+key = false
+
+[[members]]
+name = "max_jokers"
+type = "u8"
+key = false
+
+[[members]]
+name = "level"
+type = "u32"
+key = false
+
+[[members]]
+name = "len_hand"
+type = "u32"
+key = false
+
+[[members]]
+name = "len_max_current_special_cards"
+type = "u32"
+key = false
+
+[[members]]
+name = "len_current_special_cards"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_jokers"
+type = "u8"
+key = false
+
+[[members]]
+name = "state"
+type = "GameState"
+key = false
+
+[[members]]
+name = "substate"
+type = "GameSubState"
+key = false

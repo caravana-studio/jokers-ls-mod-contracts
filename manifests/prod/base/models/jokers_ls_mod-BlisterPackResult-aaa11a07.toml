@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x50bcfaad20a5d5024ceab9327ebb6ea203c6bd8835026b194930a813a0cde43"
+original_class_hash = "0x50bcfaad20a5d5024ceab9327ebb6ea203c6bd8835026b194930a813a0cde43"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BlisterPackResult-aaa11a07.json"
+tag = "jokers_ls_mod-BlisterPackResult"
+qualified_path = "jokers_ls_mod::models::status::shop::shop::blister_pack_result"
+manifest_name = "jokers_ls_mod-BlisterPackResult-aaa11a07"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "cards_picked"
+type = "bool"
+key = false
+
+[[members]]
+name = "cards"
+type = "Span<u32>"
+key = false

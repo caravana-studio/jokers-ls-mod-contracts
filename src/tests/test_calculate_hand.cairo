@@ -1,9 +1,9 @@
 use core::nullable::NullableTrait;
-use jokers_of_neon::constants::specials::{SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID};
-use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value};
-use jokers_of_neon::models::data::poker_hand::PokerHand;
-use jokers_of_neon::tests::setup;
-use jokers_of_neon::utils::calculate_hand::calculate_hand;
+use jokers_ls_mod::constants::specials::{SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID};
+use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value};
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::tests::setup;
+use jokers_ls_mod::utils::calculate_hand::calculate_hand;
 
 #[test]
 #[available_gas(300000000000)]
@@ -350,12 +350,12 @@ fn test_high_card() {
 }
 
 mod jokers {
-    use jokers_of_neon::constants::specials::{SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID};
-    use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value};
-    use jokers_of_neon::models::data::poker_hand::PokerHand;
-    use jokers_of_neon::tests::setup;
-    use jokers_of_neon::utils::calculate_hand::calculate_hand;
-    use jokers_of_neon::utils::constants::{JOKER_CARD, NEON_JOKER_CARD};
+    use jokers_ls_mod::constants::specials::{SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID};
+    use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value};
+    use jokers_ls_mod::models::data::poker_hand::PokerHand;
+    use jokers_ls_mod::tests::setup;
+    use jokers_ls_mod::utils::calculate_hand::calculate_hand;
+    use jokers_ls_mod::utils::constants::{JOKER_CARD, NEON_JOKER_CARD};
 
     fn JOKER() -> Card {
         Card { id: JOKER_CARD, suit: Suit::Joker, value: Value::Joker, points: 100, multi_add: 1 }

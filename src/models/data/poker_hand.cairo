@@ -1,5 +1,5 @@
-use jokers_of_neon::traits::Enumerable;
-use jokers_of_neon::utils::constants::{
+use jokers_ls_mod::traits::Enumerable;
+use jokers_ls_mod::utils::constants::{
     POKER_HAND_ROYAL_FLUSH, POKER_HAND_STRAIGHT_FLUSH, POKER_HAND_FOUR_OF_A_KIND, POKER_HAND_FULL_HOUSE,
     POKER_HAND_STRAIGHT, POKER_HAND_FLUSH, POKER_HAND_THREE_OF_A_KIND, POKER_HAND_TWO_PAIR, POKER_HAND_ONE_PAIR,
     POKER_HAND_HIGH_CARD, POKER_HAND_FIVE_OF_A_KIND

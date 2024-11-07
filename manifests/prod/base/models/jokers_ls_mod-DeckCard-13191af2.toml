@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x2dd0e1b59fec30af97426c4d00d0fe626ea36cd290ab808f08166c2bb3bb8ea"
+original_class_hash = "0x2dd0e1b59fec30af97426c4d00d0fe626ea36cd290ab808f08166c2bb3bb8ea"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-DeckCard-13191af2.json"
+tag = "jokers_ls_mod-DeckCard"
+qualified_path = "jokers_ls_mod::models::data::game_deck::deck_card"
+manifest_name = "jokers_ls_mod-DeckCard-13191af2"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "index"
+type = "u32"
+key = true
+
+[[members]]
+name = "card_id"
+type = "u32"
+key = false

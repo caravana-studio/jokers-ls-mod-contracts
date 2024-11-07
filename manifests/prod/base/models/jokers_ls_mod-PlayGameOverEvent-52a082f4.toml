@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x6352793796ec9a57f378235e493b5f2d9092c91f30382c205c723edb72e0589"
+original_class_hash = "0x6352793796ec9a57f378235e493b5f2d9092c91f30382c205c723edb72e0589"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-PlayGameOverEvent-52a082f4.json"
+tag = "jokers_ls_mod-PlayGameOverEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_game_over_event"
+manifest_name = "jokers_ls_mod-PlayGameOverEvent-52a082f4"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false

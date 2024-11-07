@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x4d7a2744c75338e1bd239806c61d2c3623039e8aa6dce5630c3c4c12c3a34f3"
+original_class_hash = "0x4d7a2744c75338e1bd239806c61d2c3623039e8aa6dce5630c3c4c12c3a34f3"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-PlayerHealed-724c3503.json"
+tag = "jokers_ls_mod-PlayerHealed"
+qualified_path = "jokers_ls_mod::models::data::events::player_healed"
+manifest_name = "jokers_ls_mod-PlayerHealed-724c3503"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "potion_heal"
+type = "u32"
+key = false
+
+[[members]]
+name = "current_hp"
+type = "u32"
+key = false

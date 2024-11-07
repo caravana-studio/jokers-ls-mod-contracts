@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x386bb1216d23f48ab9dece1025b2087076c621d20b647960434a331f2445dc0"
+original_class_hash = "0x386bb1216d23f48ab9dece1025b2087076c621d20b647960434a331f2445dc0"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-ObstacleHandScore-f74943b3.json"
+tag = "jokers_ls_mod-ObstacleHandScore"
+qualified_path = "jokers_ls_mod::models::data::events::obstacle_hand_score"
+manifest_name = "jokers_ls_mod-ObstacleHandScore-f74943b3"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "hand_score"
+type = "u32"
+key = false

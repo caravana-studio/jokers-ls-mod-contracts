@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x484327111335a8fed94c92abe8e5f91372490b9574e1348031f90b586ea606b"
+original_class_hash = "0x484327111335a8fed94c92abe8e5f91372490b9574e1348031f90b586ea606b"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-PlayerBeast-2719982c.json"
+tag = "jokers_ls_mod-PlayerBeast"
+qualified_path = "jokers_ls_mod::models::data::beast::player_beast"
+manifest_name = "jokers_ls_mod-PlayerBeast-2719982c"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "energy"
+type = "u8"
+key = false

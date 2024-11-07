@@ -1,18 +1,18 @@
 use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-use jokers_of_neon::configs::rage::RageRoundConfig;
-use jokers_of_neon::models::data::beast::{
+use jokers_ls_mod::configs::rage::RageRoundConfig;
+use jokers_ls_mod::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast
 };
-use jokers_of_neon::models::data::blister_pack::BlisterPack;
-use jokers_of_neon::models::data::card::{Card, CardTrait, Suit, Value, ValueEnumerableImpl};
-use jokers_of_neon::models::data::effect_card::{Effect, EffectCard, TypeEffectCard};
-use jokers_of_neon::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
-use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
-use jokers_of_neon::models::status::game::game::{Game, CurrentSpecialCards};
-use jokers_of_neon::models::status::game::rage::{RageRound, RageRoundStore};
-use jokers_of_neon::models::status::round::current_hand_card::CurrentHandCard;
-use jokers_of_neon::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem};
-use jokers_of_neon::store::{Store, StoreTrait};
+use jokers_ls_mod::models::data::blister_pack::BlisterPack;
+use jokers_ls_mod::models::data::card::{Card, CardTrait, Suit, Value, ValueEnumerableImpl};
+use jokers_ls_mod::models::data::effect_card::{Effect, EffectCard, TypeEffectCard};
+use jokers_ls_mod::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
+use jokers_ls_mod::models::data::poker_hand::{LevelPokerHand, PokerHand};
+use jokers_ls_mod::models::status::game::game::{Game, CurrentSpecialCards};
+use jokers_ls_mod::models::status::game::rage::{RageRound, RageRoundStore};
+use jokers_ls_mod::models::status::round::current_hand_card::CurrentHandCard;
+use jokers_ls_mod::models::status::shop::shop::{CardItem, CardItemType, BlisterPackItem};
+use jokers_ls_mod::store::{Store, StoreTrait};
 use starknet::ContractAddress;
 
 fn mock_current_hand(

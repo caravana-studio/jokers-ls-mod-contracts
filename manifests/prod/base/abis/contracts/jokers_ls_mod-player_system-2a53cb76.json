@@ -1,0 +1,791 @@
+[
+  {
+    "type": "impl",
+    "name": "ContractImpl",
+    "interface_name": "dojo::contract::contract::IContract"
+  },
+  {
+    "type": "struct",
+    "name": "core::byte_array::ByteArray",
+    "members": [
+      {
+        "name": "data",
+        "type": "core::array::Array::<core::bytes_31::bytes31>"
+      },
+      {
+        "name": "pending_word",
+        "type": "core::felt252"
+      },
+      {
+        "name": "pending_word_len",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "dojo::contract::contract::IContract",
+    "items": [
+      {
+        "type": "function",
+        "name": "name",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "namespace",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "tag",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::byte_array::ByteArray"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "name_hash",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "namespace_hash",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "selector",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "core::felt252"
+          }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "WorldProviderImpl",
+    "interface_name": "dojo::world::world_contract::IWorldProvider"
+  },
+  {
+    "type": "struct",
+    "name": "dojo::world::world_contract::IWorldDispatcher",
+    "members": [
+      {
+        "name": "contract_address",
+        "type": "core::starknet::contract_address::ContractAddress"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "dojo::world::world_contract::IWorldProvider",
+    "items": [
+      {
+        "type": "function",
+        "name": "world",
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "dojo::world::world_contract::IWorldDispatcher"
+          }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "PokerHandSystem",
+    "interface_name": "jokers_ls_mod::systems::player_system::IPlayerSystem"
+  },
+  {
+    "type": "enum",
+    "name": "jokers_ls_mod::models::status::game::game::GameState",
+    "variants": [
+      {
+        "name": "IN_GAME",
+        "type": "()"
+      },
+      {
+        "name": "FINISHED",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "jokers_ls_mod::models::status::game::game::GameSubState",
+    "variants": [
+      {
+        "name": "BEAST",
+        "type": "()"
+      },
+      {
+        "name": "OBSTACLE",
+        "type": "()"
+      },
+      {
+        "name": "CREATE_LEVEL",
+        "type": "()"
+      },
+      {
+        "name": "CREATE_REWARD",
+        "type": "()"
+      },
+      {
+        "name": "REWARD_SPECIALS",
+        "type": "()"
+      },
+      {
+        "name": "REWARD_CARDS_PACK",
+        "type": "()"
+      },
+      {
+        "name": "DRAFT_MODIFIERS",
+        "type": "()"
+      },
+      {
+        "name": "DRAFT_SPECIALS",
+        "type": "()"
+      },
+      {
+        "name": "DRAFT_DECK",
+        "type": "()"
+      },
+      {
+        "name": "DRAFT_ADVENTURER",
+        "type": "()"
+      },
+      {
+        "name": "DRAFT_ADVENTURER_CARDS",
+        "type": "()"
+      },
+      {
+        "name": "UNPASSED_OBSTACLE",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::status::game::game::Game",
+    "members": [
+      {
+        "name": "id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "player_name",
+        "type": "core::felt252"
+      },
+      {
+        "name": "player_hp",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "player_score",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "player_level",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "obstacles_cleared",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "beasts_defeated",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "current_player_hp",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "max_hands",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "max_discard",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "max_jokers",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "level",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "len_hand",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "len_max_current_special_cards",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "len_current_special_cards",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "current_jokers",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "state",
+        "type": "jokers_ls_mod::models::status::game::game::GameState"
+      },
+      {
+        "name": "substate",
+        "type": "jokers_ls_mod::models::status::game::game::GameSubState"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "core::bool",
+    "variants": [
+      {
+        "name": "False",
+        "type": "()"
+      },
+      {
+        "name": "True",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::adventurer::AdventurerConsumed",
+    "members": [
+      {
+        "name": "adventurer_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "owner",
+        "type": "core::starknet::contract_address::ContractAddress"
+      },
+      {
+        "name": "consumed",
+        "type": "core::bool"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::status::round::current_hand_card::CurrentHandCard",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "idx",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "card_id",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::beast::GameModeBeast",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "cost_discard",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "cost_play",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "energy_max_player",
+        "type": "core::integer::u8"
+      }
+    ]
+  },
+  {
+    "type": "enum",
+    "name": "jokers_ls_mod::models::data::beast::TypeBeast",
+    "variants": [
+      {
+        "name": "LOOT_SURVIVOR",
+        "type": "()"
+      },
+      {
+        "name": "JOKERS_OF_NEON",
+        "type": "()"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::beast::Beast",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "beast_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "tier",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "level",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "health",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "current_health",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "attack",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "type_beast",
+        "type": "jokers_ls_mod::models::data::beast::TypeBeast"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::beast::PlayerBeast",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "energy",
+        "type": "core::integer::u8"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "core::array::Span::<(core::integer::u32, core::bool)>",
+    "members": [
+      {
+        "name": "snapshot",
+        "type": "@core::array::Array::<(core::integer::u32, core::bool)>"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::challenge::Challenge",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "active_ids",
+        "type": "core::array::Span::<(core::integer::u32, core::bool)>"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::challenge::ChallengePlayer",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "discards",
+        "type": "core::integer::u8"
+      },
+      {
+        "name": "plays",
+        "type": "core::integer::u8"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "core::array::Span::<core::integer::u32>",
+    "members": [
+      {
+        "name": "snapshot",
+        "type": "@core::array::Array::<core::integer::u32>"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::data::reward::Reward",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "rewards_ids",
+        "type": "core::array::Span::<core::integer::u32>"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::status::shop::shop::BlisterPackResult",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "cards_picked",
+        "type": "core::bool"
+      },
+      {
+        "name": "cards",
+        "type": "core::array::Span::<core::integer::u32>"
+      }
+    ]
+  },
+  {
+    "type": "struct",
+    "name": "jokers_ls_mod::models::status::game::game::CurrentSpecialCards",
+    "members": [
+      {
+        "name": "game_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "idx",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "effect_card_id",
+        "type": "core::integer::u32"
+      },
+      {
+        "name": "is_temporary",
+        "type": "core::bool"
+      },
+      {
+        "name": "remaining",
+        "type": "core::integer::u32"
+      }
+    ]
+  },
+  {
+    "type": "interface",
+    "name": "jokers_ls_mod::systems::player_system::IPlayerSystem",
+    "items": [
+      {
+        "type": "function",
+        "name": "get_game",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::status::game::game::Game"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_adventurer",
+        "inputs": [
+          {
+            "name": "adventurer_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::adventurer::AdventurerConsumed"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_player_current_hand",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::array::Array::<jokers_ls_mod::models::status::round::current_hand_card::CurrentHandCard>"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_game_mode_beast",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::beast::GameModeBeast"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_beast",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::beast::Beast"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_player_beast",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::beast::PlayerBeast"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_challenge",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::challenge::Challenge"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_challenge_player",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::challenge::ChallengePlayer"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_reward",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::data::reward::Reward"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_blister_pack_result",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "jokers_ls_mod::models::status::shop::shop::BlisterPackResult"
+          }
+        ],
+        "state_mutability": "view"
+      },
+      {
+        "type": "function",
+        "name": "get_current_special_cards",
+        "inputs": [
+          {
+            "name": "game_id",
+            "type": "core::integer::u32"
+          }
+        ],
+        "outputs": [
+          {
+            "type": "core::array::Array::<jokers_ls_mod::models::status::game::game::CurrentSpecialCards>"
+          }
+        ],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "IDojoInitImpl",
+    "interface_name": "jokers_ls_mod::systems::player_system::player_system::IDojoInit"
+  },
+  {
+    "type": "interface",
+    "name": "jokers_ls_mod::systems::player_system::player_system::IDojoInit",
+    "items": [
+      {
+        "type": "function",
+        "name": "dojo_init",
+        "inputs": [],
+        "outputs": [],
+        "state_mutability": "view"
+      }
+    ]
+  },
+  {
+    "type": "impl",
+    "name": "UpgradableImpl",
+    "interface_name": "dojo::contract::upgradeable::IUpgradeable"
+  },
+  {
+    "type": "interface",
+    "name": "dojo::contract::upgradeable::IUpgradeable",
+    "items": [
+      {
+        "type": "function",
+        "name": "upgrade",
+        "inputs": [
+          {
+            "name": "new_class_hash",
+            "type": "core::starknet::class_hash::ClassHash"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "dojo::contract::upgradeable::upgradeable::Upgraded",
+    "kind": "struct",
+    "members": [
+      {
+        "name": "class_hash",
+        "type": "core::starknet::class_hash::ClassHash",
+        "kind": "data"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "dojo::contract::upgradeable::upgradeable::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "Upgraded",
+        "type": "dojo::contract::upgradeable::upgradeable::Upgraded",
+        "kind": "nested"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "jokers_ls_mod::systems::player_system::player_system::Event",
+    "kind": "enum",
+    "variants": [
+      {
+        "name": "UpgradeableEvent",
+        "type": "dojo::contract::upgradeable::upgradeable::Event",
+        "kind": "nested"
+      }
+    ]
+  }
+]

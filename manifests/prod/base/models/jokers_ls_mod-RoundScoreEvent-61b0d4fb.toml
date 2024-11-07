@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x1dae991136db008450d960bad924d96db8b07094886b010599fcfd9675cb5d0"
+original_class_hash = "0x1dae991136db008450d960bad924d96db8b07094886b010599fcfd9675cb5d0"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-RoundScoreEvent-61b0d4fb.json"
+tag = "jokers_ls_mod-RoundScoreEvent"
+qualified_path = "jokers_ls_mod::models::data::events::round_score_event"
+manifest_name = "jokers_ls_mod-RoundScoreEvent-61b0d4fb"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "player_score"
+type = "u32"
+key = false

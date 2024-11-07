@@ -1,19 +1,17 @@
 mod test_challenge {
     use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
-    use jokers_of_neon::constants::{
+    use jokers_ls_mod::constants::{
         challenge::{CHALLENGE_STRAIGHT, CHALLENGE_CLUBS, CHALLENGE_HEARTS, CHALLENGE_TEN},
         card::{SIX_CLUBS_ID, SEVEN_CLUBS_ID, EIGHT_CLUBS_ID, NINE_HEARTS_ID, TEN_CLUBS_ID}
     };
-    use jokers_of_neon::models::data::challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore};
+    use jokers_ls_mod::models::data::challenge::{Challenge, ChallengeStore, ChallengePlayer, ChallengePlayerStore};
 
-    use jokers_of_neon::models::status::game::game::{Game, GameState, GameSubState, GameStore};
-    use jokers_of_neon::models::status::round::challenge::ChallengeImpl;
-    use jokers_of_neon::store::{Store, StoreTrait};
-    use jokers_of_neon::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
-    use jokers_of_neon::tests::setup::{
-        setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait
-    };
-    use jokers_of_neon::tests::utils::{mock_current_hand_cards_ids, mock_game};
+    use jokers_ls_mod::models::status::game::game::{Game, GameState, GameSubState, GameStore};
+    use jokers_ls_mod::models::status::round::challenge::ChallengeImpl;
+    use jokers_ls_mod::store::{Store, StoreTrait};
+    use jokers_ls_mod::systems::game_system::{game_system, IGameSystemDispatcher, IGameSystemDispatcherTrait};
+    use jokers_ls_mod::tests::setup::{setup, setup::OWNER, setup::IDojoInitDispatcher, setup::IDojoInitDispatcherTrait};
+    use jokers_ls_mod::tests::utils::{mock_current_hand_cards_ids, mock_game};
 
     use starknet::testing::set_contract_address;
 

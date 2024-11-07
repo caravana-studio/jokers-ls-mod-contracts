@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x724ca866c35ca8ab8d7b695af04c6213a92dba4a8e545119783354ddb6f4b91"
+original_class_hash = "0x724ca866c35ca8ab8d7b695af04c6213a92dba4a8e545119783354ddb6f4b91"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-GameDeck-2bf1ba06.json"
+tag = "jokers_ls_mod-GameDeck"
+qualified_path = "jokers_ls_mod::models::data::game_deck::game_deck"
+manifest_name = "jokers_ls_mod-GameDeck-2bf1ba06"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "len"
+type = "u32"
+key = false
+
+[[members]]
+name = "round_len"
+type = "u32"
+key = false

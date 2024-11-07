@@ -1,0 +1,17 @@
+kind = "DojoModel"
+class_hash = "0x165171ffc98aa184506cbb942059506140909f6f1071c23496693b652d8cac3"
+original_class_hash = "0x165171ffc98aa184506cbb942059506140909f6f1071c23496693b652d8cac3"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-Challenge-5bac0afb.json"
+tag = "jokers_ls_mod-Challenge"
+qualified_path = "jokers_ls_mod::models::data::challenge::challenge"
+manifest_name = "jokers_ls_mod-Challenge-5bac0afb"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "active_ids"
+type = "Span<(u32, bool)>"
+key = false

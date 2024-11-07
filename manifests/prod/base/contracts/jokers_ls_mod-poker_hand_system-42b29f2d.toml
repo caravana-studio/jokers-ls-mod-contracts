@@ -1,0 +1,11 @@
+kind = "DojoContract"
+class_hash = "0x2ef4e6561d794801c4881af414ce81466ba116a3f962193912198971043cf46"
+original_class_hash = "0x2ef4e6561d794801c4881af414ce81466ba116a3f962193912198971043cf46"
+base_class_hash = "0x0"
+abi = "manifests/prod/base/abis/contracts/jokers_ls_mod-poker_hand_system-42b29f2d.json"
+reads = []
+writes = []
+init_calldata = []
+tag = "jokers_ls_mod-poker_hand_system"
+systems = []
+manifest_name = "jokers_ls_mod-poker_hand_system-42b29f2d"

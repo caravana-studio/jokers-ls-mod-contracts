@@ -1,0 +1,22 @@
+kind = "DojoModel"
+class_hash = "0x1b743b0bcd9a9c515effd38b3faa77a1cd51aca400f27a38d4b8738b28de7b6"
+original_class_hash = "0x1b743b0bcd9a9c515effd38b3faa77a1cd51aca400f27a38d4b8738b28de7b6"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-AdventurerConsumed-f2e33c1c.json"
+tag = "jokers_ls_mod-AdventurerConsumed"
+qualified_path = "jokers_ls_mod::models::data::adventurer::adventurer_consumed"
+manifest_name = "jokers_ls_mod-AdventurerConsumed-f2e33c1c"
+
+[[members]]
+name = "adventurer_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "owner"
+type = "ContractAddress"
+key = false
+
+[[members]]
+name = "consumed"
+type = "bool"
+key = false

@@ -1,7 +1,7 @@
 use alexandria_sorting::merge_sort::MergeSort;
-use jokers_of_neon::constants::specials::{SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID};
-use jokers_of_neon::models::data::card::{Card, Suit, Value};
-use jokers_of_neon::models::data::poker_hand::PokerHand;
+use jokers_ls_mod::constants::specials::{SPECIAL_STRAIGHT_WITH_FOUR_CARDS_ID, SPECIAL_FLUSH_WITH_FOUR_CARDS_ID};
+use jokers_ls_mod::models::data::card::{Card, Suit, Value};
+use jokers_ls_mod::models::data::poker_hand::PokerHand;
 
 fn calculate_hand(
     cards: @Array<Card>, ref current_special_cards_index: Felt252Dict<Nullable<u32>>

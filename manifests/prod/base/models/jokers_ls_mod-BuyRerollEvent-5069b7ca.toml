@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x2091c1b2908669b8538ffd2267c77294a586bf04d15a13a2afb70711e943f23"
+original_class_hash = "0x2091c1b2908669b8538ffd2267c77294a586bf04d15a13a2afb70711e943f23"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BuyRerollEvent-5069b7ca.json"
+tag = "jokers_ls_mod-BuyRerollEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_reroll_event"
+manifest_name = "jokers_ls_mod-BuyRerollEvent-5069b7ca"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "level"
+type = "u32"
+key = true
+
+[[members]]
+name = "reroll_cost"
+type = "u32"
+key = false
+
+[[members]]
+name = "reroll_executed"
+type = "bool"
+key = false

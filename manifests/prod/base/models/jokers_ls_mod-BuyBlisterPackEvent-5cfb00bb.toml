@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x1d1db5fe314b7f28b9f50c457dcfdda7f8b48064ef3be0bde827272a90c2bcc"
+original_class_hash = "0x1d1db5fe314b7f28b9f50c457dcfdda7f8b48064ef3be0bde827272a90c2bcc"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-BuyBlisterPackEvent-5cfb00bb.json"
+tag = "jokers_ls_mod-BuyBlisterPackEvent"
+qualified_path = "jokers_ls_mod::models::data::events::buy_blister_pack_event"
+manifest_name = "jokers_ls_mod-BuyBlisterPackEvent-5cfb00bb"
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = true
+
+[[members]]
+name = "level"
+type = "u32"
+key = true
+
+[[members]]
+name = "idx"
+type = "u32"
+key = true
+
+[[members]]
+name = "blister_pack_id"
+type = "u32"
+key = false

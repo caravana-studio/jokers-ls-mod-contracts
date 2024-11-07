@@ -1,0 +1,27 @@
+kind = "DojoModel"
+class_hash = "0x1391e37b6e695b667899bb9c733e71a3585f5b2a21736649659f1cfbf948add"
+original_class_hash = "0x1391e37b6e695b667899bb9c733e71a3585f5b2a21736649659f1cfbf948add"
+abi = "manifests/prod/base/abis/models/jokers_ls_mod-PlayWinGameEvent-71b968a1.json"
+tag = "jokers_ls_mod-PlayWinGameEvent"
+qualified_path = "jokers_ls_mod::models::data::events::play_win_game_event"
+manifest_name = "jokers_ls_mod-PlayWinGameEvent-71b968a1"
+
+[[members]]
+name = "player"
+type = "ContractAddress"
+key = true
+
+[[members]]
+name = "game_id"
+type = "u32"
+key = false
+
+[[members]]
+name = "level"
+type = "u32"
+key = false
+
+[[members]]
+name = "player_score"
+type = "u32"
+key = false

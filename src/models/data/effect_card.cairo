@@ -1,5 +1,5 @@
-use jokers_of_neon::models::data::card::{Card, Suit, Value};
-use jokers_of_neon::models::data::poker_hand::{LevelPokerHand, PokerHand};
+use jokers_ls_mod::models::data::card::{Card, Suit, Value};
+use jokers_ls_mod::models::data::poker_hand::{LevelPokerHand, PokerHand};
 
 #[derive(Copy, Drop, IntrospectPacked, Serde)]
 struct EffectCard {
