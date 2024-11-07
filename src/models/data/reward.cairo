@@ -17,6 +17,7 @@ enum RewardType {
     SPECIAL_CARDS,
     NONE
 }
+
 #[generate_trait]
 impl RewardImpl of RewardTrait {
     fn challenge(world: IWorldDispatcher, game_id: u32) {
