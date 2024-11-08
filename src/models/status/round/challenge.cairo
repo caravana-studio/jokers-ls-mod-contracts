@@ -50,7 +50,12 @@ impl ChallengeImpl of ChallengeTrait {
         let mut game = store.get_game(game_id);
 
         let mut challenge = ChallengeStore::get(world, game_id);
-        challenge.active_ids = _generate_random_challenges(world, 3, challenges_all(), array![]).span();
+        
+        challenge.active_ids = if game.level <= 5 {
+            _generate_random_challenges(world, 2, challenges_all(), array![]).span() 
+        } else {
+            _generate_random_challenges(world, 3, challenges_all(), array![]).span() 
+        };
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
 
