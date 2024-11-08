@@ -330,19 +330,21 @@ impl StoreImpl of StoreTrait {
             FIGURES_BLISTER_PACK()
         } else if id == DECEITFUL_JOKER_BLISTER_PACK_ID {
             DECEITFUL_JOKER_BLISTER_PACK()
-        } else if id == LOVERS_BLISTER_PACK_ID {
-            LOVERS_BLISTER_PACK()
         } else if id == SPECIAL_BET_BLISTER_PACK_ID {
             SPECIAL_BET_BLISTER_PACK()
         } else if id == SPECIAL_CARDS_PACK_ID {
             SPECIAL_CARDS_PACK()
+        } else if id == MODIFIER_CARDS_PACK_ID {
+            MODIFIER_CARDS_PACK()
         } else if id == REWARD_CARDS_PACK_ID {
             REWARD_PACK(jokers: true)
-        } else if id == REWARD_CARDS_NJ_PACK_ID {
+        } 
+        else if id == REWARD_CARDS_NJ_PACK_ID {
             REWARD_PACK(jokers: false)
-        } else if id == REWARD_SPECIAL_CARDS_PACK_ID {
+        }
+         else if id == REWARD_SPECIAL_CARDS_PACK_ID {
             REWARD_SPECIAL_CARDS_PACK()
-        } else {
+        }else {
             EMPTY_BLISTER_PACK()
         }
     }
