@@ -174,29 +174,6 @@ fn get_cards(
 
         let mut card = store.get_card(current_hand_card.card_id);
 
-        let modifier_1_index = *modifiers_index.at(idx);
-        if modifier_1_index != 100 { // TODO: Invalid
-            let current_hand_modifier_card = store.get_current_hand_card(game_id, modifier_1_index);
-            let effect_card = store.get_effect_card(current_hand_modifier_card.card_id);
-            effect_id_cards_1.append(effect_card.effect_id);
-            let effect = store.get_effect(effect_card.effect_id);
-            if effect.suit != Suit::None && card.suit != Suit::Joker {
-                card.suit = effect.suit;
-                emit!(
-                    world,
-                    ModifierCardSuitEvent {
-                        player: get_caller_address(),
-                        game_id,
-                        modifier_card_idx: *modifiers_index.at(idx),
-                        current_hand_card_idx: *cards_index.at(idx),
-                        suit: card.suit
-                    }
-                );
-            }
-        } else {
-            effect_id_cards_1.append(100);
-        }
-
         if !(current_special_cards_index.get(SPECIAL_ALL_CARDS_TO_HEARTS_ID.into()).is_null()) {
             if card.suit != Suit::Joker {
                 card.suit = Suit::Hearts;
@@ -216,6 +193,22 @@ fn get_cards(
         }
 
         cards.append(card);
+        idx += 1;
+    };
+    
+    idx = 0;
+    loop {
+        if idx == modifiers_index.len() {
+            break;
+        }
+        let modifier_1_index = *modifiers_index.at(idx);
+        if modifier_1_index != 100 { // TODO: Invalid
+            let current_hand_modifier_card = store.get_current_hand_card(game_id, modifier_1_index);
+            let effect_card = store.get_effect_card(current_hand_modifier_card.card_id);
+            effect_id_cards_1.append(effect_card.effect_id);
+        } else {
+            effect_id_cards_1.append(100);
+        }
         idx += 1;
     };
     (cards, effect_id_cards_1, effect_id_cards_2)
