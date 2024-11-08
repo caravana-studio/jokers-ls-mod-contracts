@@ -9,7 +9,7 @@ use jokers_ls_mod::models::data::beast::{
     GameModeBeast, GameModeBeastStore, Beast, BeastStore, PlayerBeast, PlayerBeastStore, TypeBeast, BeastStats,
 };
 use jokers_ls_mod::models::data::events::{
-    PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack, BeastIsMintable, BeastNFT
+    PlayWinGameEvent, PlayGameOverEvent, BeastAttack, PlayerAttack, BeastIsMintable, BeastNFT, PlayerScore
 };
 use jokers_ls_mod::models::data::game_deck::{GameDeckImpl, GameDeck, GameDeckStore};
 use jokers_ls_mod::models::data::reward::RewardTrait;
@@ -164,6 +164,14 @@ impl BeastImpl of BeastTrait {
             if game_deck.round_len.is_zero() && player_has_empty_hand(ref store, @game) { // TODO: GameOver
                 let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id };
                 emit!(world, (play_game_over_event));
+
+                emit!(world, (PlayerScore {
+                    player: game.owner,
+                    player_name: game.player_name,
+                    player_score: game.player_score,
+                    player_level: game.player_level
+                }));
+
                 game.state = GameState::FINISHED;
             }
         }
@@ -221,6 +229,14 @@ impl BeastImpl of BeastTrait {
         if game_deck.round_len.is_zero() && player_has_empty_hand(ref store, @game) {
             let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
             emit!(world, (play_game_over_event));
+
+            emit!(world, (PlayerScore {
+                player: game.owner,
+                player_name: game.player_name,
+                player_score: game.player_score,
+                player_level: game.player_level
+            }));
+
             game.state = GameState::FINISHED;
             store.set_game(game);
         }
@@ -281,6 +297,14 @@ fn _attack_beast(
     if game.current_player_hp.is_zero() {
         let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
         emit!(world, (play_game_over_event));
+
+        emit!(world, (PlayerScore {
+            player: game.owner,
+            player_name: game.player_name,
+            player_score: game.player_score,
+            player_level: game.player_level
+        }));
+
         game.state = GameState::FINISHED;
     } else {
         // reset energy

@@ -19,7 +19,7 @@ use jokers_ls_mod::{
             game_deck::{GameDeckStore, GameDeckImpl},
             events::{
                 ChallengeCompleted, ItemChallengeCompleted, PlayGameOverEvent, ModifierCardSuitEvent,
-                SpecialModifierSuitEvent, ObstacleAttack, ObstacleHandScore
+                SpecialModifierSuitEvent, ObstacleAttack, ObstacleHandScore, PlayerScore
             },
             poker_hand::PokerHand, reward::RewardTrait
         },
@@ -116,6 +116,14 @@ impl ChallengeImpl of ChallengeTrait {
                 if game.current_player_hp.is_zero() {
                     let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                     emit!(world, (play_game_over_event));
+
+                    emit!(world, (PlayerScore {
+                        player: game.owner,
+                        player_name: game.player_name,
+                        player_score: game.player_score,
+                        player_level: game.player_level
+                    }));
+
                     game.state = GameState::FINISHED;
                     return;
                 }
@@ -164,6 +172,14 @@ impl ChallengeImpl of ChallengeTrait {
                 if game.current_player_hp.is_zero() {
                     let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                     emit!(world, (play_game_over_event));
+
+                    emit!(world, (PlayerScore {
+                        player: game.owner,
+                        player_name: game.player_name,
+                        player_score: game.player_score,
+                        player_level: game.player_level
+                    }));
+
                     game.state = GameState::FINISHED;
                     return;
                 }
@@ -219,6 +235,14 @@ impl ChallengeImpl of ChallengeTrait {
         if game_deck.round_len.is_zero() && _player_has_empty_hand(ref store, @game) {
             let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
             emit!(world, (play_game_over_event));
+
+            emit!(world, (PlayerScore {
+                player: game.owner,
+                player_name: game.player_name,
+                player_score: game.player_score,
+                player_level: game.player_level
+            }));
+            
             game.state = GameState::FINISHED;
             store.set_game(game);
         }

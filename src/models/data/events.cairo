@@ -332,3 +332,14 @@ struct ObstacleHandScore {
     player: ContractAddress,
     hand_score: u32
 }
+
+#[derive(Copy, Drop, Serde)]
+#[dojo::event]
+#[dojo::model]
+struct PlayerScore {
+    #[key]
+    player: ContractAddress,
+    player_name: felt252,
+    player_score: u32,
+    player_level: u32
+}
