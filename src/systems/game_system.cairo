@@ -57,7 +57,7 @@ mod game_system {
     use jokers_ls_mod::constants::modifiers::{POINTS_MODIFIER_4_ID, MULTI_MODIFIER_4_ID};
     use jokers_ls_mod::constants::packs::{
         SPECIAL_CARDS_PACK_ID, MODIFIER_CARDS_PACK_ID, REWARD_CARDS_PACK_ID, REWARD_SPECIAL_CARDS_PACK_ID,
-        SPECIALS_BLISTER_PACK_ID
+        SPECIALS_BLISTER_PACK_ID, REWARD_CARDS_NJ_PACK_ID
     };
     use jokers_ls_mod::constants::reward::{REWARD_HP_POTION, REWARD_BLISTER_PACK, REWARD_SPECIAL_CARDS};
     use jokers_ls_mod::constants::specials::{
@@ -237,15 +237,20 @@ mod game_system {
                             } else {
                                 game.current_player_hp + hp_heal
                             };
-                    emit!(world, PlayerHealed { game_id, potion_heal: hp_heal, current_hp: game.player_hp });
+                    emit!(world, PlayerHealed { game_id, potion_heal: hp_heal, current_hp: game.player_hp },);
                 },
                 RewardType::BLISTER_PACK => {
                     game.substate = GameSubState::REWARD_CARDS_PACK;
 
                     let mut store = StoreTrait::new(world);
-                    let cards = open_blister_pack(world, ref store, game, REWARD_CARDS_PACK_ID);
+                    let blister_pack_id: u32 = if game.current_jokers <= 5 {
+                        REWARD_CARDS_PACK_ID
+                    } else {
+                        REWARD_CARDS_NJ_PACK_ID
+                    };
+                    let cards = open_blister_pack(world, ref store, game, blister_pack_id);
                     let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
-                    emit!(world, (blister_pack_result));
+                    emit!(world, (blister_pack_result,));
                     store.set_blister_pack_result(blister_pack_result);
                 },
                 RewardType::SPECIAL_CARDS => {
@@ -254,7 +259,7 @@ mod game_system {
                     let mut store = StoreTrait::new(world);
                     let cards = open_blister_pack(world, ref store, game, REWARD_SPECIAL_CARDS_PACK_ID);
                     let blister_pack_result = BlisterPackResult { game_id, cards_picked: false, cards };
-                    emit!(world, (blister_pack_result));
+                    emit!(world, (blister_pack_result,));
                     store.set_blister_pack_result(blister_pack_result);
                 },
                 _ => {}

@@ -309,27 +309,35 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
         TypeBeast::JOKERS_OF_NEON
     };
 
-    BeastStore::set(@Beast {
-        game_id: game_id,
-        beast_id: beast_id,
-        tier: tier,
-        level: level,
-        health: health,
-        current_health: health,
-        attack: attack,
-        type_beast: type_beast
-    }, world);
+    BeastStore::set(
+        @Beast {
+            game_id: game_id,
+            beast_id: beast_id,
+            tier: tier,
+            level: level,
+            health: health,
+            current_health: health,
+            attack: attack,
+            type_beast: type_beast
+        },
+        world
+    );
 
-    emit!(world, (Beast {
-        game_id: game_id,
-        beast_id: beast_id,
-        tier: tier,
-        level: level,
-        health: health,
-        current_health: health,
-        attack: attack,
-        type_beast: type_beast
-    },));
+    emit!(
+        world,
+        (
+            Beast {
+                game_id: game_id,
+                beast_id: beast_id,
+                tier: tier,
+                level: level,
+                health: health,
+                current_health: health,
+                attack: attack,
+                type_beast: type_beast
+            },
+        )
+    );
 
     match type_beast {
         TypeBeast::JOKERS_OF_NEON => {
@@ -338,15 +346,18 @@ fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
             let owner = erc721_dispatcher.get_owner(beast_stats);
             emit!(
                 world,
-                (BeastIsMintable {
-                    player: get_caller_address(),
-                    tier: beast_stats.tier,
-                    level: beast_stats.level,
-                    beast_id: beast_stats.beast_id,
-                    is_mintable: owner.is_zero()
-                },)
+                (
+                    BeastIsMintable {
+                        player: get_caller_address(),
+                        tier: beast_stats.tier,
+                        level: beast_stats.level,
+                        beast_id: beast_stats.beast_id,
+                        is_mintable: owner.is_zero()
+                    },
+                )
             );
-        }, _ => {}
+        },
+        _ => {}
     };
 }
 
