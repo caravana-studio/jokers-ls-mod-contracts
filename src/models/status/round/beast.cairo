@@ -293,7 +293,7 @@ fn _attack_beast(
 fn _create_beast(world: IWorldDispatcher, game_id: u32, level: u8) {
     let mut randomizer = RandomImpl::new(world);
 
-    let beast_id: u32 = if level < 10 {
+    let beast_id: u32 = if level < 7 {
         let rnd = randomizer.between::<u32>(0, beast_loot_survivor().len() - 1);
         *beast_loot_survivor().at(rnd)
     } else {
