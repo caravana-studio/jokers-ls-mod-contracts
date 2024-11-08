@@ -169,7 +169,9 @@ impl BeastImpl of BeastTrait {
                     player: game.owner,
                     player_name: game.player_name,
                     player_score: game.player_score,
-                    player_level: game.player_level
+                    player_level: game.player_level,
+                    obstacles_cleared: game.obstacles_cleared,
+                    beasts_defeated: game.beasts_defeated
                 }));
 
                 game.state = GameState::FINISHED;
@@ -234,7 +236,9 @@ impl BeastImpl of BeastTrait {
                 player: game.owner,
                 player_name: game.player_name,
                 player_score: game.player_score,
-                player_level: game.player_level
+                player_level: game.player_level,
+                obstacles_cleared: game.obstacles_cleared,
+                beasts_defeated: game.beasts_defeated
             }));
 
             game.state = GameState::FINISHED;
@@ -302,7 +306,9 @@ fn _attack_beast(
             player: game.owner,
             player_name: game.player_name,
             player_score: game.player_score,
-            player_level: game.player_level
+            player_level: game.player_level,
+            obstacles_cleared: game.obstacles_cleared,
+            beasts_defeated: game.beasts_defeated
         }));
 
         game.state = GameState::FINISHED;

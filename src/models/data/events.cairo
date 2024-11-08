@@ -341,5 +341,7 @@ struct PlayerScore {
     player: ContractAddress,
     player_name: felt252,
     player_score: u32,
-    player_level: u32
+    player_level: u32,
+    obstacles_cleared: u32,
+    beasts_defeated: u32,
 }

@@ -121,7 +121,9 @@ impl ChallengeImpl of ChallengeTrait {
                         player: game.owner,
                         player_name: game.player_name,
                         player_score: game.player_score,
-                        player_level: game.player_level
+                        player_level: game.player_level,
+                        obstacles_cleared: game.obstacles_cleared,
+                        beasts_defeated: game.beasts_defeated
                     }));
 
                     game.state = GameState::FINISHED;
@@ -177,7 +179,9 @@ impl ChallengeImpl of ChallengeTrait {
                         player: game.owner,
                         player_name: game.player_name,
                         player_score: game.player_score,
-                        player_level: game.player_level
+                        player_level: game.player_level,
+                        obstacles_cleared: game.obstacles_cleared,
+                        beasts_defeated: game.beasts_defeated
                     }));
 
                     game.state = GameState::FINISHED;
@@ -240,9 +244,11 @@ impl ChallengeImpl of ChallengeTrait {
                 player: game.owner,
                 player_name: game.player_name,
                 player_score: game.player_score,
-                player_level: game.player_level
+                player_level: game.player_level,
+                obstacles_cleared: game.obstacles_cleared,
+                beasts_defeated: game.beasts_defeated
             }));
-            
+
             game.state = GameState::FINISHED;
             store.set_game(game);
         }
