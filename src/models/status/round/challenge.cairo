@@ -50,12 +50,14 @@ impl ChallengeImpl of ChallengeTrait {
         let mut game = store.get_game(game_id);
 
         let mut challenge = ChallengeStore::get(world, game_id);
-        
-        challenge.active_ids = if game.level <= 5 {
-            _generate_random_challenges(world, 2, challenges_all(), array![]).span() 
-        } else {
-            _generate_random_challenges(world, 3, challenges_all(), array![]).span() 
-        };
+
+        challenge
+            .active_ids =
+                if game.level <= 5 {
+                    _generate_random_challenges(world, 2, challenges_all(), array![]).span()
+                } else {
+                    _generate_random_challenges(world, 3, challenges_all(), array![]).span()
+                };
         ChallengeStore::set(@challenge, world);
         emit!(world, (challenge));
 
@@ -117,14 +119,17 @@ impl ChallengeImpl of ChallengeTrait {
                     let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                     emit!(world, (play_game_over_event));
 
-                    emit!(world, (PlayerScore {
-                        player: game.owner,
-                        player_name: game.player_name,
-                        player_score: game.player_score,
-                        player_level: game.player_level,
-                        obstacles_cleared: game.obstacles_cleared,
-                        beasts_defeated: game.beasts_defeated
-                    }));
+                    emit!(
+                        world,
+                        (PlayerScore {
+                            player: game.owner,
+                            player_name: game.player_name,
+                            player_score: game.player_score,
+                            player_level: game.player_level,
+                            obstacles_cleared: game.obstacles_cleared,
+                            beasts_defeated: game.beasts_defeated
+                        })
+                    );
 
                     game.state = GameState::FINISHED;
                     return;
@@ -175,14 +180,17 @@ impl ChallengeImpl of ChallengeTrait {
                     let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
                     emit!(world, (play_game_over_event));
 
-                    emit!(world, (PlayerScore {
-                        player: game.owner,
-                        player_name: game.player_name,
-                        player_score: game.player_score,
-                        player_level: game.player_level,
-                        obstacles_cleared: game.obstacles_cleared,
-                        beasts_defeated: game.beasts_defeated
-                    }));
+                    emit!(
+                        world,
+                        (PlayerScore {
+                            player: game.owner,
+                            player_name: game.player_name,
+                            player_score: game.player_score,
+                            player_level: game.player_level,
+                            obstacles_cleared: game.obstacles_cleared,
+                            beasts_defeated: game.beasts_defeated
+                        })
+                    );
 
                     game.state = GameState::FINISHED;
                     return;
@@ -240,14 +248,17 @@ impl ChallengeImpl of ChallengeTrait {
             let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
             emit!(world, (play_game_over_event));
 
-            emit!(world, (PlayerScore {
-                player: game.owner,
-                player_name: game.player_name,
-                player_score: game.player_score,
-                player_level: game.player_level,
-                obstacles_cleared: game.obstacles_cleared,
-                beasts_defeated: game.beasts_defeated
-            }));
+            emit!(
+                world,
+                (PlayerScore {
+                    player: game.owner,
+                    player_name: game.player_name,
+                    player_score: game.player_score,
+                    player_level: game.player_level,
+                    obstacles_cleared: game.obstacles_cleared,
+                    beasts_defeated: game.beasts_defeated
+                })
+            );
 
             game.state = GameState::FINISHED;
             store.set_game(game);

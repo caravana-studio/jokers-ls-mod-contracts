@@ -195,7 +195,7 @@ fn get_cards(
         cards.append(card);
         idx += 1;
     };
-    
+
     idx = 0;
     loop {
         if idx == modifiers_index.len() {

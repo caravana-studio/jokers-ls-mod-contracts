@@ -51,7 +51,7 @@ impl GameDeckImpl of IGameDeck {
 
     fn deal(ref self: GameDeck, world: IWorldDispatcher, index: u32) -> u32 {
         let temp_deck_card = DeckCardStore::get(world, self.game_id, index);
-        let last_deck_card = DeckCardStore::get(world, self.game_id, self.round_len);
+        let last_deck_card = DeckCardStore::get(world, self.game_id, self.round_len - 1);
 
         set!(
             world,
@@ -70,4 +70,3 @@ impl GameDeckImpl of IGameDeck {
         GameDeckStore::set(@self, world)
     }
 }
-

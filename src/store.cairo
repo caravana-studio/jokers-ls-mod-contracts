@@ -338,13 +338,11 @@ impl StoreImpl of StoreTrait {
             MODIFIER_CARDS_PACK()
         } else if id == REWARD_CARDS_PACK_ID {
             REWARD_PACK(jokers: true)
-        } 
-        else if id == REWARD_CARDS_NJ_PACK_ID {
+        } else if id == REWARD_CARDS_NJ_PACK_ID {
             REWARD_PACK(jokers: false)
-        }
-         else if id == REWARD_SPECIAL_CARDS_PACK_ID {
+        } else if id == REWARD_SPECIAL_CARDS_PACK_ID {
             REWARD_SPECIAL_CARDS_PACK()
-        }else {
+        } else {
             EMPTY_BLISTER_PACK()
         }
     }

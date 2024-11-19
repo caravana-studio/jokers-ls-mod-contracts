@@ -165,14 +165,17 @@ impl BeastImpl of BeastTrait {
                 let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id };
                 emit!(world, (play_game_over_event));
 
-                emit!(world, (PlayerScore {
-                    player: game.owner,
-                    player_name: game.player_name,
-                    player_score: game.player_score,
-                    player_level: game.player_level,
-                    obstacles_cleared: game.obstacles_cleared,
-                    beasts_defeated: game.beasts_defeated
-                }));
+                emit!(
+                    world,
+                    (PlayerScore {
+                        player: game.owner,
+                        player_name: game.player_name,
+                        player_score: game.player_score,
+                        player_level: game.player_level,
+                        obstacles_cleared: game.obstacles_cleared,
+                        beasts_defeated: game.beasts_defeated
+                    })
+                );
 
                 game.state = GameState::FINISHED;
             }
@@ -232,14 +235,17 @@ impl BeastImpl of BeastTrait {
             let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
             emit!(world, (play_game_over_event));
 
-            emit!(world, (PlayerScore {
-                player: game.owner,
-                player_name: game.player_name,
-                player_score: game.player_score,
-                player_level: game.player_level,
-                obstacles_cleared: game.obstacles_cleared,
-                beasts_defeated: game.beasts_defeated
-            }));
+            emit!(
+                world,
+                (PlayerScore {
+                    player: game.owner,
+                    player_name: game.player_name,
+                    player_score: game.player_score,
+                    player_level: game.player_level,
+                    obstacles_cleared: game.obstacles_cleared,
+                    beasts_defeated: game.beasts_defeated
+                })
+            );
 
             game.state = GameState::FINISHED;
             store.set_game(game);
@@ -302,14 +308,17 @@ fn _attack_beast(
         let play_game_over_event = PlayGameOverEvent { player: get_caller_address(), game_id: game.id };
         emit!(world, (play_game_over_event));
 
-        emit!(world, (PlayerScore {
-            player: game.owner,
-            player_name: game.player_name,
-            player_score: game.player_score,
-            player_level: game.player_level,
-            obstacles_cleared: game.obstacles_cleared,
-            beasts_defeated: game.beasts_defeated
-        }));
+        emit!(
+            world,
+            (PlayerScore {
+                player: game.owner,
+                player_name: game.player_name,
+                player_score: game.player_score,
+                player_level: game.player_level,
+                obstacles_cleared: game.obstacles_cleared,
+                beasts_defeated: game.beasts_defeated
+            })
+        );
 
         game.state = GameState::FINISHED;
     } else {
