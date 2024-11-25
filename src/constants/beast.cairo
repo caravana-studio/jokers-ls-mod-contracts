@@ -247,15 +247,6 @@ fn all_beast() -> Array<u32> {
         NEON_JACK_BEAST_ID,
         NEON_QUEEN_BEAST_ID,
         NEON_KING_BEAST_ID,
-        NEON_JOKER_BEAST_ID,
-        // for x2 beasts prob
-        JACK_BEAST_ID,
-        QUEEN_BEAST_ID,
-        KING_BEAST_ID,
-        JOKER_BEAST_ID,
-        NEON_JACK_BEAST_ID,
-        NEON_QUEEN_BEAST_ID,
-        NEON_KING_BEAST_ID,
         NEON_JOKER_BEAST_ID
     ]
 }
